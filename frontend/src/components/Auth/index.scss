@@ -1,0 +1,76 @@
+@import '../../assets/styles/var';
+@import '../../assets/styles/global';
+
+
+.auth-modal {
+  background: $color-modal-background;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .auth-form {
+    position: relative;
+    background-color: $main-color3;
+    padding: 1.5rem 1.5rem;
+    border-radius: 10px;
+    //width: 20vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .auth-form-btn-submit {
+      font-size: 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: $main-color1;
+      border: none;
+      color: $white-color;
+      padding: .9rem;
+
+      &:disabled {
+        opacity: 50%;
+        cursor: auto;
+      }
+    }
+
+    .auth-form-btn-close {
+      background: none;
+      position: absolute;
+      top: -3rem;
+      right: -2.5rem;
+      border: none;
+      color: $white-color;
+      font-size: 3rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+
+    .wrap-input {
+      margin-bottom: 1rem;
+      display: grid;
+      position: relative;
+
+      span {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      input {
+        font-size: 1.2rem;
+        margin: .5rem 0;
+        padding: 1em;
+        border-radius: 5px;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05);
+      }
+
+      @include input-error;
+    }
+  }
+}

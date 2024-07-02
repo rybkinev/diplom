@@ -1,0 +1,22 @@
+@import '../../assets/styles/var';
+
+footer {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  background: $main-color3;
+
+  bottom: 0;
+  margin-top: auto;
+  padding: 1.5rem 3rem;
+
+  .copyright {
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+}

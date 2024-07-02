@@ -1,0 +1,52 @@
+@import '../../assets/styles/var';
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: PT-Astra-Sans, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+
+    font-size: 16px;
+    //@media (max-width: 1200px) {
+    //    font-size: 14px;
+    //}
+    //@media (max-width: 1080px) {
+    //    font-size: 12px;
+    //}
+    //@media (max-width: 950px) {
+    //    font-size: 10px;
+    //}
+}
+
+
+
+* {
+    box-sizing: border-box;
+    font-family: PT-Astra-Sans, sans-serif;
+}
+
+#root {
+    width: 100%;
+    position: relative;
+    max-width: 1450px;
+    //margin-top: 150px;
+    //padding: 0 3vw;
+
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+    color: $black-color;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

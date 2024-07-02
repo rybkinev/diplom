@@ -1,0 +1,36 @@
+$main-color1: #163E6C;
+$main-color2: #D20A11;
+$main-color3: #EBE6D6;
+$white-color: #fff;
+$black-color: #000;
+$color-modal-background: rgba(0, 0, 0, 0.7);
+$color-error: #FF5959;
+
+
+@font-face {
+    font-family: 'PT-Astra-Sans';
+    src: url('/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT-Astra-Sans';
+    src: url('/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'PT-Astra-Sans';
+    src: url('/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT-Astra-Sans';
+    src: url('/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}

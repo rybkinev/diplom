@@ -1,0 +1,6 @@
+Django
+djangorestframework-simplejwt
+django-cors-headers
+pyyaml
+uritemplate
+inflection

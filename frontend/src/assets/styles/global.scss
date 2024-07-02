@@ -1,0 +1,25 @@
+@import '../../assets/styles/var';
+
+
+@mixin input-error {
+
+  .input-error {
+    border: 1px solid $color-error;
+    color: $color-error;
+  }
+  .error-message {
+    color: $color-error;
+    font-size: 1rem;
+    //margin-top: 5px;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    //left: 50%;
+    transform: translate(0, 40%);
+  }
+  .error-label {
+    color: $color-error;
+  }
+
+}

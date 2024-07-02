@@ -1,0 +1,40 @@
+@import '../../assets/styles/var';
+
+header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  padding: 1.5rem 3rem;
+  background: $main-color3;
+  align-items: center;
+  z-index: 1001;
+
+  &.scrolled {
+    border-bottom: 1vh solid $white-color;
+  }
+
+
+  img {
+    max-height: 60px;
+    height: 80%;
+    margin-right: auto;
+  }
+
+  h1 {
+    margin-right: 5rem;
+  }
+
+  address {
+    margin-right: 5rem;
+  }
+
+  .btn-login {
+    background-color: $main-color1;
+    padding: 0.3rem 0.7rem;
+    border-radius: 5px;
+    color: $white-color;
+    font-weight: normal;
+  }
+}
