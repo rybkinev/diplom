@@ -47,10 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'accounts',
     'vehicle',
-    "account.apps.AccountConfig",
-    "maintenance.apps.MaintenanceConfig",
-    "complaints.apps.ComplaintsConfig"
+    'extra',
+    "maintenance",
+    "complaints"
 ]
 
 MIDDLEWARE = [

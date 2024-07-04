@@ -4,3 +4,5 @@ django-cors-headers
 pyyaml
 uritemplate
 inflection
+pandas
+openpyxl

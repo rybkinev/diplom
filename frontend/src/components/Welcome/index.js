@@ -1,12 +1,14 @@
 import React from "react";
 import './index.css'
+import UnAuth from "./UnAuth";
+import {useSelector} from "react-redux";
 
 
 const Welcome = () => {
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
   return (
-    <main>
-      <span>Проверье комплектацию и технические характеристики техники Силант</span>
-    </main>
+    <UnAuth/>
   )
 }
 

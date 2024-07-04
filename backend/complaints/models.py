@@ -14,7 +14,7 @@ class Complaint(models.Model):
     date_recovery = models.DateField(default=datetime.now)
     vehicle = models.ForeignKey('vehicle.Vehicle', on_delete=models.PROTECT)
     service_company = models.ForeignKey(
-        'account.ServiceCompany',
+        'accounts.ServiceCompany',
         on_delete=models.PROTECT,
         related_name='complaint_service_company',
         default=None

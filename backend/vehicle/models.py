@@ -23,7 +23,7 @@ class Vehicle(models.Model):
     Грузополучатель(конечный потребитель)
     Адрес поставки(эксплуатации)
     Комплектация (доп. опции)
-    Клиент
+    Клиент (покупатель)
     сервисная компания
     """
     serial_number = models.CharField(max_length=20, unique=True)
@@ -73,7 +73,7 @@ class Vehicle(models.Model):
         default=None
     )
     service_company = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        'accounts.ServiceCompany',
         on_delete=models.PROTECT,
         related_name='vehicles_as_service_company',
         default=None
