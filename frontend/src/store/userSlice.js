@@ -9,6 +9,27 @@ const initialState = {
   isAuthenticated: !!localStorage.getItem('accessToken'),
 };
 
+const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { getState, rejectWithValue }) => {
+    const { user } = getState();
+    api.post(
+      '/api/v1/account/logout/',
+      {
+        refresh: user.refreshToken
+      }
+    ).then(r => {
+      console.debug('success logout')
+      return r.data;
+    }).catch(
+      (error) => {
+        console.debug(error)
+        return rejectWithValue(error.response.data);
+      }
+    )
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -23,9 +44,9 @@ const userSlice = createSlice({
       localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
     updateAccessToken(state, action) {
-      state.accessToken = action.payload;
+      state.accessToken = action.payload.accessToken;
       state.isAuthenticated = true;
-      localStorage.setItem('accessToken', action.payload);
+      localStorage.setItem('accessToken', action.payload.accessToken);
     },
   },
   extraReducers: (builder) => {
@@ -51,26 +72,6 @@ const userSlice = createSlice({
   }
 });
 
-export const logoutUser = createAsyncThunk(
-  'auth/logoutUser',
-  async (_, { getState, rejectWithValue }) => {
-    const { user } = getState();
-    api.post(
-      '/api/v1/account/logout/',
-      {
-        refresh: user.refreshToken
-      }
-    ).then(r => {
-      console.debug('success logout')
-      return r.data;
-    }).catch(
-      (error) => {
-        console.debug(error)
-        return rejectWithValue(error.response.data);
-      }
-    )
-  }
-);
-
-export const { setUser, updateAccessToken, logout } = userSlice.actions;
+export const { setUser, updateAccessToken } = userSlice.actions;
 export default userSlice.reducer;
+export { logoutUser };

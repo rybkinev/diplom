@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import './index.css';
 import Auth from "../Auth";
 import {useDispatch, useSelector} from "react-redux";
-import {logout, logoutUser} from "../../store/userSlice";
+import {logoutUser} from "../../store/userSlice";
+import {useNavigate} from "react-router-dom";
 
 
 const Header = () => {
@@ -11,6 +12,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const openAuth = () => {
     console.debug('Header open Auth')
@@ -33,9 +35,9 @@ const Header = () => {
   }, []);
 
   const handleLogoutUser = () => {
-    // dispatch(logout());
     dispatch(logoutUser());
-    console.debug('logout')
+    console.debug('Header handle logout')
+    navigate("/");
   }
 
   return (

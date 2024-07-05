@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './index.css';
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -8,18 +8,24 @@ import {setUser} from "../../store/userSlice";
 
 
 const Auth = ({isOpen, setIsOpen}) => {
+  const inputRef = useRef(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  if (!isOpen) {
-    return <></>
-  }
+  // if (!isOpen) {
+  //   return <></>
+  // }
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isOpen]);
 
   const closeAuth = () => {
     setIsOpen(false);
@@ -31,14 +37,15 @@ const Auth = ({isOpen, setIsOpen}) => {
     e.preventDefault();
 
     setLoading(true);
-    const response = await api.post(
+    await api.post(
       '/api/v1/account/token/',
       {username, password}
     ).then((response) => {
       const { access, refresh } = response.data;
 
-      console.debug('handleSubmit 1', response.data);
-      console.debug('accessToken', access);
+      // console.debug('handleSubmit 1', response.data);
+      // console.debug('accessToken', access);
+      // console.debug('refreshToken', refresh);
 
       setIsOpen(false);
       setUsername('');
@@ -46,7 +53,7 @@ const Auth = ({isOpen, setIsOpen}) => {
       setLoading(false);
 
       dispatch(setUser({accessToken: access, refreshToken: refresh, login: username}));
-      navigate('/');
+      // navigate('/');
     })
       .catch((error) => {
         setLoading(false);
@@ -63,6 +70,7 @@ const Auth = ({isOpen, setIsOpen}) => {
   }
 
   return(
+    isOpen && (
     <div className='auth-modal'>
       <form className="auth-form" method='post' onSubmit={handleSubmit}>
         <div className="wrap-input" data-validate="Enter username">
@@ -74,6 +82,7 @@ const Auth = ({isOpen, setIsOpen}) => {
             required
             className={loginError ? 'input-error' : ''}
             onChange={(e) => setUsername(e.target.value)}
+            ref={inputRef}
           />
           {loginError && <span className="error-message">{loginError}</span>}
         </div>
@@ -105,6 +114,7 @@ const Auth = ({isOpen, setIsOpen}) => {
         </button>
       </form>
     </div>
+    )
   )
 }
 

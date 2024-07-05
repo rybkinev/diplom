@@ -5,9 +5,9 @@ from vehicle import views
 
 
 router = routers.DefaultRouter()
-router.register(r'vehicles', views.VehicleViewSet, basename='vehicle')
+router.register(r'', views.VehicleViewSet, basename='vehicles')
 
 urlpatterns = [
     # path('vehicle/', views.VehicleViewSet.as_view(), name='vehicle'),
-    path('vehicle/', include(router.urls)),
+    path('vehicles/', include(router.urls)),
 ]

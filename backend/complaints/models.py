@@ -30,8 +30,14 @@ class FailureNode(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class RecoveryMethod(models.Model):
     # Метод восстановления
     name = models.CharField(max_length=120)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name

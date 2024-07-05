@@ -41,7 +41,13 @@ class MaintenanceType(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Organization(models.Model):
     name = models.CharField(max_length=120, default='')
     description = models.TextField()
+
+    def __str__(self):
+        return self.name

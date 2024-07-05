@@ -81,11 +81,17 @@ class Vehicle(models.Model):
     # client = models.CharField(max_length=200, default='')
     # service_company = models.CharField(max_length=200, default='')
 
+    # def __str__(self):
+    #     return self.vehicle_model
+
 
 class VehicleModel(models.Model):
     # Модель техники
     name = models.CharField(max_length=120)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 
 class EngineModel(models.Model):
@@ -93,11 +99,17 @@ class EngineModel(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class TransmissionModel(models.Model):
     # Модель трансмиссии
     name = models.CharField(max_length=120)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 
 class DriveAxleModel(models.Model):
@@ -105,8 +117,14 @@ class DriveAxleModel(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class SteeringAxleModel(models.Model):
     # модель управляемого моста
     name = models.CharField(max_length=120)
     description = models.TextField()
+
+    def __str__(self):
+        return self.name

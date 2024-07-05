@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {logout, updateAccessToken} from "../store/userSlice";
+import {logoutUser, setUser, updateAccessToken} from "../store/userSlice";
 import store from "../store/store";
 
 
@@ -31,29 +31,44 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    // console.debug('api.interceptors.response originalRequest', originalRequest);
+
+    // Получаем текущее состояние из хранилища
     const state = store.getState();
 
-    console.debug('error', error);
-    console.debug('error.response', error.response);
-
-    if (error.response?.status === 401 && !originalRequest._retry && state.user.refreshToken) {
+    // Проверяем, что ошибка 401 и запрос не был повторен ранее.
+    if (!originalRequest._retry && error.response?.status === 401 && state.user.refreshToken) {
       originalRequest._retry = true;
+
       try {
-        const response = await axios.post('/api/v1/token/refresh/', {
-          refresh: state.user.refreshToken,
-        });
-        const newAccessToken = response.data.access;
-        store.dispatch(updateAccessToken(newAccessToken));
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        // console.debug('api.interceptors.response update token');
+        // Запрос на обновление токена
+        const response = await axios.post(
+          `${API_URL}/api/v1/account/token/refresh/`,
+          {refresh: state.user.refreshToken},
+          );
 
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
+        const { access } = response.data;
 
+        // Обновляем токен в глобальном состоянии
+        store.dispatch(updateAccessToken({ accessToken: access }));
+
+        // Устанавливаем новый токен в заголовки оригинального запроса
+        originalRequest.headers['Authorization'] = `Bearer ${access}`;
+
+        // Повторяем оригинальный запрос с новым токеном
         return api(originalRequest);
+
       } catch (refreshError) {
-        store.dispatch(logout());
+        console.debug('api.interceptors.response catch', refreshError);
+
+        // Logout при провале обновления токена
+        store.dispatch(logoutUser());
       }
     }
 
+    // Если ошибка не связана с токеном или обновление токена провалилось
+    // console.debug('api.interceptors.response Promise')
     return Promise.reject(error);
   }
 );
