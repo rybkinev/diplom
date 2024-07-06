@@ -36,8 +36,7 @@ const Header = () => {
 
   const handleLogoutUser = () => {
     dispatch(logoutUser());
-    console.debug('Header handle logout')
-    navigate("/");
+    // navigate("/");
   }
 
   return (

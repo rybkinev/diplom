@@ -1,6 +1,6 @@
 import React from "react";
 import './index.css'
-import UnAuth from "./UnAuth";
+import Public from "./Public";
 import {useSelector} from "react-redux";
 
 
@@ -8,7 +8,7 @@ const Welcome = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 
   return (
-    <UnAuth/>
+    <Public/>
   )
 }
 

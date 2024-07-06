@@ -6,3 +6,4 @@ uritemplate
 inflection
 pandas
 openpyxl
+django-filter

@@ -47,7 +47,7 @@ class VehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
         # }
 
 
-class VehicleSerializerUnAuth(CamelCaseSerializerMixin, ModelSerializer):
+class PublicVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
     serialNumber = CharField(source='serial_number')
     vehicleModel = CharField(source='vehicle_model')
     engineModel = CharField(source='engine_model')
