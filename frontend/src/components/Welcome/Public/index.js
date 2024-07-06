@@ -59,7 +59,7 @@ const Public = () => {
   }
 
   return (
-    <main className='un-auth'>
+    <div className='main-public-container'>
       <span>Проверьте комплектацию и технические характеристики техники Силант</span>
 
       <div className='main-search-inp'>
@@ -118,7 +118,7 @@ const Public = () => {
           </button>
         ))}
       </div>
-    </main>
+    </div>
   );
 }
 

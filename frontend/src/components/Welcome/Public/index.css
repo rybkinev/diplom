@@ -22,5 +22,8 @@
   font-weight: bold;
   font-style: italic;
 }
+div.main-public-container {
+  width: 100%;
+}
 
 /*# sourceMappingURL=index.css.map */

@@ -1,83 +1,41 @@
 import React, {useEffect} from 'react';
 import './index.css';
 import Header from "../Header";
-import {useNavigate} from "react-router-dom";
-import {PrivateRoutes, PublicRoutes} from './Routes';
-import {useDispatch, useSelector} from "react-redux";
-import {logout, setUser} from "../../store/userSlice";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {useSelector} from "react-redux";
 import Footer from "../Footer";
-// import api from "../API/api";
+import Welcome from "../Welcome";
+import Swagger from "../Swagger";
+import Public from "../Welcome/Public";
+import Private from "../Welcome/Private";
+import Vehicles from "../Welcome/Private/Vehicles";
+import Maintenance from "../Welcome/Private/Maintenance";
+import Complaints from "../Welcome/Private/Complaints";
 
 const App = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const isAuthenticated = true;
 
-  // useEffect(() => {
-  //   const accessToken = localStorage.getItem('accessToken');
-  //   const refreshToken = localStorage.getItem('refreshToken');
-  //
-  //   if (refreshToken) {
-  //     const fetchUser = async () => {
-  //       try {
-  //         const response = await api.post('/api/token/refresh/', {
-  //           refresh: refreshToken,
-  //         });
-  //         const newAccessToken = response.data.access;
-  //
-  //         const userResponse = await api.get('/api/user/', {
-  //           headers: {
-  //             Authorization: `Bearer ${newAccessToken}`,
-  //           },
-  //         });
-  //
-  //         dispatch(setUser({
-  //           user: userResponse.data,
-  //           accessToken: newAccessToken,
-  //           refreshToken,
-  //         }));
-  //       } catch (error) {
-  //         dispatch(logout());
-  //         console.error('Failed to refresh token', error);
-  //       }
-  //     };
-  //
-  //     if (accessToken) {
-  //       api.get('/api/user/', {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       }).then((response) => {
-  //         dispatch(setUser({
-  //           user: response.data,
-  //           accessToken,
-  //           refreshToken,
-  //         }));
-  //       }).catch(fetchUser);
-  //     } else {
-  //       fetchUser();
-  //     }
-  //   }
-  // }, [dispatch]);
-  //
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/requests');
-  //   } else {
-  //     navigate('/login');
-  //   }
-  // }, []);
-  //
   return (
     <>
       <Header/>
 
-      {isAuthenticated
-        ?
-          <PrivateRoutes/>
-        :
-          <PublicRoutes/>
-      }
+      <Routes>
+        <Route path="/" element={<Welcome/>}>
+          <Route path="/" element={<Public/>} />
+          {isAuthenticated &&
+            <Route path="private" element={<Private/>}>
+              <Route path="" element={<Navigate to="vehicles" />} />
+              <Route path="vehicles" element={<Vehicles/>} />
+              <Route path="maintenance" element={<Maintenance/>} />
+              <Route path="complaints" element={<Complaints/>} />
+            </Route>
+          }
+        </Route>
+
+        <Route path="/swagger" element={<Swagger/>}/>
+        <Route path="*" element={<Navigate to="/" />}/>
+      </Routes>
 
       <Footer/>
     </>

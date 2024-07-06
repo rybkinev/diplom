@@ -19,14 +19,15 @@ class VehicleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = VehicleFilter
-    ordering = 'vehicle_model'
+    ordering = 'shipping_date'
     ordering_fields = [
         'serial_number',
         'vehicle_model',
         'engine_model',
         'transmission_model',
         'drive_axle_model',
-        'steering_axle_model'
+        'steering_axle_model',
+        'shipping_date',
     ]
     pagination_class = CustomPageNumberPagination
 

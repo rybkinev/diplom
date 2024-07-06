@@ -24,6 +24,7 @@
 }
 main {
   margin: 1vh 0;
+  width: 100%;
   background: #EBE6D6;
   padding: 1.5rem 3rem;
   min-height: 0;
