@@ -2,7 +2,7 @@ from django_filters import rest_framework as filters
 from vehicle.models import Vehicle
 
 
-class VehicleFilter(filters.FilterSet):
+class PrivateVehicleFilter(filters.FilterSet):
     serialNumber = filters.CharFilter(field_name='serial_number')
     vehicleModel = filters.CharFilter(field_name='vehicle_model')
     engineModel = filters.CharFilter(field_name='engine_model')

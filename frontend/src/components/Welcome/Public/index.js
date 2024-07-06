@@ -25,7 +25,7 @@ const Public = () => {
       setVehicles(response.data.results);
       setTotalPages(Math.ceil(response.data.count / response.data.page_size));
     }).catch((error) => {
-      console.debug('UnAuth api.get', error)
+      console.debug('Public api.get', error)
     });
   }
 
@@ -107,17 +107,20 @@ const Public = () => {
         ))}
         </tbody>
       </table>
-      <div className="pagination">
-        {Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
-          <button
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={page === currentPage ? 'active' : ''}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+
+      {totalPages > 1 &&
+        <div className="pagination">
+          {Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={page === currentPage ? 'active' : ''}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+      }
     </div>
   );
 }

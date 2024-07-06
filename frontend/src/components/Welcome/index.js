@@ -5,12 +5,11 @@ import {Link, Outlet} from "react-router-dom";
 
 
 const Welcome = () => {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const isAuthenticated = true;
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  // const isAuthenticated = true;
 
   return (
     <main>
-      {/*Вкладки для приватной и публичной таблиц*/}
       {isAuthenticated &&
         <>
           <Link to="/">Home</Link>

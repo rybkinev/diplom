@@ -5,7 +5,7 @@ from core.serializers import CamelCaseSerializerMixin
 from vehicle.models import Vehicle
 
 
-class VehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
+class PrivateVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
     serialNumber = CharField(source='serial_number')
     vehicleModel = CharField(source='vehicle_model')
     engineModel = CharField(source='engine_model')

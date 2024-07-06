@@ -13,8 +13,8 @@ import Maintenance from "../Welcome/Private/Maintenance";
 import Complaints from "../Welcome/Private/Complaints";
 
 const App = () => {
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  const isAuthenticated = true;
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  // const isAuthenticated = true;
 
   return (
     <>

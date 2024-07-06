@@ -16,10 +16,7 @@ const Auth = ({isOpen, setIsOpen}) => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-
-  // if (!isOpen) {
-  //   return <></>
-  // }
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -53,7 +50,7 @@ const Auth = ({isOpen, setIsOpen}) => {
       setLoading(false);
 
       dispatch(setUser({accessToken: access, refreshToken: refresh, login: username}));
-      // navigate('/');
+      navigate('private');
     })
       .catch((error) => {
         setLoading(false);

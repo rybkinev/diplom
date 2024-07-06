@@ -4,13 +4,14 @@ import {Link, Outlet} from "react-router-dom";
 
 
 const Private = () => {
+
   return (
     <div className='main-private-container'>
       <h1>PRIVATE</h1>
 
-      <Link to="vehicles">Vehicles</Link>
-      <Link to="maintenance">Maintenance</Link>
-      <Link to="complaints">Complaints</Link>
+      <Link to="vehicles">Машины</Link>
+      <Link to="maintenance">ТО</Link>
+      <Link to="complaints">Рекламации</Link>
 
       <Outlet/>
     </div>
