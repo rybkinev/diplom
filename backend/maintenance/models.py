@@ -21,7 +21,7 @@ class Maintenance(models.Model):
     date_maintenance = models.DateField(default=datetime.now)
     operating_time = models.IntegerField(default=0)
     work_order = models.CharField(max_length=100, default='')
-    date_ordered = models.DateField(default=datetime.now)
+    date_order = models.DateField(default=datetime.now)
     organization = models.ForeignKey(
         'Organization',
         on_delete=models.PROTECT,
