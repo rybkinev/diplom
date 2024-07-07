@@ -2,13 +2,22 @@ import React, {useRef} from "react";
 import './index.css';
 
 
-const CustomInput = ({placeholder, name, value, filterInput, setFilterInput, setFilters, timeout}) => {
+const CustomInput = (
+  {placeholder,
+    name,
+    value,
+    filterInput,
+    setFilterInput,
+    setFilters,
+    timeout,
+  }) => {
 
   if (!timeout) timeout = 700;
   const delayTimer = useRef(null);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
+
     setFilterInput({ ...filterInput, [name]: value });
 
     if (delayTimer.current) {

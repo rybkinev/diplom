@@ -17,7 +17,7 @@ class Maintenance(models.Model):
     Сервисная компания
     """
     vehicle = models.ForeignKey('vehicle.Vehicle', on_delete=models.CASCADE)
-    type = models.ForeignKey('MaintenanceType', on_delete=models.CASCADE)
+    type_maintenance = models.ForeignKey('MaintenanceType', on_delete=models.CASCADE)
     date_maintenance = models.DateField(default=datetime.now)
     operating_time = models.IntegerField(default=0)
     work_order = models.CharField(max_length=100, default='')

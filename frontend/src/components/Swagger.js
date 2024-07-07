@@ -16,6 +16,7 @@ const Swagger = () => {
       return req;
     },
     request: (request) => {
+      console.debug('swagger request', request)
       return api({
         method: request.method,
         url: request.url,

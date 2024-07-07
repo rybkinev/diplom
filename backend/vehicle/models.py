@@ -81,8 +81,8 @@ class Vehicle(models.Model):
     # client = models.CharField(max_length=200, default='')
     # service_company = models.CharField(max_length=200, default='')
 
-    # def __str__(self):
-    #     return self.vehicle_model
+    def __str__(self):
+        return self.serial_number
 
 
 class VehicleModel(models.Model):

@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import logging
 import os
 from pathlib import Path
 from datetime import timedelta
@@ -24,6 +25,19 @@ SECRET_KEY = 'django-insecure-6h-z1whtl2akh$3am)n2bgusp3fnvkacizb1i1-rx$i*3@tn5@
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if DEBUG:
+    logging.basicConfig(
+        level=DEBUG,
+        format='%(asctime)s %(levelname)s [%(module)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+else:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s %(levelname)s [%(module)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
 
 ALLOWED_HOSTS = [
     'localhost'
