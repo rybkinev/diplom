@@ -32,5 +32,6 @@ urlpatterns = [
     path('api/v1/', include('accounts.urls')),
     path('api/v1/', include('vehicle.urls')),
     path('api/v1/', include('maintenance.urls')),
+    path('api/v1/', include('complaints.urls')),
     path('api/v1/schemas/', schemas, name='openapi-schema'),
 ]
