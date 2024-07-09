@@ -2,18 +2,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
 
 from core.pagination import CustomPageNumberPagination
 from vehicle.filters import PrivateVehicleFilter, PublicVehicleFilter
-from vehicle.models import Vehicle
-from vehicle.serializers import PrivateVehicleSerializer, PublicVehicleSerializer
+import vehicle.models as models
+import vehicle.serializers as serializers
 
 
 class VehicleViewSet(viewsets.ModelViewSet):
 
-    queryset = Vehicle.objects.all()
-    serializer_class = PrivateVehicleSerializer
+    queryset = models.Vehicle.objects.all()
+    serializer_class = serializers.PrivateVehicleSerializer
     # permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = PrivateVehicleFilter
@@ -27,30 +27,30 @@ class VehicleViewSet(viewsets.ModelViewSet):
         'steering_axle_model',
         'shipping_date',
     ]
-    pagination_class = CustomPageNumberPagination()
+    pagination_class = CustomPageNumberPagination
 
     def get_permissions(self):
         if self.action in ['public']:
-            permission_classes = [AllowAny]
+            permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
         elif self.action == 'retrieve':
-            permission_classes = [AllowAny]
+            permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
         elif self.action in ['list', 'create', 'update', 'partial_update', 'destroy']:
-            permission_classes = [IsAuthenticated]
+            permission_classes = [DjangoModelPermissions]
         else:
-            permission_classes = [IsAuthenticated]
+            permission_classes = [DjangoModelPermissions]
         return [permission() for permission in permission_classes]
 
     def get_serializer_class(self):
         if self.action == 'list' or self.action == 'retrieve':
             user = getattr(self.request, 'user', None)
             if user and user.is_authenticated:
-                return PrivateVehicleSerializer
+                return serializers.PrivateVehicleSerializer
             else:
-                return PublicVehicleSerializer
+                return serializers.PublicVehicleSerializer
         elif self.action == 'public':
-            return PublicVehicleSerializer
+            return serializers.PublicVehicleSerializer
 
-        return PrivateVehicleSerializer
+        return serializers.PrivateVehicleSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -67,7 +67,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         filterset = PrivateVehicleFilter(self.request.GET, queryset=self.queryset)
 
-        paginator, result_page = self.pagination_class.custom_sorting_pagination(
+        paginator, result_page = self.pagination_class().custom_sorting_pagination(
             self.queryset,
             filterset,
             request,
@@ -75,11 +75,11 @@ class VehicleViewSet(viewsets.ModelViewSet):
             self.ordering_fields
         )
 
-        serializer = PrivateVehicleSerializer(result_page, many=True)
+        serializer = serializers.PrivateVehicleSerializer(result_page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
 
-    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
+    @action(detail=False, methods=['get'], permission_classes=[DjangoModelPermissionsOrAnonReadOnly])
     def public(self, request):
         # Для публичного запроса свой список полей сортировки
         ordering_fields = [
@@ -93,7 +93,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
 
         filterset = PublicVehicleFilter(self.request.GET, queryset=self.queryset)
 
-        paginator, result_page = self.pagination_class.custom_sorting_pagination(
+        paginator, result_page = self.pagination_class().custom_sorting_pagination(
             self.queryset,
             filterset,
             request,
@@ -101,11 +101,36 @@ class VehicleViewSet(viewsets.ModelViewSet):
             ordering_fields
         )
 
-        serializer = PublicVehicleSerializer(result_page, many=True)
+        serializer = serializers.PublicVehicleSerializer(result_page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
 
-    @action(detail=True, methods=['get'], permission_classes=[AllowAny])
-    def public_retrieve(self, request):
-        pass
-        # return
+
+class VehicleModelViewSet(viewsets.ModelViewSet):
+    queryset = models.VehicleModel.objects.all()
+    serializer_class = serializers.VehicleModelSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class EngineModelViewSet(viewsets.ModelViewSet):
+    queryset = models.EngineModel.objects.all()
+    serializer_class = serializers.EngineModelSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class TransmissionModelViewSet(viewsets.ModelViewSet):
+    queryset = models.TransmissionModel.objects.all()
+    serializer_class = serializers.TransmissionModelSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class DriveAxleModelViewSet(viewsets.ModelViewSet):
+    queryset = models.DriveAxleModel.objects.all()
+    serializer_class = serializers.DriveAxleModelSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class SteeringAxleModelViewSet(viewsets.ModelViewSet):
+    queryset = models.SteeringAxleModel.objects.all()
+    serializer_class = serializers.SteeringAxleModelSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
