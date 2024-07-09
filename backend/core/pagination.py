@@ -20,8 +20,7 @@ class CustomPageNumberPagination(PageNumberPagination):
             'results': data
         })
 
-    @staticmethod
-    def custom_sorting_pagination(queryset, filterset, request, default_sort, ordering_fields):
+    def custom_sorting_pagination(self, queryset, filterset, request, default_sort, ordering_fields):
         if filterset.is_valid():
             queryset = filterset.qs
 
@@ -40,7 +39,7 @@ class CustomPageNumberPagination(PageNumberPagination):
 
         queryset = queryset.order_by(sort)
 
-        page_size = request.query_params.get('page_size', 5)
+        page_size = request.query_params.get('page_size', self.page_size)
         paginator = CustomPageNumberPagination(page_size)
         result_page = paginator.paginate_queryset(queryset, request)
 

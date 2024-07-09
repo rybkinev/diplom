@@ -43,9 +43,9 @@ const Maintenance = () => {
     console.debug('Maintenance !!vehicleId', !!vehicleId);
 
     let url = 'api/v1/maintenance/';
-    if (vehicleId) {
-      url = `api/v1/maintenance/vehicle/${vehicleId}`;
-    }
+    // if (vehicleId) {
+    //   url = `api/v1/maintenance/vehicle/${vehicleId}`;
+    // }
     api.get(
       url,
       { params }

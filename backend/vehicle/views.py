@@ -27,7 +27,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
         'steering_axle_model',
         'shipping_date',
     ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberPagination()
 
     def get_permissions(self):
         if self.action in ['public']:

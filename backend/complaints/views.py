@@ -31,7 +31,7 @@ class ComplaintViewSet(viewsets.ModelViewSet):
         'vehicle',
         'service_company'
     ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberPagination()
 
     def list(self, request, *args, **kwargs):
         filterset = ComplaintFilter(self.request.GET, queryset=self.queryset)

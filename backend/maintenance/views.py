@@ -28,7 +28,7 @@ class MaintenanceViewSet(viewsets.ModelViewSet):
         'organization',
         'service_company',
     ]
-    pagination_class = CustomPageNumberPagination
+    pagination_class = CustomPageNumberPagination()
 
     def list(self, request, *args, **kwargs):
 
