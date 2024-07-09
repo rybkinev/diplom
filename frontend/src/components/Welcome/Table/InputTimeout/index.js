@@ -29,14 +29,34 @@ const CustomInput = (
     }, timeout);
   };
 
+  const handleClear = () => {
+    setFilterInput({ ...filterInput, [name]: '' });
+
+    if (delayTimer.current) {
+      clearTimeout(delayTimer.current);
+    }
+
+    setFilters(prevFilters => ({ ...prevFilters, [name]: '' }));
+  };
+
+
   return (
-    <input
-      type="text"
-      placeholder={placeholder}
-      name={name}
-      value={value}
-      onChange={handleFilterChange}
-    />
+    <div className="clearable-input">
+      <input
+        type="text"
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={handleFilterChange}
+        className='custom-input'
+      />
+      {value && (
+        <button onClick={handleClear} className="clear-button">
+          x
+        </button>
+      )}
+
+    </div>
   )
 }
 

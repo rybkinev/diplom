@@ -22,8 +22,66 @@
   font-weight: bold;
   font-style: italic;
 }
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
 div.main-public-container {
   width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+div.main-public-container .text {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+div.main-public-container .main-search-inp {
+  position: relative;
+  display: flex;
+  margin-bottom: 1rem;
+  justify-content: start;
+}
+div.main-public-container .main-search-inp input {
+  font-size: 1.1rem;
+  margin-right: 0.7rem;
+  padding: 0.5em;
+}
+div.main-public-container .main-search-inp input:focus {
+  outline: none;
+}
+div.main-public-container .main-search-inp button {
+  font-size: 1.1rem;
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+}
+div.main-public-container .text-result {
+  font-weight: bold;
+  font-size: 1.3rem;
 }
 
 /*# sourceMappingURL=index.css.map */

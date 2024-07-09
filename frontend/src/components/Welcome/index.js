@@ -1,7 +1,7 @@
 import React from "react";
 import './index.css'
 import {useSelector} from "react-redux";
-import {Link, Outlet} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 
 
 const Welcome = () => {
@@ -11,10 +11,10 @@ const Welcome = () => {
   return (
     <main>
       {isAuthenticated &&
-        <>
-          <Link to="/">Home</Link>
-          <Link to="private">Private</Link>
-        </>
+        <nav>
+          <NavLink to="/">Главная</NavLink>
+          <NavLink to="private">Личный кабинет</NavLink>
+        </nav>
       }
 
       <Outlet/>

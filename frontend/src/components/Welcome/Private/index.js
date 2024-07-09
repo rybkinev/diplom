@@ -1,17 +1,23 @@
 import React from "react";
 import './index.css';
-import {Link, Outlet} from "react-router-dom";
+import {NavLink, Outlet} from "react-router-dom";
 
 
 const Private = () => {
 
   return (
     <div className='main-private-container'>
-      <h1>PRIVATE</h1>
+      <div className='client-info'>
+        {/*Покупатель: ООО "ФПК21"*/}
+        <h3>Сервисная компания: ООО Силант</h3>
+        {/*Менеджер: Самый главный*/}
+      </div>
 
-      <Link to="vehicles">Машины</Link>
-      <Link to="maintenance">ТО</Link>
-      <Link to="complaints">Рекламации</Link>
+      <div className='private-navigate'>
+        <NavLink to="vehicles">Машины</NavLink>
+        <NavLink to="maintenance">ТО</NavLink>
+        <NavLink to="complaints">Рекламации</NavLink>
+      </div>
 
       <Outlet/>
     </div>

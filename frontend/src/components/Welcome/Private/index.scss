@@ -1,0 +1,36 @@
+@import '../../../assets/styles/var';
+@import '../../../assets/styles/global';
+
+
+.main-private-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .client-info {
+    position: relative;
+    display: flex;
+    align-self: center;
+
+    h3 {
+      margin-top: 0;
+    }
+  }
+
+  .private-navigate {
+    @include navigation;
+    justify-content: start;
+
+    a{
+      margin: 0 .6rem;
+      font-size: 1rem;
+    }
+  }
+
+  .main-container {
+
+    .text {
+      font-size: 1.3rem;
+    }
+  }
+}

@@ -22,6 +22,30 @@
   font-weight: bold;
   font-style: italic;
 }
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
 main {
   margin: 1vh 0;
   width: 100%;
@@ -31,6 +55,61 @@ main {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+main nav {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+main nav a {
+  margin: 0 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-style: italic;
+  transition: 0.2s;
+  padding: 0.3rem 0.7rem;
+}
+main nav a.active {
+  background-color: #163E6C;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+}
+main nav a:hover {
+  scale: 1.5;
+}
+main table {
+  margin-top: 1rem;
+  position: relative;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+main table thead {
+  position: relative;
+  background-color: #EBE6D6;
+  font-weight: bold;
+}
+main table tbody tr > td {
+  padding-left: 1rem;
+}
+main table tbody tr:nth-child(odd) {
+  background-color: rgba(235, 230, 214, 0.7);
+}
+main table tbody tr:nth-child(even) {
+  background-color: #EBE6D6;
+}
+main table tbody tr + tr {
+  border-top: 0.5rem solid transparent;
+}
+main .not-results {
+  display: flex;
+  width: 100%;
+  background-color: #EBE6D6;
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=index.css.map */

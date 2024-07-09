@@ -1,0 +1,89 @@
+@import '../../assets/styles/var';
+@import '../../assets/styles/global';
+
+
+.modal-background {
+  background: $color-modal-background;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  animation: fadeIn 0.3s ease-out;
+  animation-fill-mode: forwards;
+
+
+  .modal-container {
+    position: relative;
+    max-width: 80%;
+    max-height: 80%;
+
+    animation: slideIn 0.3s ease-out;
+    animation-fill-mode: forwards;
+
+
+    .btn-close {
+      background: none;
+      position: absolute;
+      top: -3rem;
+      right: -2.5rem;
+      border: none;
+      color: $white-color;
+      font-size: 3rem;
+      font-weight: normal;
+      cursor: pointer;
+    }
+  }
+
+  .fade-out {
+    animation: fadeOut 0.3s ease-in;
+    animation-fill-mode: forwards;
+  }
+
+  .slide-out {
+    animation: slideOut 0.3s ease-in;
+    animation-fill-mode: forwards;
+  }
+
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}

@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from "react";
 import './index.css';
-import CustomInput from "../../../InputTimeout";
+import CustomInput from "../../Table/InputTimeout";
 import api from "../../../../api";
+import Pagination from "../../Table/Pagination";
+import HeaderCell from "../../Table/HeaderCell";
+import {useParams} from "react-router-dom";
 
 
 const Maintenance = () => {
+  const params = useParams();
+  const vehicleId = params.id;
+
   const [maintenance, setMaintenance] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -20,20 +26,6 @@ const Maintenance = () => {
   });
   const [filterInput, setFilterInput] = useState(filters);
 
-  const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
-  const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? '🔼' : '🔽';
-    }
-    return '';
-  };
-
   const fetchMaintenance = () => {
     const activeFilters = Object.keys(filters).reduce((acc, key) => {
       if (filters[key]) {
@@ -48,8 +40,14 @@ const Maintenance = () => {
       ...activeFilters,
     };
 
+    console.debug('Maintenance !!vehicleId', !!vehicleId);
+
+    let url = 'api/v1/maintenance/';
+    if (vehicleId) {
+      url = `api/v1/maintenance/vehicle/${vehicleId}`;
+    }
     api.get(
-      'api/v1/maintenance/',
+      url,
       { params }
     ).then((response) => {
       // console.debug('fetch maintenance', response.data)
@@ -69,109 +67,127 @@ const Maintenance = () => {
   }, [currentPage, sortConfig, filters]);
 
   return(
-    <div className='maintenance-container'>
-      <span>Информация о техническом обслуживании Вашей техники</span>
+    <div className='main-container maintenance'>
+      <span className='text'>Информация о техническом обслуживании Вашей техники</span>
       <table>
         <thead>
         <tr>
-          <td>
-            <span onClick={() => handleSort('dateMaintenance')}>
-              Дата проведения ТО {getSortIndicator('dateMaintenance')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по дате ТО"
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'dateMaintenance'}
+            searchInput={<CustomInput
+              placeholder="Дата проведения ТО"
               name="dateMaintenance"
               value={filterInput.dateMaintenance}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('vehicle')}>
-              Заводской номер {getSortIndicator('vehicle')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по заводскому номеру"
-              name="vehicle"
-              value={filterInput.vehicle}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('typeMaintenance')}>
-              Вид ТО {getSortIndicator('typeMaintenance')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по виду ТО"
+            />}
+          >
+            Дата проведения ТО
+          </HeaderCell>
+          {!vehicleId &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'vehicle'}
+              searchInput={<CustomInput
+                placeholder="Заводской номер"
+                name="vehicle"
+                value={filterInput.vehicle}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Заводской номер
+            </HeaderCell>
+          }
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'typeMaintenance'}
+            searchInput={<CustomInput
+              placeholder="Вид ТО"
               name="typeMaintenance"
               value={filterInput.typeMaintenance}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('operatingTime')}>
-              Наработка, м/час {getSortIndicator('operatingTime')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по наработке"
+            />}
+          >
+            Вид ТО
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'operatingTime'}
+            searchInput={<CustomInput
+              placeholder="Наработка"
               name="operatingTime"
               value={filterInput.operatingTime}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('workOrder')}>
-              № заказ наряда {getSortIndicator('workOrder')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по заказ наряду"
+            />}
+          >
+            Наработка, м/час
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'workOrder'}
+            searchInput={<CustomInput
+              placeholder="№ заказ наряда"
               name="workOrder"
               value={filterInput.workOrder}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('dateOrder')}>
-              Дата заказ наряда {getSortIndicator('dateOrder')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по дате заказ наряда"
+            />}
+          >
+            № заказ наряда
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'dateOrder'}
+            searchInput={<CustomInput
+              placeholder="Дата заказ наряда"
               name="dateOrder"
               value={filterInput.dateOrder}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('organization')}>
-              Организация, проводившая ТО {getSortIndicator('organization')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по организации"
+            />}
+          >
+            Дата заказ наряда
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'organization'}
+            searchInput={<CustomInput
+              placeholder="Организация"
               name="organization"
               value={filterInput.organization}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
+            />}
+          >
+            Организация, проводившая ТО
+          </HeaderCell>
         </tr>
         </thead>
         <tbody>
         {maintenance.map((i, index) => (
           <tr key={index}>
             <td>{i.dateMaintenance}</td>
-            <td>{i.vehicle.serialNumber}</td>
+            {!vehicleId &&
+              <td>{i.vehicle.serialNumber}</td>
+            }
             <td>{i.typeMaintenance.name}</td>
             <td>{i.operatingTime}</td>
             <td>{i.workOrder}</td>
@@ -181,19 +197,18 @@ const Maintenance = () => {
         ))}
         </tbody>
       </table>
-      {totalPages > 1 &&
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={page === currentPage ? 'active' : ''}
-            >
-              {page}
-            </button>
-          ))}
+      {!maintenance.length &&
+        <div className='not-results'>
+          <span>
+            Нет данных для отображения
+          </span>
         </div>
       }
+      <Pagination
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </div>
   )
 }

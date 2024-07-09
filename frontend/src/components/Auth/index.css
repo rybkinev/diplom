@@ -46,19 +46,9 @@
   font-weight: bold;
   font-style: italic;
 }
-.auth-modal {
-  background: rgba(0, 0, 0, 0.7);
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1001;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.auth-modal .auth-form {
+.auth-form {
+  align-self: center;
+  max-width: 400px;
   position: relative;
   background-color: #EBE6D6;
   padding: 1.5rem 1.5rem;
@@ -67,7 +57,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.auth-modal .auth-form .auth-form-btn-submit {
+.auth-form .auth-form-btn-submit {
   font-size: 1.5rem;
   border-radius: 5px;
   cursor: pointer;
@@ -76,42 +66,31 @@
   color: #fff;
   padding: 0.9rem;
 }
-.auth-modal .auth-form .auth-form-btn-submit:disabled {
+.auth-form .auth-form-btn-submit:disabled {
   opacity: 50%;
   cursor: auto;
 }
-.auth-modal .auth-form .auth-form-btn-close {
-  background: none;
-  position: absolute;
-  top: -3rem;
-  right: -2.5rem;
-  border: none;
-  color: #fff;
-  font-size: 3rem;
-  font-weight: normal;
-  cursor: pointer;
-}
-.auth-modal .auth-form .wrap-input {
+.auth-form .wrap-input {
   margin-bottom: 1rem;
   display: grid;
   position: relative;
 }
-.auth-modal .auth-form .wrap-input span {
+.auth-form .wrap-input span {
   font-size: 1rem;
   font-weight: bold;
 }
-.auth-modal .auth-form .wrap-input input {
+.auth-form .wrap-input input {
   font-size: 1.2rem;
   margin: 0.5rem 0;
   padding: 1em;
   border-radius: 5px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.05);
 }
-.auth-modal .auth-form .wrap-input .input-error {
+.auth-form .wrap-input .input-error {
   border: 1px solid #FF5959;
   color: #FF5959;
 }
-.auth-modal .auth-form .wrap-input .error-message {
+.auth-form .wrap-input .error-message {
   color: #FF5959;
   font-size: 1rem;
   position: absolute;
@@ -120,7 +99,7 @@
   text-align: center;
   transform: translate(0, 40%);
 }
-.auth-modal .auth-form .wrap-input .error-label {
+.auth-form .wrap-input .error-label {
   color: #FF5959;
 }
 

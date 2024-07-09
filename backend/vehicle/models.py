@@ -4,6 +4,8 @@ from django.db import models
 
 from django.conf import settings
 
+from core.models import ReferenceModel
+
 
 class Vehicle(models.Model):
     # Машина
@@ -85,46 +87,26 @@ class Vehicle(models.Model):
         return self.serial_number
 
 
-class VehicleModel(models.Model):
+class VehicleModel(ReferenceModel):
     # Модель техники
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    pass
 
 
-class EngineModel(models.Model):
+class EngineModel(ReferenceModel):
     # Модель двигателя
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    pass
 
 
-class TransmissionModel(models.Model):
+class TransmissionModel(ReferenceModel):
     # Модель трансмиссии
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    pass
 
 
-class DriveAxleModel(models.Model):
+class DriveAxleModel(ReferenceModel):
     # модель ведущего моста
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    pass
 
 
-class SteeringAxleModel(models.Model):
+class SteeringAxleModel(ReferenceModel):
     # модель управляемого моста
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    pass

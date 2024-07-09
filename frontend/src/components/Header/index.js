@@ -3,7 +3,7 @@ import './index.css';
 import Auth from "../Auth";
 import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../store/userSlice";
-import {useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 
 const Header = () => {
@@ -13,11 +13,7 @@ const Header = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const openAuth = () => {
-    console.debug('Header open Auth')
-    setIsOpenAuth(true)
-  }
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,14 +25,23 @@ const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  // const handleLoginUser = () => {
+  //   console.debug('Header open Auth')
+  //   setIsOpenAuth(true)
+  // }
+
   const handleLogoutUser = () => {
     dispatch(logoutUser());
-    navigate("/");
+    if (location.pathname !== '/swagger') {
+      // Если текущая страница /swagger, остаёмся на ней
+      navigate("/");
+    }
   }
 
   return (
@@ -65,16 +70,23 @@ const Header = () => {
               Выйти
             </a>
           :
-            <a
+            // <a
+            //   className='btn-login'
+            //   onClick={handleLoginUser}
+            // >
+            //   Войти
+            // </a>
+            <Link
+              to='login'
+              state={{background: location}}
               className='btn-login'
-              onClick={openAuth}
             >
               Войти
-            </a>
+            </Link>
       }
 
 
-      <Auth isOpen={isOpenAuth} setIsOpen={setIsOpenAuth}/>
+      {/*<Auth isOpen={isOpenAuth} setIsOpen={setIsOpenAuth}/>*/}
     </header>
   )
 }

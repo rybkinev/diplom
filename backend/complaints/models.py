@@ -2,6 +2,8 @@ from datetime import datetime
 
 from django.db import models
 
+from core.models import ReferenceModel
+
 
 class Complaint(models.Model):
     # Рекламации
@@ -25,19 +27,21 @@ class Complaint(models.Model):
         return self.date_recovery - self.date_failure
 
 
-class FailureNode(models.Model):
+class FailureNode(ReferenceModel):
     # Узел отказа
-    name = models.CharField(max_length=120)
-    description = models.TextField()
+    # name = models.CharField(max_length=120)
+    # description = models.TextField()
+    #
+    # def __str__(self):
+    #     return self.name
+    pass
 
-    def __str__(self):
-        return self.name
 
-
-class RecoveryMethod(models.Model):
+class RecoveryMethod(ReferenceModel):
     # Метод восстановления
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    # name = models.CharField(max_length=120)
+    # description = models.TextField()
+    #
+    # def __str__(self):
+    #     return self.name
+    pass

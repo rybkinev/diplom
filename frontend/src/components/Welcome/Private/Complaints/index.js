@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from "react";
 import './index.css';
 import api from "../../../../api";
-import CustomInput from "../../../InputTimeout";
+import CustomInput from "../../Table/InputTimeout";
+import Pagination from "../../Table/Pagination";
+import HeaderCell from "../../Table/HeaderCell";
+import {useParams} from "react-router-dom";
 
 
 const Complaints = () => {
+  const params = useParams();
+  const vehicleId = params.id;
+
   const [complaints, setComplaints] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -49,8 +55,13 @@ const Complaints = () => {
       ...activeFilters,
     };
 
+    let url = 'api/v1/complaint/';
+    if (vehicleId) {
+      url = `api/v1/complaint/vehicle/${vehicleId}`;
+    }
+
     api.get(
-      'api/v1/complaint/',
+      url,
       { params }
     ).then((response) => {
       // console.debug('fetch complaint', response.data)
@@ -70,109 +81,127 @@ const Complaints = () => {
   }, [currentPage, sortConfig, filters]);
 
   return (
-    <div className='complaints-container'>
-      <span>Информация о рекламациях по Вашей технике</span>
+    <div className='main-container complaints'>
+      <span className='text'>Информация о рекламациях по Вашей технике</span>
       <table>
         <thead>
         <tr>
-          <td>
-            <span onClick={() => handleSort('dateFailure')}>
-              Дата поломки {getSortIndicator('dateFailure')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по дате неисправности"
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'dateFailure'}
+            searchInput={<CustomInput
+              placeholder="Дата поломки"
               name="dateFailure"
               value={filterInput.dateFailure}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('vehicle')}>
-              Заводской номер {getSortIndicator('vehicle')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по заводскому номеру"
-              name="vehicle"
-              value={filterInput.vehicle}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('nodeFailure')}>
-              Неисправный узел {getSortIndicator('nodeFailure')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по узлу"
+            />}
+          >
+            Дата поломки
+          </HeaderCell>
+          {!vehicleId &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'vehicle'}
+              searchInput={<CustomInput
+                placeholder="Заводской номер"
+                name="vehicle"
+                value={filterInput.vehicle}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Заводской номер
+            </HeaderCell>
+          }
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'nodeFailure'}
+            searchInput={<CustomInput
+              placeholder="Неисправный узел"
               name="nodeFailure"
               value={filterInput.nodeFailure}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('operatingTime')}>
-              Наработка, м/час {getSortIndicator('operatingTime')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по наработке"
+            />}
+          >
+            Неисправный узел
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'operatingTime'}
+            searchInput={<CustomInput
+              placeholder="Наработка"
               name="operatingTime"
               value={filterInput.operatingTime}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('usedParts')}>
-              Используемые запчасти {getSortIndicator('usedParts')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по запчастям"
+            />}
+          >
+            Наработка, м/час
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'usedParts'}
+            searchInput={<CustomInput
+              placeholder="Запчасти"
               name="usedParts"
               value={filterInput.usedParts}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('recoveryMethod')}>
-              Метод восстановления {getSortIndicator('recoveryMethod')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по методу восстановления"
+            />}
+          >
+            Используемые запчасти
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'recoveryMethod'}
+            searchInput={<CustomInput
+              placeholder="Метод восстановления"
               name="recoveryMethod"
               value={filterInput.recoveryMethod}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
-          <td>
-            <span onClick={() => handleSort('dateRecovery')}>
-              Дата восстановления {getSortIndicator('dateRecovery')}
-            </span>
-            <CustomInput
-              placeholder="Фильтр по дате восстановления"
+            />}
+          >
+            Метод восстановления
+          </HeaderCell>
+          <HeaderCell
+            sortConfig={sortConfig}
+            setSortConfig={setSortConfig}
+            name={'dateRecovery'}
+            searchInput={<CustomInput
+              placeholder="Дата восстановления"
               name="dateRecovery"
               value={filterInput.dateRecovery}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />
-          </td>
+            />}
+          >
+            Дата восстановления
+          </HeaderCell>
         </tr>
         </thead>
         <tbody>
         {complaints.map((i, index) => (
           <tr key={index}>
             <td>{i.dateFailure}</td>
-            <td>{i.vehicle.serialNumber}</td>
+            {!vehicleId &&
+              <td>{i.vehicle.serialNumber}</td>
+            }
             <td>{i.nodeFailure.name}</td>
             <td>{i.operatingTime}</td>
             <td>{i.usedParts}</td>
@@ -182,19 +211,18 @@ const Complaints = () => {
         ))}
         </tbody>
       </table>
-      {totalPages > 1 &&
-        <div className="pagination">
-          {Array.from({length: totalPages}, (_, i) => i + 1).map(page => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={page === currentPage ? 'active' : ''}
-            >
-              {page}
-            </button>
-          ))}
+      {!complaints.length &&
+        <div className='not-results'>
+          <span>
+            Нет данных для отображения
+          </span>
         </div>
       }
+      <Pagination
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </div>
   )
 }

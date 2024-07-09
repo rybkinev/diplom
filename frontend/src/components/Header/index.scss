@@ -1,4 +1,5 @@
 @import '../../assets/styles/var';
+@import '../../assets/styles/global';
 
 header {
   width: 100%;
@@ -31,10 +32,11 @@ header {
   }
 
   .btn-login {
-    background-color: $main-color1;
-    padding: 0.3rem 0.7rem;
-    border-radius: 5px;
-    color: $white-color;
-    font-weight: normal;
+    @include button;
+    //background-color: $main-color1;
+    //padding: 0.3rem 0.7rem;
+    //border-radius: 5px;
+    //color: $white-color;
+    //font-weight: normal;
   }
 }

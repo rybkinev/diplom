@@ -22,6 +22,30 @@
   font-weight: bold;
   font-style: italic;
 }
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
 header {
   width: 100%;
   position: sticky;
@@ -53,6 +77,7 @@ header .btn-login {
   border-radius: 5px;
   color: #fff;
   font-weight: normal;
+  border: none;
 }
 
 /*# sourceMappingURL=index.css.map */

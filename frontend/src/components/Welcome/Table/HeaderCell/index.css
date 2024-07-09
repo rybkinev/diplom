@@ -1,0 +1,101 @@
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+td.table-head-cell {
+  font-size: 1.1rem;
+}
+td.table-head-cell .head-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.6rem;
+  margin-right: 0.5rem;
+}
+td.table-head-cell .head-cell .head-cell-name {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+td.table-head-cell .head-cell .head-cell-name span {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+td.table-head-cell .head-cell .head-cell-name .direction-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+td.table-head-cell .head-cell .head-cell-name .direction-container .direction {
+  font-size: 1.1rem;
+  transform: rotate(90deg);
+  transition: 0.2s;
+  color: rgba(0, 0, 0, 0.25);
+  border: none;
+  background: none;
+  padding: 0 2px;
+  cursor: pointer;
+}
+td.table-head-cell .head-cell .head-cell-name .direction-container .direction.active {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  padding: 0 5px;
+}
+td.table-head-cell .head-cell .head-cell-search {
+  position: relative;
+  width: 100%;
+}
+td.table-head-cell .head-cell .head-cell-search input {
+  width: 100%;
+}
+
+/*# sourceMappingURL=index.css.map */

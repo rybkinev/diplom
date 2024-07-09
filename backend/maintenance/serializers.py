@@ -1,8 +1,8 @@
 from rest_framework.fields import CharField
 from rest_framework.serializers import ModelSerializer
 
-from accounts.models import ServiceCompany
-from core.serializers import CamelCaseSerializerMixin
+from accounts.serializers import ServiceCompanySerializer
+from core.serializers import CamelCaseSerializerMixin, ReferenceSerializer
 from maintenance.models import Maintenance, Organization, MaintenanceType
 from vehicle.models import Vehicle
 
@@ -13,22 +13,14 @@ class VehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
         fields = ['id', 'serial_number']
 
 
-class OrganizationSerializer(ModelSerializer):
-    class Meta:
+class OrganizationSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
         model = Organization
-        fields = ['id', 'name']
 
 
-class TypeMaintenanceSerializer(CamelCaseSerializerMixin, ModelSerializer):
-    class Meta:
+class TypeMaintenanceSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
         model = MaintenanceType
-        fields = ['id', 'name']
-
-
-class ServiceCompanySerializer(CamelCaseSerializerMixin, ModelSerializer):
-    class Meta:
-        model = ServiceCompany
-        fields = ['id', 'name']
 
 
 class MaintenanceSerializer(CamelCaseSerializerMixin, ModelSerializer):

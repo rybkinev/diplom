@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from django.conf import settings
 from django.db import models
+
+from core.models import ReferenceModel
 
 
 class Maintenance(models.Model):
@@ -36,18 +37,11 @@ class Maintenance(models.Model):
     )
 
 
-class MaintenanceType(models.Model):
+class MaintenanceType(ReferenceModel):
     # вид ТО
-    name = models.CharField(max_length=120)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+    pass
 
 
-class Organization(models.Model):
-    name = models.CharField(max_length=120, default='')
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
+class Organization(ReferenceModel):
+    # Организация делавшая ТО
+    pass

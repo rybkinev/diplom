@@ -1,28 +1,70 @@
 from rest_framework.fields import CharField, DateField
 from rest_framework.serializers import ModelSerializer
 
-from core.serializers import CamelCaseSerializerMixin
-from vehicle.models import Vehicle
+from accounts.serializers import ServiceCompanySerializer
+from core.serializers import CamelCaseSerializerMixin, ReferenceSerializer
+from vehicle.models import Vehicle, DriveAxleModel, TransmissionModel, EngineModel, VehicleModel, SteeringAxleModel
+
+
+class VehicleModelSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
+        model = VehicleModel
+
+    def get_label(self, obj):
+        return "Модель"
+
+
+class EngineModelSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
+        model = EngineModel
+
+    def get_label(self, obj):
+        return "Модель двигателя"
+
+
+class TransmissionModelSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
+        model = TransmissionModel
+
+    def get_label(self, obj):
+        return "Модель трансмиссии"
+
+
+class DriveAxleModelSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
+        model = DriveAxleModel
+
+    def get_label(self, obj):
+        return "Модель ведущего моста"
+
+
+class SteeringAxleModelSerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
+        model = SteeringAxleModel
+
+    def get_label(self, obj):
+        return "Модель управляемого моста"
 
 
 class PrivateVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
     serialNumber = CharField(source='serial_number')
-    vehicleModel = CharField(source='vehicle_model')
-    engineModel = CharField(source='engine_model')
+    vehicleModel = VehicleModelSerializer(source='vehicle_model')
+    engineModel = EngineModelSerializer(source='engine_model')
     snEngine = CharField(source='sn_engine')
-    transmissionModel = CharField(source='transmission_model')
+    transmissionModel = TransmissionModelSerializer(source='transmission_model')
     snTransmission = CharField(source='sn_transmission')
-    driveAxleModel = CharField(source='drive_axle_model')
+    driveAxleModel = DriveAxleModelSerializer(source='drive_axle_model')
     snDriveAxle = CharField(source='sn_drive_axle')
-    steeringAxleModel = CharField(source='steering_axle_model')
+    steeringAxleModel = SteeringAxleModelSerializer(source='steering_axle_model')
     snSteeringAxle = CharField(source='sn_steering_axle')
     shippingDate = DateField(source='shipping_date')
     deliveryAddress = CharField(source='delivery_address')
-    serviceCompany = CharField(source='service_company')
+    serviceCompany = ServiceCompanySerializer(source='service_company')
 
     class Meta:
         model = Vehicle
         fields = [
+            'id',
             'serialNumber',
             'vehicleModel',
             'engineModel',
@@ -42,22 +84,19 @@ class PrivateVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
             'serviceCompany'
         ]
 
-        # extra_kwargs = {
-        #     'password': {'write_only': True}
-        # }
-
 
 class PublicVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
     serialNumber = CharField(source='serial_number')
-    vehicleModel = CharField(source='vehicle_model')
-    engineModel = CharField(source='engine_model')
-    transmissionModel = CharField(source='transmission_model')
-    driveAxleModel = CharField(source='drive_axle_model')
-    steeringAxleModel = CharField(source='steering_axle_model')
+    vehicleModel = VehicleModelSerializer(source='vehicle_model')
+    engineModel = EngineModelSerializer(source='engine_model')
+    transmissionModel = TransmissionModelSerializer(source='transmission_model')
+    driveAxleModel = DriveAxleModelSerializer(source='drive_axle_model')
+    steeringAxleModel = SteeringAxleModelSerializer(source='steering_axle_model')
 
     class Meta:
         model = Vehicle
         fields = [
+            'id',
             'serialNumber',
             'vehicleModel',
             'engineModel',

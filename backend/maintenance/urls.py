@@ -8,4 +8,5 @@ router.register(r'', views.MaintenanceViewSet, basename='maintenance')
 
 urlpatterns = [
     path('maintenance/', include(router.urls)),
+    # path('maintenance/vehicle/<int:vehicle_id>/', views.MaintenanceViewSet.as_view({'get': 'list'})),
 ]

@@ -2,6 +2,7 @@ from rest_framework.fields import CharField
 from rest_framework.serializers import ModelSerializer
 
 from accounts.models import ServiceCompany
+from accounts.serializers import ServiceCompanySerializer
 from core.serializers import CamelCaseSerializerMixin
 from maintenance.models import Maintenance, Organization, MaintenanceType
 from vehicle.models import Vehicle
@@ -25,10 +26,10 @@ class NodeFailureSerializer(CamelCaseSerializerMixin, ModelSerializer):
         fields = ['id', 'name']
 
 
-class ServiceCompanySerializer(CamelCaseSerializerMixin, ModelSerializer):
-    class Meta:
-        model = ServiceCompany
-        fields = ['id', 'name']
+# class ServiceCompanySerializer(CamelCaseSerializerMixin, ModelSerializer):
+#     class Meta:
+#         model = ServiceCompany
+#         fields = ['id', 'name']
 
 
 class ComplaintSerializer(CamelCaseSerializerMixin, ModelSerializer):

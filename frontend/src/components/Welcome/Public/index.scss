@@ -1,10 +1,44 @@
 @import '../../../assets/styles/var';
+@import '../../../assets/styles/global';
 
 
 div.main-public-container{
   width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 
-  //table {
-  //  margin-bottom: auto;
-  //}
+  .text {
+    //font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .main-search-inp {
+    position: relative;
+    display: flex;
+    margin-bottom: 1rem;
+    justify-content: start;
+
+
+    input {
+      font-size: 1.1rem;
+      margin-right: .7rem;
+      padding: 0.5em;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      font-size: 1.1rem;
+      @include button;
+    }
+  }
+
+  .text-result {
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
 }

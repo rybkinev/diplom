@@ -1,14 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
 import './index.css';
 import api from "../../../../api";
-import CustomInput from "../../../InputTimeout";
+import CustomInput from "../../Table/InputTimeout";
+import HeaderCell from "../../Table/HeaderCell";
+import Pagination from "../../Table/Pagination";
+import {Link, useLocation} from "react-router-dom";
 
 
 const Vehicles = () => {
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: 'shippingDate', direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: 'shippingDate', direction: 'desc' });
   const [filters, setFilters] = useState({
     shippingDate: '',
     serialNumber: '',
@@ -20,13 +23,7 @@ const Vehicles = () => {
   });
   const [filterInput, setFilterInput] = useState(filters);
 
-  const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
+  const location = useLocation()
 
   const fetchVehicles = () => {
     const activeFilters = Object.keys(filters).reduce((acc, key) => {
@@ -61,139 +58,153 @@ const Vehicles = () => {
     fetchVehicles();
   }, [currentPage, sortConfig, filters]);
 
-  const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? '🔼' : '🔽';
-    }
-    return '';
-  };
-
   return (
-    <div className='vehicles-container'>
-      <span>Информация о комплектации и технических характеристиках Вашей техники</span>
+    <div className='main-container vehicle'>
+      <span className='text'>Информация о комплектации и технических характеристиках Вашей техники</span>
       <table>
         <thead>
           <tr>
-            <td>
-              <span onClick={() => handleSort('shippingDate')}>
-                Дата выпуска {getSortIndicator('shippingDate')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по дате выпуска"
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'shippingDate'}
+              searchInput={<CustomInput
+                placeholder="Дата выпуска"
                 name="shippingDate"
                 value={filterInput.shippingDate}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
-            <td>
-              <span onClick={() => handleSort('serialNumber')}>
-                Заводской номер {getSortIndicator('serialNumber')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по заводскому номеру"
+              />}
+            >
+              Дата выпуска
+            </HeaderCell>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'serialNumber'}
+              searchInput={<CustomInput
+                placeholder="Заводской номер"
                 name="serialNumber"
                 value={filterInput.serialNumber}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
-            <td>
-              <span onClick={() => handleSort('vehicleModel')}>
-                Модель {getSortIndicator('vehicleModel')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по модели"
+              />}
+            >
+              Заводской номер
+            </HeaderCell>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'vehicleModel'}
+              searchInput={<CustomInput
+                placeholder="Модель"
                 name="vehicleModel"
                 value={filterInput.vehicleModel}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
-            <td>
-              <span onClick={() => handleSort('engineModel')}>
-                Модель двигателя {getSortIndicator('engineModel')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по модели двигателя"
+              />}
+            >
+              Модель
+            </HeaderCell>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'engineModel'}
+              searchInput={<CustomInput
+                placeholder="Модель двигателя"
                 name="engineModel"
                 value={filterInput.engineModel}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
-            <td>
-              <span onClick={() => handleSort('transmissionModel')}>
-                Модель трансмиссии {getSortIndicator('transmissionModel')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по модели трансмиссии"
+              />}
+            >
+              Модель двигателя
+            </HeaderCell>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'transmissionModel'}
+              searchInput={<CustomInput
+                placeholder="Модель трансмиссии"
                 name="transmissionModel"
                 value={filterInput.transmissionModel}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
-            <td>
-              <span onClick={() => handleSort('driveAxleModel')}>
-                Модель ведущего моста {getSortIndicator('driveAxleModel')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по модели ведущего моста"
+              />}
+            >
+              Модель трансмиссии
+            </HeaderCell>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'driveAxleModel'}
+              searchInput={<CustomInput
+                placeholder="Модель ведущего моста"
                 name="driveAxleModel"
                 value={filterInput.driveAxleModel}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
-            <td>
-              <span onClick={() => handleSort('steeringAxleModel')}>
-                Модель управляемого моста {getSortIndicator('steeringAxleModel')}
-              </span>
-              <CustomInput
-                placeholder="Фильтр по модели управляемого моста"
+              />}
+            >
+              Модель ведущего моста
+            </HeaderCell>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'steeringAxleModel'}
+              searchInput={<CustomInput
+                placeholder="Модель управляемого моста"
                 name="steeringAxleModel"
                 value={filterInput.steeringAxleModel}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />
-            </td>
+              />}
+            >
+              Модель управляемого моста
+            </HeaderCell>
           </tr>
         </thead>
         <tbody>
           {vehicles.map((i, index) => (
             <tr key={index}>
               <td>{i.shippingDate}</td>
-              <td>{i.serialNumber}</td>
-              <td>{i.vehicleModel}</td>
-              <td>{i.engineModel}</td>
-              <td>{i.transmissionModel}</td>
-              <td>{i.driveAxleModel}</td>
-              <td>{i.steeringAxleModel}</td>
+              <td>
+                {/*{i.serialNumber}*/}
+                <Link
+                  to={`/vehicles/${i.id}`}
+                  state={{background: location}}
+                >
+                  {i.serialNumber}
+                </Link>
+              </td>
+              <td>{i?.vehicleModel.name}</td>
+              <td>{i?.engineModel.name}</td>
+              <td>{i?.transmissionModel.name}</td>
+              <td>{i?.driveAxleModel.name}</td>
+              <td>{i?.steeringAxleModel.name}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      {totalPages > 1 &&
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-            <button
-              key={page}
-              onClick={() => setCurrentPage(page)}
-              className={page === currentPage ? 'active' : ''}
-            >
-              {page}
-            </button>
-          ))}
+      {!vehicles.length &&
+        <div className='not-results'>
+          <span>
+            Нет данных для отображения
+          </span>
         </div>
       }
+      <Pagination
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
