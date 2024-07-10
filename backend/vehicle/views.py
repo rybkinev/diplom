@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -7,10 +6,10 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
 from rest_framework.response import Response
 
-from core.pagination import CustomPageNumberPagination
-from vehicle.filters import PrivateVehicleFilter, PublicVehicleFilter
 import vehicle.models as models
 import vehicle.serializers as serializers
+from core.pagination import CustomPageNumberPagination
+from vehicle.filters import PrivateVehicleFilter, PublicVehicleFilter
 
 
 class VehicleViewSet(viewsets.ModelViewSet):
