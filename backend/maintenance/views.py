@@ -2,7 +2,7 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
 
 from core.pagination import CustomPageNumberPagination
 from maintenance.filters import MaintenanceFilter
@@ -14,7 +14,7 @@ class MaintenanceViewSet(viewsets.ModelViewSet):
 
     queryset = models.Maintenance.objects.all()
     serializer_class = serializers.MaintenanceSerializer
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [DjangoModelPermissions]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     # filterset_class = PrivateVehicleFilter
     ordering = '-date_maintenance'

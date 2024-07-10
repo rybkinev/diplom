@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import './index.css';
 import Header from "../Header";
 import {Navigate, Route, Routes, useLocation, useNavigate} from "react-router-dom";
@@ -14,6 +14,7 @@ import Complaints from "../Welcome/Private/Complaints";
 import VehicleDetail from "../Welcome/VehicleDetail";
 import Auth from "../Auth";
 import Modal from "../Modal";
+import ModelDetail from "../Welcome/ModelDetail";
 
 const App = () => {
   const location = useLocation();
@@ -26,6 +27,13 @@ const App = () => {
   const state = location.state;
   const background = state && state.background;
 
+  const modelsRoutes = [
+    {url: '/vehicles/vehicle-model/', title: 'модели машины'},
+    {url: '/vehicles/engine-model/', title: 'модели двигателя'},
+    {url: '/vehicles/transmission-model/', title: 'модели трансмиссии'},
+    {url: '/vehicles/drive-axle-model/', title: 'модели ведущего моста'},
+    {url: '/vehicles/steering-axle-model/', title: 'модели управляемого моста'},
+  ]
 
   return (
     <>
@@ -35,8 +43,21 @@ const App = () => {
         <Route path="/" element={<Welcome/>}>
           <Route index element={<Public />}/>
           <Route path="vehicles/:id" element={<VehicleDetail/>}/>
-          <Route path='login' element={<Auth/>}/>
+          {/*<Route*/}
+          {/*  path='/vehicles/vehicle-model/:id'*/}
+          {/*  element={<ModelDetail title='модели машины' url={'/vehicles/vehicle-model/'}/>}*/}
+          {/*/>*/}
+          {modelsRoutes.map((row, index) =>
+            <Route
+              path={`${row.url}:id`}
+              element={<ModelDetail title={row.title} url={row.url}/>}
+              key={index}
+            />
+          )}
 
+          {!isAuthenticated &&
+            <Route path='login' element={<Auth/>}/>
+          }
           {isAuthenticated &&
             <Route path="private" element={<Private/>}>
               <Route index element={<Navigate to="vehicles"/>}/>
@@ -72,6 +93,30 @@ const App = () => {
               </Modal>
             }
           />
+          {/*<Route*/}
+          {/*  path='/vehicles/vehicle-model/:id'*/}
+          {/*  element={*/}
+          {/*    <Modal onClose={() => navigate(-1)}>*/}
+          {/*      <ModelDetail*/}
+          {/*        title='модели машины'*/}
+          {/*        url={'/vehicles/vehicle-model/'}*/}
+          {/*      />*/}
+          {/*    </Modal>*/}
+          {/*  }*/}
+          {/*/>*/}
+          {modelsRoutes.map((row, index) =>
+            <Route
+              path={`${row.url}:id`}
+              element={
+                <Modal onClose={() => navigate(-1)}>
+                  <ModelDetail
+                    title={row.title}
+                    url={row.url}
+                  />
+                </Modal>
+              }
+            />
+          )}
         </Routes>
       )}
 

@@ -14,7 +14,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
 
     queryset = models.Vehicle.objects.all()
     serializer_class = serializers.PrivateVehicleSerializer
-    # permission_classes = [IsAuthenticated]
+    # permission_classes = [DjangoModelPermissions]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_class = PrivateVehicleFilter
     ordering = 'shipping_date'

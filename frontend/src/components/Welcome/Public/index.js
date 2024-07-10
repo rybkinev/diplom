@@ -132,11 +132,46 @@ const Public = () => {
                 {i.serialNumber}
               </Link>
             </td>
-            <td>{i.vehicleModel?.name}</td>
-            <td>{i.engineModel?.name}</td>
-            <td>{i.transmissionModel?.name}</td>
-            <td>{i.driveAxleModel?.name}</td>
-            <td>{i.steeringAxleModel?.name}</td>
+            <td>
+              <Link
+                to={`/vehicles/vehicle-model/${i.vehicleModel?.id}`}
+                state={{background: location}}
+              >
+                {i.vehicleModel?.name}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/vehicles/engine-model/${i.engineModel?.id}`}
+                state={{background: location}}
+              >
+                {i.engineModel?.name}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/vehicles/transmission-model/${i.transmissionModel?.id}`}
+                state={{background: location}}
+              >
+                {i.transmissionModel?.name}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/vehicles/drive-axle-model/${i.driveAxleModel?.id}`}
+                state={{background: location}}
+              >
+                {i.driveAxleModel?.name}
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={`/vehicles/steering-axle-model/${i.driveAxleModel?.id}`}
+                state={{background: location}}
+              >
+                {i.steeringAxleModel?.name}
+              </Link>
+            </td>
           </tr>
         ))}
         </tbody>

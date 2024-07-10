@@ -2,7 +2,7 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import IsAuthenticated, DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
 
 from complaints.filters import ComplaintFilter
 import complaints.models as models
@@ -14,7 +14,7 @@ class ComplaintViewSet(viewsets.ModelViewSet):
 
     queryset = models.Complaint.objects.all()
     serializer_class = serializers.ComplaintSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [DjangoModelPermissions]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     ordering = '-date_failure'
     ordering_fields = [
