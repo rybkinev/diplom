@@ -7,6 +7,7 @@ const initialState = {
   accessToken: localStorage.getItem('accessToken') || null,
   refreshToken: localStorage.getItem('refreshToken') || null,
   isAuthenticated: !!localStorage.getItem('accessToken'),
+  permissions: [],
 };
 
 const logoutUser = createAsyncThunk(
@@ -51,16 +52,16 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(logoutUser.pending, (state) => {
-        console.debug('logoutUser.pending');
-        // state.status = 'loading';
-      })
+      // .addCase(logoutUser.pending, (state) => {
+      //   console.debug('logoutUser.pending');
+      // })
       .addCase(logoutUser.fulfilled, (state) => {
         console.debug('logoutUser.fulfilled');
         state.user = null;
         state.accessToken = null;
         state.refreshToken = null;
         state.isAuthenticated = false;
+        state.permissions = [];
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
       })
@@ -68,11 +69,11 @@ const userSlice = createSlice({
         console.debug('logoutUser.rejected');
         state.error = action.payload;
       })
-      .addCase(fetchPermissions.pending, (state) => {
-        console.debug('fetchPermissions.pending');
-      })
+      // .addCase(fetchPermissions.pending, (state) => {
+      //   console.debug('fetchPermissions.pending');
+      // })
       .addCase(fetchPermissions.fulfilled, (state, action) => {
-        console.debug('fetchPermissions.fulfilled');
+        // console.debug('fetchPermissions.fulfilled');
         state.permissions = action.payload;
       })
       .addCase(fetchPermissions.rejected, (state, action) => {
@@ -87,7 +88,12 @@ const fetchPermissions = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get('/api/v1/account/permissions/');
-      return response.data.permissions;
+      const permissions = response.data.permissions
+      // console.debug(response.data);
+      if (response.data?.superuser) {
+        permissions.push('superuser');
+      }
+      return permissions;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

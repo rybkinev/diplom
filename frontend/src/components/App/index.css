@@ -22,6 +22,30 @@
   font-weight: bold;
   font-style: italic;
 }
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
 html, body {
   margin: 0;
   padding: 0;
@@ -54,6 +78,21 @@ a {
   color: #000;
 }
 a:hover {
+  cursor: pointer;
+}
+
+.img-button-edit {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  padding: 0.3rem 0.2rem;
+  height: 2rem;
+  position: absolute;
+  right: 0.3rem;
+  top: 0.3rem;
   cursor: pointer;
 }
 

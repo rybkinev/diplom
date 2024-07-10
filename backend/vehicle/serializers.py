@@ -93,6 +93,11 @@ class PublicVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
     driveAxleModel = DriveAxleModelSerializer(source='drive_axle_model')
     steeringAxleModel = SteeringAxleModelSerializer(source='steering_axle_model')
 
+    snEngine = CharField(source='sn_engine')
+    snTransmission = CharField(source='sn_transmission')
+    snDriveAxle = CharField(source='sn_drive_axle')
+    snSteeringAxle = CharField(source='sn_steering_axle')
+
     class Meta:
         model = Vehicle
         fields = [
@@ -104,4 +109,8 @@ class PublicVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
             'driveAxleModel',
             'steeringAxleModel',
             'equipment',
+            'snEngine',
+            'snTransmission',
+            'snDriveAxle',
+            'snSteeringAxle',
         ]

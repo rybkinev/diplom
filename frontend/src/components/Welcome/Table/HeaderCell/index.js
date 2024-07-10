@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './index.css';
 
 
-const HeaderCell = ({sortConfig, setSortConfig, name, searchInput, children}) => {
+const HeaderCell = ({sortAvailable=true, sortConfig, setSortConfig, name, searchInput, children}) => {
   // const [directionAsc, setDirectionAsc] = useState(sortConfig.direction === 'asc')
 
   // const handleSort = (key) => {
@@ -50,22 +50,24 @@ const HeaderCell = ({sortConfig, setSortConfig, name, searchInput, children}) =>
           >
             {children}
           </span>
-          <div className='direction-container'>
-            <button
-              className={`direction ${getActiveClassName('asc')}`}
-              data-direction='asc'
-              onClick={handleDirection}
-            >
-              {'<'}
-            </button>
-            <button
-              className={`direction ${getActiveClassName('desc')}`}
-              data-direction='desc'
-              onClick={handleDirection}
-            >
-              {'>'}
-            </button>
-          </div>
+          {sortAvailable &&
+            <div className='direction-container'>
+              <button
+                className={`direction ${getActiveClassName('asc')}`}
+                data-direction='asc'
+                onClick={handleDirection}
+              >
+                {'<'}
+              </button>
+              <button
+                className={`direction ${getActiveClassName('desc')}`}
+                data-direction='desc'
+                onClick={handleDirection}
+              >
+                {'>'}
+              </button>
+            </div>
+          }
         </div>
         <div className='head-cell-search'>
           {searchInput}

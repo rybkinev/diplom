@@ -28,11 +28,11 @@ const App = () => {
   const background = state && state.background;
 
   const modelsRoutes = [
-    {url: '/vehicles/vehicle-model/', title: 'модели машины'},
-    {url: '/vehicles/engine-model/', title: 'модели двигателя'},
-    {url: '/vehicles/transmission-model/', title: 'модели трансмиссии'},
-    {url: '/vehicles/drive-axle-model/', title: 'модели ведущего моста'},
-    {url: '/vehicles/steering-axle-model/', title: 'модели управляемого моста'},
+    {url: '/vehicles/vehicle-model/', title: 'модели машины', editPermission: 'change_vehiclemodel'},
+    {url: '/vehicles/engine-model/', title: 'модели двигателя', editPermission: 'change_enginemodel'},
+    {url: '/vehicles/transmission-model/', title: 'модели трансмиссии', editPermission: 'change_transmissionmodel'},
+    {url: '/vehicles/drive-axle-model/', title: 'модели ведущего моста', editPermission: 'change_driveaxlemodel'},
+    {url: '/vehicles/steering-axle-model/', title: 'модели управляемого моста', editPermission: 'change_steeringaxlemodel'},
   ]
 
   return (

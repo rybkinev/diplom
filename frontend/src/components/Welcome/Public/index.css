@@ -62,16 +62,42 @@ div.main-public-container .main-search-inp {
   margin-bottom: 1rem;
   justify-content: start;
 }
-div.main-public-container .main-search-inp input {
+div.main-public-container .main-search-inp .clearable-input {
+  position: relative;
+}
+div.main-public-container .main-search-inp .clearable-input .custom-input {
+  position: relative;
+  padding: 0.3rem;
+  font-size: 1rem;
+  width: 100%;
+}
+div.main-public-container .main-search-inp .clearable-input .custom-input:focus {
+  outline: none;
+}
+div.main-public-container .main-search-inp .clearable-input button.clear-button {
+  position: absolute;
+  z-index: 10;
+  right: 0.5rem;
+  top: 45%;
+  transform: translateY(-50%);
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  user-select: none;
+  color: #163E6C;
+}
+div.main-public-container .main-search-inp .clearable-input input {
   font-size: 1.1rem;
-  margin-right: 0.7rem;
   padding: 0.5em;
 }
-div.main-public-container .main-search-inp input:focus {
+div.main-public-container .main-search-inp .clearable-input input:focus {
   outline: none;
 }
 div.main-public-container .main-search-inp button {
   font-size: 1.1rem;
+  margin-left: 0.7rem;
   background-color: #163E6C;
   padding: 0.3rem 0.7rem;
   border-radius: 5px;

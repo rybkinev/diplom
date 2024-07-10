@@ -105,7 +105,9 @@ class VehicleViewSet(viewsets.ModelViewSet):
             'steering_axle_model'
         ]
 
-        get_dict = self.request.GET.copy()  # Создайте копию, чтобы избежать изменений исходного объекта
+        get_dict = self.request.GET.copy()
+
+        # можно убрать эту строку, тогда по умолчанию будет показываться вся техника
         get_dict.setdefault('serialNumber', 'None')
 
         queryset = self.get_queryset()

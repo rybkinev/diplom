@@ -20,19 +20,23 @@ div.main-public-container{
     margin-bottom: 1rem;
     justify-content: start;
 
+    .clearable-input {
+      @include clearable-button;
 
-    input {
-      font-size: 1.1rem;
-      margin-right: .7rem;
-      padding: 0.5em;
+      input {
+        font-size: 1.1rem;
+        //margin-right: .7rem;
+        padding: 0.5em;
 
-      &:focus {
-        outline: none;
+        &:focus {
+          outline: none;
+        }
       }
     }
 
     button {
       font-size: 1.1rem;
+      margin-left: .7rem;
       @include button;
     }
   }

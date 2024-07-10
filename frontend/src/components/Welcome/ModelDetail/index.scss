@@ -4,10 +4,40 @@
 
 .model-detail {
   background-color: $main-color3;
-  padding: 1.5rem 1.5rem;
+  padding: 1.5rem;
   border-radius: 10px;
 
   span {
     font-size: 1.2rem;
+  }
+
+  .edit-mode {
+    display: flex;
+    flex-direction: column;
+
+    .edit-name {
+      @include editable-fields;
+      margin-bottom: 1rem;
+    }
+    .edit-description {
+      @include editable-fields;
+      margin-bottom: 1rem;
+    }
+    .edit-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: end;
+
+      a {
+        @include button;
+        font-size: 1rem;
+        cursor: pointer;
+
+        &:first-child {
+          margin-right: 1rem;
+        }
+      }
+
+    }
   }
 }

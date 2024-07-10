@@ -48,21 +48,32 @@ const Public = () => {
     fetchVehicles();
   }
 
+  const handleClear = () => {
+    setSerialNumber('');
+  }
+
   return (
     <div className='main-public-container'>
       <span className='text'>Проверьте комплектацию и технические характеристики техники Силант</span>
 
       <div className='main-search-inp'>
-        <input
-          type='text'
-          placeholder='Заводской номер'
-          value={serialNumber}
-          required={true}
-          autoComplete='on'
-          onChange={(e) => {
-            setSerialNumber(e.target.value)
-          }}
-        />
+        <div className="clearable-input">
+          <input
+            type='text'
+            placeholder='Заводской номер'
+            value={serialNumber}
+            required={true}
+            autoComplete='on'
+            onChange={(e) => {
+              setSerialNumber(e.target.value)
+            }}
+          />
+          {serialNumber && (
+            <button onClick={handleClear} className="clear-button">
+              x
+            </button>
+          )}
+        </div>
         <button
           disabled={!serialNumber}
           onClick={handleSearch}
@@ -77,6 +88,7 @@ const Public = () => {
         <thead>
         <tr>
           <HeaderCell
+            sortAvailable={false}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             name={'serialNumber'}
@@ -84,6 +96,7 @@ const Public = () => {
             Заводской номер
           </HeaderCell>
           <HeaderCell
+            sortAvailable={false}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             name={'vehicleModel'}
@@ -91,6 +104,7 @@ const Public = () => {
             Модель
           </HeaderCell>
           <HeaderCell
+            sortAvailable={false}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             name={'engineModel'}
@@ -98,6 +112,7 @@ const Public = () => {
             Модель двигателя
           </HeaderCell>
           <HeaderCell
+            sortAvailable={false}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             name={'transmissionModel'}
@@ -105,6 +120,7 @@ const Public = () => {
             Модель трансмиссии
           </HeaderCell>
           <HeaderCell
+            sortAvailable={false}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             name={'driveAxleModel'}
@@ -112,6 +128,7 @@ const Public = () => {
             Модель ведущего моста
           </HeaderCell>
           <HeaderCell
+            sortAvailable={false}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             name={'steeringAxleModel'}
