@@ -21,8 +21,11 @@ class Command(BaseCommand):
         if not created:
             editors_group.permissions.clear()
 
-        editors_group.permissions.add(Permission.objects.get(codename='change_maintenance'))
-        editors_group.permissions.add(Permission.objects.get(codename='view_maintenance'))
+        # ++ maintenance
+        editors_group.permissions.add(Permission.objects.get(codename='add_maintenancetype'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_maintenancetype'))
+        # -- maintenance
+
         editors_group.permissions.add(Permission.objects.get(codename='view_vehicle'))
         editors_group.permissions.add(Permission.objects.get(codename='view_complaint'))
 
@@ -34,16 +37,54 @@ class Command(BaseCommand):
         if not created:
             editors_group.permissions.clear()
 
-        # editors_group.permissions.add(Permission.objects.get(codename='change_account'))
-        editors_group.permissions.add(Permission.objects.get(codename='change_maintenance'))
+        editors_group.permissions.add(Permission.objects.get(codename='add_user'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_user'))
+        # editors_group.permissions.add(Permission.objects.get(codename='delete_user'))
+
+        # ++ vehicle
+        editors_group.permissions.add(Permission.objects.get(codename='add_vehicle'))
         editors_group.permissions.add(Permission.objects.get(codename='change_vehicle'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_servicecompany'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_servicecompany'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_vehiclemodel'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_vehiclemodel'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_enginemodel'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_enginemodel'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_transmissionmodel'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_transmissionmodel'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_driveaxlemodel'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_driveaxlemodel'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_steeringaxlemodel'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_steeringaxlemodel'))
+        # -- vehicle
+
+        # ++ maintenance
+        editors_group.permissions.add(Permission.objects.get(codename='add_maintenancetype'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_maintenancetype'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_maintenance'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_maintenance'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_organization'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_organization'))
+        # -- maintenance
+
+        # ++ complaints
+        editors_group.permissions.add(Permission.objects.get(codename='add_complaint'))
         editors_group.permissions.add(Permission.objects.get(codename='change_complaint'))
 
-        editors_group.permissions.add(Permission.objects.get(codename='view_maintenance'))
-        editors_group.permissions.add(Permission.objects.get(codename='view_vehicle'))
-        editors_group.permissions.add(Permission.objects.get(codename='view_complaint'))
-        # editors_group.permissions.add(Permission.objects.get(codename='view_complaint'))
-        # TODO Добавить permissions на все справочники
+        editors_group.permissions.add(Permission.objects.get(codename='add_failurenode'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_failurenode'))
+
+        editors_group.permissions.add(Permission.objects.get(codename='add_recoverymethod'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_recoverymethod'))
+        # -- complaints
 
     @staticmethod
     def create_service():
@@ -53,9 +94,26 @@ class Command(BaseCommand):
         if not created:
             editors_group.permissions.clear()
 
+        editors_group.permissions.add(Permission.objects.get(codename='view_vehicle'))
+
+        # ++ maintenance
+        editors_group.permissions.add(Permission.objects.get(codename='add_maintenance'))
         editors_group.permissions.add(Permission.objects.get(codename='change_maintenance'))
+
+        # editors_group.permissions.add(Permission.objects.get(codename='add_maintenancetype'))
+        # editors_group.permissions.add(Permission.objects.get(codename='change_maintenancetype'))
+        #
+        # editors_group.permissions.add(Permission.objects.get(codename='add_organization'))
+        # editors_group.permissions.add(Permission.objects.get(codename='change_organization'))
+        # -- maintenance
+
+        # ++ complaints
+        editors_group.permissions.add(Permission.objects.get(codename='add_complaint'))
         editors_group.permissions.add(Permission.objects.get(codename='change_complaint'))
 
-        editors_group.permissions.add(Permission.objects.get(codename='view_maintenance'))
-        editors_group.permissions.add(Permission.objects.get(codename='view_complaint'))
-        editors_group.permissions.add(Permission.objects.get(codename='view_vehicle'))
+        # editors_group.permissions.add(Permission.objects.get(codename='add_failurenode'))
+        # editors_group.permissions.add(Permission.objects.get(codename='change_failurenode'))
+
+        # editors_group.permissions.add(Permission.objects.get(codename='add_recoverymethod'))
+        # editors_group.permissions.add(Permission.objects.get(codename='change_recoverymethod'))
+        # -- complaints
