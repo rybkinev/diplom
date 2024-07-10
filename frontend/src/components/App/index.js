@@ -33,6 +33,10 @@ const App = () => {
     {url: '/vehicles/transmission-model/', title: 'модели трансмиссии', editPermission: 'change_transmissionmodel'},
     {url: '/vehicles/drive-axle-model/', title: 'модели ведущего моста', editPermission: 'change_driveaxlemodel'},
     {url: '/vehicles/steering-axle-model/', title: 'модели управляемого моста', editPermission: 'change_steeringaxlemodel'},
+    {url: '/maintenance/maintenance-type/', title: 'вида ТО', editPermission: 'change_maintenancetype'},
+    {url: '/maintenance/organizations/', title: 'организации', editPermission: 'change_organizations'},
+    {url: '/complaint/failure-node/', title: 'неисправного узла', editPermission: 'change_failurenode'},
+    {url: '/complaint/recovery-method/', title: 'метода восстановления', editPermission: 'change_recoverymethod'},
   ]
 
   return (
@@ -61,10 +65,10 @@ const App = () => {
           {isAuthenticated &&
             <Route path="private" element={<Private/>}>
               <Route index element={<Navigate to="vehicles"/>}/>
-              <Route path="vehicles">
+              <Route path="vehicles" element={<Vehicles/>}/>
                 <Route index element={<Vehicles/>}/>
-                <Route path=":id" element={<VehicleDetail/>}/>
-              </Route>
+                {/*<Route path=":id" element={<VehicleDetail/>}/>*/}
+              {/*</Route>*/}
               <Route path="maintenance" element={<Maintenance/>}/>
               <Route path="complaints" element={<Complaints/>}/>
             </Route>

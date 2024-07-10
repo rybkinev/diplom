@@ -4,10 +4,12 @@ import api from "../../../../api";
 import CustomInput from "../../Table/InputTimeout";
 import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
-import {useParams} from "react-router-dom";
+import {Link, useLocation, useParams} from "react-router-dom";
 
 
 const Complaints = () => {
+  const location = useLocation()
+
   const params = useParams();
   const vehicleId = params.id;
 
@@ -79,6 +81,12 @@ const Complaints = () => {
   useEffect(() => {
     fetchComplaints();
   }, [currentPage, sortConfig, filters]);
+
+  const handleSetFilterDate = (e) => {
+    const value = e.target.text;
+    setFilterInput({ ...filterInput, ['dateFailure']: value });
+    setFilters({ ...filters, ['dateFailure']: value });
+  };
 
   return (
     <div className='main-container complaints'>
@@ -198,14 +206,43 @@ const Complaints = () => {
         <tbody>
         {complaints.map((i, index) => (
           <tr key={index}>
-            <td>{i.dateFailure}</td>
+            <td>
+              {/*{i.dateFailure}*/}
+              <a onClick={handleSetFilterDate}>
+                {i.dateFailure}
+              </a>
+            </td>
             {!vehicleId &&
-              <td>{i.vehicle.serialNumber}</td>
+              <td>
+                {/*{i.vehicle.serialNumber}*/}
+                <Link
+                  to={`/vehicles/${i.vehicle.id}`}
+                  state={{background: location}}
+                >
+                  {i.vehicle.serialNumber}
+                </Link>
+              </td>
             }
-            <td>{i.nodeFailure.name}</td>
+            <td>
+              {/*{i.nodeFailure.name}*/}
+              <Link
+                to={`/complaint/failure-node/${i.nodeFailure.id}`}
+                state={{background: location}}
+              >
+                {i.nodeFailure.name}
+              </Link>
+            </td>
             <td>{i.operatingTime}</td>
             <td>{i.usedParts}</td>
-            <td>{i.recoveryMethod.name}</td>
+            <td>
+              {/*{i.recoveryMethod.name}*/}
+              <Link
+                to={`/complaint/recovery-method/${i.recoveryMethod.id}`}
+                state={{background: location}}
+              >
+                {i.recoveryMethod.name}
+              </Link>
+            </td>
             <td>{i.dateRecovery}</td>
           </tr>
         ))}

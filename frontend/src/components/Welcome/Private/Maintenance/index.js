@@ -4,10 +4,12 @@ import CustomInput from "../../Table/InputTimeout";
 import api from "../../../../api";
 import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
-import {useParams} from "react-router-dom";
+import {Link, useLocation, useParams} from "react-router-dom";
 
 
 const Maintenance = () => {
+  const location = useLocation()
+
   const params = useParams();
   const vehicleId = params.id;
 
@@ -63,6 +65,12 @@ const Maintenance = () => {
   useEffect(() => {
     fetchMaintenance();
   }, [currentPage, sortConfig, filters]);
+
+  const handleSetFilterDate = (e) => {
+    const value = e.target.text;
+    setFilterInput({ ...filterInput, ['dateMaintenance']: value });
+    setFilters({ ...filters, ['dateMaintenance']: value });
+  };
 
   return(
     <div className='main-container maintenance'>
@@ -182,15 +190,44 @@ const Maintenance = () => {
         <tbody>
         {maintenance.map((i, index) => (
           <tr key={index}>
-            <td>{i.dateMaintenance}</td>
+            <td>
+              {/*{i.dateMaintenance}*/}
+              <a onClick={handleSetFilterDate}>
+                {i.dateMaintenance}
+              </a>
+            </td>
             {!vehicleId &&
-              <td>{i.vehicle.serialNumber}</td>
+              <td>
+                {/*{i.vehicle.serialNumber}*/}
+                <Link
+                  to={`/vehicles/${i.vehicle.id}`}
+                  state={{background: location}}
+                >
+                  {i.vehicle.serialNumber}
+                </Link>
+              </td>
             }
-            <td>{i.typeMaintenance.name}</td>
+            <td>
+              {/*{i.typeMaintenance.name}*/}
+              <Link
+                to={`/maintenance/maintenance-type/${i.typeMaintenance?.id}`}
+                state={{background: location}}
+              >
+                {i.typeMaintenance?.name}
+              </Link>
+            </td>
             <td>{i.operatingTime}</td>
             <td>{i.workOrder}</td>
             <td>{i.dateOrder}</td>
-            <td>{i.organization.name}</td>
+            <td>
+              {/*{i.organization.name}*/}
+              <Link
+                to={`/maintenance/organizations/${i.organization?.id}`}
+                state={{background: location}}
+              >
+                {i.organization?.name}
+              </Link>
+            </td>
           </tr>
         ))}
         </tbody>
