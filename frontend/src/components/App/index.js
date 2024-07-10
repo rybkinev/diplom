@@ -106,6 +106,7 @@ const App = () => {
           {/*/>*/}
           {modelsRoutes.map((row, index) =>
             <Route
+              key={index}
               path={`${row.url}:id`}
               element={
                 <Modal onClose={() => navigate(-1)}>

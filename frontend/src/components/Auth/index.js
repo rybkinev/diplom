@@ -25,11 +25,11 @@ const Auth = ({isOpen, setIsOpen}) => {
     }
   }, [isOpen]);
 
-  const closeAuth = () => {
-    setIsOpen(false);
-    setUsername('');
-    setPassword('');
-  }
+  // const closeAuth = () => {
+  //   setIsOpen(false);
+  //   setUsername('');
+  //   setPassword('');
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,12 +53,15 @@ const Auth = ({isOpen, setIsOpen}) => {
 
       const state = location.state;
       const background = state && state.background;
+
+      console.debug('AUTH background pathname', background.pathname);
+
       if (background.pathname === '/swagger') {
         // Если текущая страница /swagger, остаёмся на ней
         navigate(background.pathname);
       } else {
         // В остальных случаях редирект на "private"
-        navigate('private');
+        navigate('/private');
       }
 
     })

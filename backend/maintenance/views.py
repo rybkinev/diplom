@@ -1,6 +1,7 @@
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
 
@@ -30,12 +31,32 @@ class MaintenanceViewSet(viewsets.ModelViewSet):
     ]
     pagination_class = CustomPageNumberPagination
 
-    def list(self, request, *args, **kwargs):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = getattr(self.request, 'user', None)
+        if user and not user.is_authenticated or not user:
+            raise PermissionDenied("У вас нет прав доступа к этим данным.")
 
-        filterset = MaintenanceFilter(self.request.GET, queryset=self.queryset)
+        if user.is_superuser or user.groups.filter(name='Manager').exists():
+            return queryset
+
+        if self.request.user.groups.filter(name='Client').exists():
+            return queryset.filter(vehicle__client=user)
+        elif self.request.user.groups.filter(name='Service').exists():
+            service = getattr(user, 'servicecompany', None)
+            if not service:
+                raise PermissionDenied("У вас нет прав доступа к этим данным.")
+            return queryset.filter(vehicle__service_company=service)
+
+        raise PermissionDenied("У вас нет прав доступа к этим данным.")
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+
+        filterset = MaintenanceFilter(self.request.GET, queryset=queryset)
 
         paginator, result_page = self.pagination_class().custom_sorting_pagination(
-            self.queryset,
+            queryset,
             filterset,
             request,
             self.ordering,
@@ -48,10 +69,10 @@ class MaintenanceViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, url_path=r'vehicle/(?P<vehicle_id>\d+)', methods=['get'])
     def by_vehicle(self, request, vehicle_id=None):
+        queryset = self.get_queryset()
+
         if vehicle_id:
-            queryset = self.queryset.filter(vehicle_id=vehicle_id)
-        else:
-            queryset = self.queryset
+            queryset = queryset.filter(vehicle_id=vehicle_id)
 
         filterset = MaintenanceFilter(self.request.GET, queryset=queryset)
 

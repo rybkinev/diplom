@@ -66,12 +66,35 @@ const userSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         console.debug('logoutUser.rejected');
-        // state.status = 'failed';
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchPermissions.pending, (state) => {
+        console.debug('fetchPermissions.pending');
+      })
+      .addCase(fetchPermissions.fulfilled, (state, action) => {
+        console.debug('fetchPermissions.fulfilled');
+        state.permissions = action.payload;
+      })
+      .addCase(fetchPermissions.rejected, (state, action) => {
+        console.debug('fetchPermissions.rejected');
+        state.error = action.payload;
+      })
   }
 });
 
-export const { setUser, updateAccessToken } = userSlice.actions;
+const fetchPermissions = createAsyncThunk(
+  'user/fetchPermissions',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('/api/v1/account/permissions/');
+      return response.data.permissions;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
 export default userSlice.reducer;
-export { logoutUser };
+export const { setUser, updateAccessToken } = userSlice.actions;
+export {logoutUser, fetchPermissions};

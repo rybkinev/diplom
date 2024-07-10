@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import './index.css';
 import api from "../../../api";
 import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 
 const ModelDetail = ({url, title}) => {
@@ -12,6 +13,8 @@ const ModelDetail = ({url, title}) => {
   });
   const params = useParams();
   const prodId = params.id;
+
+  const permissions = useSelector((state) => state.user.permissions);
 
   const fetchModelDetail = async () => {
 
@@ -35,10 +38,13 @@ const ModelDetail = ({url, title}) => {
 
   }, [url]);
 
+  // const hasPermission = (perm) => permissions.includes(perm);
 
   return(
     <div className='model-detail'>
-      <h2>Подробное описание {title} {data.name}</h2>
+      {/*{hasPermission('change_maintenance') &&*/}
+        <h2>Подробное описание {title} {data.name}</h2>
+      {/*}*/}
       {data?.description &&
         <span>{data.description}</span>
       }

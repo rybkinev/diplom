@@ -40,12 +40,10 @@ const Maintenance = () => {
       ...activeFilters,
     };
 
-    console.debug('Maintenance !!vehicleId', !!vehicleId);
-
     let url = 'api/v1/maintenance/';
-    // if (vehicleId) {
-    //   url = `api/v1/maintenance/vehicle/${vehicleId}`;
-    // }
+    if (vehicleId) {
+      url = `api/v1/maintenance/vehicle/${vehicleId}`;
+    }
     api.get(
       url,
       { params }
@@ -54,7 +52,7 @@ const Maintenance = () => {
       setMaintenance(response.data.results);
       setTotalPages(Math.ceil(response.data.count / response.data.page_size));
     }).catch((error) => {
-      console.debug('Public api.get', error);
+      console.debug('Maintenance fetchMaintenance api.get', error);
     });
   };
 

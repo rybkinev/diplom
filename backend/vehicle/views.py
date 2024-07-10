@@ -1,8 +1,11 @@
+from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, DjangoModelPermissions
+from rest_framework.response import Response
 
 from core.pagination import CustomPageNumberPagination
 from vehicle.filters import PrivateVehicleFilter, PublicVehicleFilter
@@ -11,7 +14,6 @@ import vehicle.serializers as serializers
 
 
 class VehicleViewSet(viewsets.ModelViewSet):
-
     queryset = models.Vehicle.objects.all()
     serializer_class = serializers.PrivateVehicleSerializer
     # permission_classes = [DjangoModelPermissions]
@@ -54,21 +56,33 @@ class VehicleViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.action == 'public':
+        if self.action == 'public' or self.action == 'retrieve':
             return queryset
 
-        if self.request.user.is_authenticated:
-            if self.request.user.groups.filter(name='Client').exists():
-                return queryset.filter(client=self.request.user)
-            elif self.request.user.groups.filter(name='Service').exists():
-                return queryset.filter(service_company=self.request.user)
-        return queryset
+        user = getattr(self.request, 'user', None)
+        if not user or user and not user.is_authenticated:
+            raise PermissionDenied("У вас нет прав доступа к этим данным.")
+
+        if user.is_superuser or user.groups.filter(name='Manager').exists():
+            return queryset
+
+        if user.groups.filter(name='Client').exists():
+            return queryset.filter(client=self.request.user)
+        elif user.groups.filter(name='Service').exists():
+            service = getattr(user, 'servicecompany', None)
+            if not service:
+                raise PermissionDenied("У вас нет прав доступа к этим данным.")
+            return queryset.filter(service_company=service)
+
+        raise PermissionDenied("У вас нет прав доступа к этим данным.")
+
 
     def list(self, request, *args, **kwargs):
-        filterset = PrivateVehicleFilter(self.request.GET, queryset=self.queryset)
+        queryset = self.get_queryset()
+        filterset = PrivateVehicleFilter(self.request.GET, queryset=queryset)
 
         paginator, result_page = self.pagination_class().custom_sorting_pagination(
-            self.queryset,
+            queryset,
             filterset,
             request,
             '-shipping_date',
@@ -91,10 +105,14 @@ class VehicleViewSet(viewsets.ModelViewSet):
             'steering_axle_model'
         ]
 
-        filterset = PublicVehicleFilter(self.request.GET, queryset=self.queryset)
+        get_dict = self.request.GET.copy()  # Создайте копию, чтобы избежать изменений исходного объекта
+        get_dict.setdefault('serialNumber', 'None')
+
+        queryset = self.get_queryset()
+        filterset = PublicVehicleFilter(get_dict, queryset=queryset)
 
         paginator, result_page = self.pagination_class().custom_sorting_pagination(
-            self.queryset,
+            queryset,
             filterset,
             request,
             'serial_number',
@@ -104,6 +122,21 @@ class VehicleViewSet(viewsets.ModelViewSet):
         serializer = serializers.PublicVehicleSerializer(result_page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if (getattr(request, 'user', None)
+                and (instance.client == request.user
+                     or instance.service_company == getattr(request.user, 'servicecompany', None)
+                     # or self.request.user.groups.filter(name='Client').exists()
+                     or self.request.user.is_superuser)):
+
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+
+        serializer = serializers.PublicVehicleSerializer(instance)
+        return Response(serializer.data)
 
 
 class VehicleModelViewSet(viewsets.ModelViewSet):
