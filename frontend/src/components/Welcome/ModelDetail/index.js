@@ -82,7 +82,7 @@ const ModelDetail = ({url, title, editPermission}) => {
       {(hasPermission(editPermission) || hasPermission('superuser')) && !editMode &&
         <img
           className='img-button-edit'
-          src='/assets/img/edit_white.png'
+          src='/assets/img/edit_page.png'
           alt='Редактировать'
           onClick={handleEditClick}
         />

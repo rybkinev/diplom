@@ -15,6 +15,8 @@ import VehicleDetail from "../Welcome/VehicleDetail";
 import Auth from "../Auth";
 import Modal from "../Modal";
 import ModelDetail from "../Welcome/ModelDetail";
+import ComplaintDetail from "../Welcome/Private/Complaints/ComplaintDetail";
+
 
 const App = () => {
   const location = useLocation();
@@ -39,6 +41,10 @@ const App = () => {
     {url: '/complaint/recovery-method/', title: 'метода восстановления', editPermission: 'change_recoverymethod'},
   ]
 
+  const handleCloseModal = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Header/>
@@ -54,24 +60,29 @@ const App = () => {
           {modelsRoutes.map((row, index) =>
             <Route
               path={`${row.url}:id`}
-              element={<ModelDetail title={row.title} url={row.url}/>}
+              element={<ModelDetail
+                title={row.title}
+                url={row.url}
+                editPermission={row.editPermission}
+              />}
               key={index}
             />
           )}
 
-          {!isAuthenticated &&
-            <Route path='login' element={<Auth/>}/>
-          }
-          {isAuthenticated &&
-            <Route path="private" element={<Private/>}>
-              <Route index element={<Navigate to="vehicles"/>}/>
-              <Route path="vehicles" element={<Vehicles/>}/>
-                <Route index element={<Vehicles/>}/>
-                {/*<Route path=":id" element={<VehicleDetail/>}/>*/}
-              {/*</Route>*/}
-              <Route path="maintenance" element={<Maintenance/>}/>
-              <Route path="complaints" element={<Complaints/>}/>
-            </Route>
+          {isAuthenticated
+            ? <Route path="private" element={<Private/>}>
+                <Route index element={<Navigate to="vehicles"/>}/>
+                <Route path="vehicles" element={<Vehicles/>}/>
+                  <Route index element={<Vehicles/>}/>
+                  {/*<Route path=":id" element={<VehicleDetail/>}/>*/}
+                {/*</Route>*/}
+                <Route path="maintenance" element={<Maintenance/>}/>
+                <Route path="complaints" element={<Complaints/>}/>
+                <Route path="complaints/:id" element={<ComplaintDetail/>}/>
+                <Route path="complaints/new" element={<ComplaintDetail/>}/>
+              </Route>
+
+            : <Route path='login' element={<Auth/>}/>
           }
         </Route>
 
@@ -84,7 +95,7 @@ const App = () => {
           <Route
             path="/vehicles/:id"
             element={
-              <Modal onClose={() => navigate(-1)}>
+              <Modal onClose={handleCloseModal}>
                 <VehicleDetail />
               </Modal>
             }
@@ -92,31 +103,31 @@ const App = () => {
           <Route
             path='login'
             element={
-              <Modal onClose={() => navigate(-1)}>
+              <Modal onClose={handleCloseModal}>
                 <Auth/>
               </Modal>
             }
           />
-          {/*<Route*/}
-          {/*  path='/vehicles/vehicle-model/:id'*/}
-          {/*  element={*/}
-          {/*    <Modal onClose={() => navigate(-1)}>*/}
-          {/*      <ModelDetail*/}
-          {/*        title='модели машины'*/}
-          {/*        url={'/vehicles/vehicle-model/'}*/}
-          {/*      />*/}
-          {/*    </Modal>*/}
-          {/*  }*/}
-          {/*/>*/}
+          <Route path="private" element={<Private/>}>
+            <Route path="complaints/:id" element={
+              <Modal onClose={handleCloseModal}>
+                <ComplaintDetail/>
+              </Modal>
+            }/>
+            {/*<Route path="complaints/new" element={<EditComplaint/>}/>*/}
+          </Route>
+
+
           {modelsRoutes.map((row, index) =>
             <Route
               key={index}
               path={`${row.url}:id`}
               element={
-                <Modal onClose={() => navigate(-1)}>
+                <Modal onClose={handleCloseModal}>
                   <ModelDetail
                     title={row.title}
                     url={row.url}
+                    editPermission={row.editPermission}
                   />
                 </Modal>
               }

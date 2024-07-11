@@ -4,11 +4,12 @@ import api from "../../../../api";
 import CustomInput from "../../Table/InputTimeout";
 import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 
 
 const Complaints = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const params = useParams();
   const vehicleId = params.id;
@@ -87,6 +88,21 @@ const Complaints = () => {
     setFilterInput({ ...filterInput, ['dateFailure']: value });
     setFilters({ ...filters, ['dateFailure']: value });
   };
+
+  const handleEditRowClick = (e) => {
+    const idComplaint = e.currentTarget.getAttribute('data-key')
+
+    console.debug('Complaints handleEditRowClick', idComplaint, e.target);
+
+    navigate(
+      `${idComplaint}`,
+      {
+        state: {
+          background: location,
+          editable: true,
+        }
+      })
+  }
 
   return (
     <div className='main-container complaints'>
@@ -201,6 +217,7 @@ const Complaints = () => {
           >
             Дата восстановления
           </HeaderCell>
+          <td></td>
         </tr>
         </thead>
         <tbody>
@@ -224,26 +241,47 @@ const Complaints = () => {
               </td>
             }
             <td>
-              {/*{i.nodeFailure.name}*/}
-              <Link
-                to={`/complaint/failure-node/${i.nodeFailure.id}`}
-                state={{background: location}}
-              >
-                {i.nodeFailure.name}
-              </Link>
+              {vehicleId
+                ? i.nodeFailure?.name
+                : <Link
+                      to={`/complaint/failure-node/${i.nodeFailure?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.nodeFailure?.name}
+                  </Link>
+              }
             </td>
             <td>{i.operatingTime}</td>
             <td>{i.usedParts}</td>
             <td>
-              {/*{i.recoveryMethod.name}*/}
-              <Link
-                to={`/complaint/recovery-method/${i.recoveryMethod.id}`}
-                state={{background: location}}
-              >
-                {i.recoveryMethod.name}
-              </Link>
+              {vehicleId
+                ? i.recoveryMethod?.name
+                : <Link
+                    to={`/complaint/recovery-method/${i.recoveryMethod?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.recoveryMethod?.name}
+                  </Link>
+            }
             </td>
             <td>{i.dateRecovery}</td>
+            <td>
+              <div className='buttons-row-edit'>
+                <img
+                  className='img-button-edit-row'
+                  src='/assets/img/edit_row.png'
+                  alt='Редактировать'
+                  data-key={i.id}
+                  onClick={handleEditRowClick}
+                />
+                <img
+                  className='img-button-delete-row'
+                  src='/assets/img/delete_row.png'
+                  alt='Удалить'
+                  // onClick={handleEditClick}
+                />
+              </div>
+            </td>
           </tr>
         ))}
         </tbody>

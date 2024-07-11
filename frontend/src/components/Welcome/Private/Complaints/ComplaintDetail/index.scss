@@ -1,0 +1,56 @@
+@import '../../../../../assets/styles/var';
+@import '../../../../../assets/styles/global';
+
+
+.edit-complaint-container {
+  @include main-style;
+  border-radius: 10px;
+  margin: 0;
+
+  h2 {
+    text-align: center;
+  }
+
+  .edit-mode{
+
+    .edit-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap:  .6rem;
+      font-size: 1.1rem;
+      margin-top: .5rem;
+
+      label {
+        font-weight: bold;
+        justify-self: end;
+      }
+      input {
+        font-size: 1.1rem;
+      }
+    }
+
+    .edit-buttons {
+      @include edit-buttons;
+      margin-top: 1rem;
+    }
+  }
+
+  .view-mode {
+
+    .view-field {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap:  .6rem;
+      font-size: 1.1rem;
+      margin-top: .5rem;
+
+      label {
+        font-weight: bold;
+        justify-self: end;
+      }
+      span {
+        justify-self: start;
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import logging
+
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -87,6 +89,14 @@ class ComplaintViewSet(viewsets.ModelViewSet):
         serializer = serializers.ComplaintSerializer(result_page, many=True)
 
         return paginator.get_paginated_response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        logging.debug('Update request data: %s', request.data)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        logging.debug('Create request data: %s', request.data)
+        return super().create(request, *args, **kwargs)
 
 
 class FailureNodeViewSet(viewsets.ModelViewSet):

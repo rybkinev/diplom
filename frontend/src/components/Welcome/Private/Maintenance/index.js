@@ -198,7 +198,6 @@ const Maintenance = () => {
             </td>
             {!vehicleId &&
               <td>
-                {/*{i.vehicle.serialNumber}*/}
                 <Link
                   to={`/vehicles/${i.vehicle.id}`}
                   state={{background: location}}
@@ -208,25 +207,29 @@ const Maintenance = () => {
               </td>
             }
             <td>
-              {/*{i.typeMaintenance.name}*/}
-              <Link
-                to={`/maintenance/maintenance-type/${i.typeMaintenance?.id}`}
-                state={{background: location}}
-              >
-                {i.typeMaintenance?.name}
-              </Link>
+              {vehicleId
+                ? i.typeMaintenance?.name
+                : <Link
+                    to={`/maintenance/maintenance-type/${i.typeMaintenance?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.typeMaintenance?.name}
+                  </Link>
+              }
             </td>
             <td>{i.operatingTime}</td>
             <td>{i.workOrder}</td>
             <td>{i.dateOrder}</td>
             <td>
-              {/*{i.organization.name}*/}
-              <Link
-                to={`/maintenance/organizations/${i.organization?.id}`}
-                state={{background: location}}
-              >
-                {i.organization?.name}
-              </Link>
+              {vehicleId
+                ? i.organization?.name
+                : <Link
+                      to={`/maintenance/organizations/${i.organization?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.organization?.name}
+                  </Link>
+              }
             </td>
           </tr>
         ))}

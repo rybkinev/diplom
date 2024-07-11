@@ -124,3 +124,19 @@
     height: 30vh;
   }
 }
+
+@mixin edit-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+
+  a {
+    @include button;
+    font-size: 1rem;
+    cursor: pointer;
+
+    &:first-child {
+      margin-right: 1rem;
+    }
+  }
+}

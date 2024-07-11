@@ -3,9 +3,9 @@
 
 
 .model-detail {
-  background-color: $main-color3;
-  padding: 1.5rem;
+  @include main-style;
   border-radius: 10px;
+  margin: 0;
 
   span {
     font-size: 1.2rem;
@@ -24,20 +24,7 @@
       margin-bottom: 1rem;
     }
     .edit-buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: end;
-
-      a {
-        @include button;
-        font-size: 1rem;
-        cursor: pointer;
-
-        &:first-child {
-          margin-right: 1rem;
-        }
-      }
-
+      @include edit-buttons;
     }
   }
 }
