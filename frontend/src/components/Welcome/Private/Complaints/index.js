@@ -1,15 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './index.css';
 import api from "../../../../api";
 import CustomInput from "../../Table/InputTimeout";
 import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
+import useResponsive from "../../../../hooks/useResponsive";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchPermissions} from "../../../../store/userSlice";
 
 
 const Complaints = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const permissions = useSelector((state) => state.user?.permissions);
 
   const params = useParams();
   const vehicleId = params.id;
@@ -30,19 +35,29 @@ const Complaints = () => {
   });
   const [filterInput, setFilterInput] = useState(filters);
 
-  const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
-  const getSortIndicator = (key) => {
-    if (sortConfig.key === key) {
-      return sortConfig.direction === 'asc' ? '🔼' : '🔽';
-    }
-    return '';
-  };
+  const {
+    shouldHideButtonEdit,
+    shouldHideDateRecovery,
+    shouldHideMethodRecovery,
+    shouldHideUsedParts,
+    shouldHideComplaintOperatingTime,
+  } = useResponsive();
+
+  // const hasPermission = (perm) => permissions.includes(perm);
+
+  // const handleSort = (key) => {
+  //   let direction = 'asc';
+  //   if (sortConfig.key === key && sortConfig.direction === 'asc') {
+  //     direction = 'desc';
+  //   }
+  //   setSortConfig({ key, direction });
+  // };
+  // const getSortIndicator = (key) => {
+  //   if (sortConfig.key === key) {
+  //     return sortConfig.direction === 'asc' ? '🔼' : '🔽';
+  //   }
+  //   return '';
+  // };
 
   const fetchComplaints = () => {
     const activeFilters = Object.keys(filters).reduce((acc, key) => {
@@ -82,6 +97,10 @@ const Complaints = () => {
   useEffect(() => {
     fetchComplaints();
   }, [currentPage, sortConfig, filters]);
+
+  // useEffect(() => {
+  //   dispatch(fetchPermissions());
+  // }, [dispatch]);
 
   const handleSetFilterDate = (e) => {
     const value = e.target.text;
@@ -157,66 +176,74 @@ const Complaints = () => {
           >
             Неисправный узел
           </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'operatingTime'}
-            searchInput={<CustomInput
-              placeholder="Наработка"
-              name="operatingTime"
-              value={filterInput.operatingTime}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Наработка, м/час
-          </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'usedParts'}
-            searchInput={<CustomInput
-              placeholder="Запчасти"
-              name="usedParts"
-              value={filterInput.usedParts}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Используемые запчасти
-          </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'recoveryMethod'}
-            searchInput={<CustomInput
-              placeholder="Метод восстановления"
-              name="recoveryMethod"
-              value={filterInput.recoveryMethod}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Метод восстановления
-          </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'dateRecovery'}
-            searchInput={<CustomInput
-              placeholder="Дата восстановления"
-              name="dateRecovery"
-              value={filterInput.dateRecovery}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Дата восстановления
-          </HeaderCell>
+          {!shouldHideComplaintOperatingTime &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'operatingTime'}
+              searchInput={<CustomInput
+                placeholder="Наработка"
+                name="operatingTime"
+                value={filterInput.operatingTime}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Наработка, м/час
+            </HeaderCell>
+          }
+          {!shouldHideUsedParts &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'usedParts'}
+              searchInput={<CustomInput
+                placeholder="Запчасти"
+                name="usedParts"
+                value={filterInput.usedParts}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Используемые запчасти
+            </HeaderCell>
+          }
+          {!shouldHideMethodRecovery &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'recoveryMethod'}
+              searchInput={<CustomInput
+                placeholder="Метод восстановления"
+                name="recoveryMethod"
+                value={filterInput.recoveryMethod}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Метод восстановления
+            </HeaderCell>
+          }
+          {!shouldHideDateRecovery &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'dateRecovery'}
+              searchInput={<CustomInput
+                placeholder="Дата восстановления"
+                name="dateRecovery"
+                value={filterInput.dateRecovery}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Дата восстановления
+            </HeaderCell>
+          }
           <td></td>
         </tr>
         </thead>
@@ -251,37 +278,66 @@ const Complaints = () => {
                   </Link>
               }
             </td>
-            <td>{i.operatingTime}</td>
-            <td>{i.usedParts}</td>
-            <td>
-              {vehicleId
-                ? i.recoveryMethod?.name
-                : <Link
+            {!shouldHideComplaintOperatingTime &&
+              <td>{i.operatingTime}</td>
+            }
+            {!shouldHideUsedParts &&
+              <td>{i.usedParts}</td>
+            }
+            {!shouldHideMethodRecovery &&
+              <td>
+                {vehicleId
+                  ? i.recoveryMethod?.name
+                  : <Link
                     to={`/complaint/recovery-method/${i.recoveryMethod?.id}`}
                     state={{background: location}}
                   >
                     {i.recoveryMethod?.name}
                   </Link>
+                }
+              </td>
             }
-            </td>
-            <td>{i.dateRecovery}</td>
+            {!shouldHideDateRecovery &&
+              <td>{i.dateRecovery}</td>
+            }
             <td>
               <div className='buttons-row-edit'>
                 <img
-                  className='img-button-edit-row'
-                  src='/assets/img/edit_row.png'
+                  className='img-button-open-row'
+                  src='/assets/img/open_row.png'
                   alt='Редактировать'
                   data-key={i.id}
                   onClick={handleEditRowClick}
                 />
-                <img
-                  className='img-button-delete-row'
-                  src='/assets/img/delete_row.png'
-                  alt='Удалить'
-                  // onClick={handleEditClick}
-                />
               </div>
-            </td>
+              </td>
+            {/*{(*/}
+            {/*  hasPermission('change_complaint') ||*/}
+            {/*  hasPermission('delete_complaint') ||*/}
+            {/*  hasPermission('superuser')*/}
+            {/*  ) &&*/}
+            {/*  <td>*/}
+            {/*    <div className='buttons-row-edit'>*/}
+            {/*      {!shouldHideButtonEdit &&*/}
+            {/*        <img*/}
+            {/*          className='img-button-edit-row'*/}
+            {/*          src='/assets/img/edit_row.png'*/}
+            {/*          alt='Редактировать'*/}
+            {/*          data-key={i.id}*/}
+            {/*          onClick={handleEditRowClick}*/}
+            {/*        />*/}
+            {/*      }*/}
+            {/*      {(hasPermission('delete_complaint') || hasPermission('superuser')) &&*/}
+            {/*        <img*/}
+            {/*          className='img-button-delete-row'*/}
+            {/*          src='/assets/img/delete_row.png'*/}
+            {/*          alt='Удалить'*/}
+            {/*          // onClick={handleEditClick}*/}
+            {/*        />*/}
+            {/*      }*/}
+            {/*    </div>*/}
+            {/*  </td>*/}
+            {/*}*/}
           </tr>
         ))}
         </tbody>

@@ -22,7 +22,7 @@ const ComplaintDetail = () => {
     url = `api/v1/complaint/${prodId}/`
 
   const state = location?.state || {};
-  const [editMode, setEditMode] = useState(state?.editable || false);
+  const [editMode, setEditMode] = useState( false);
 
   const [data, setData] = useState({
     name: '',
@@ -65,10 +65,6 @@ const ComplaintDetail = () => {
       setEditData(data);
     }
   };
-
-  // useEffect(() => {
-  //   upgradePermission();
-  // }, [dispatch]);
 
   useEffect(() => {
     upgradePermission();

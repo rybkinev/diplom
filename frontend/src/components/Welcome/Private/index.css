@@ -79,9 +79,18 @@
   border-radius: 5px;
   color: #fff;
   font-weight: normal;
+  cursor: default;
 }
-.main-private-container .private-navigate a:hover {
-  scale: 1.5;
+@media (hover: hover) and (pointer: fine) {
+  .main-private-container .private-navigate a:not(.active):hover, .main-private-container .private-navigate a:not(.active):focus {
+    scale: 1.5;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .main-private-container .private-navigate a:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
 }
 .main-private-container .private-navigate a {
   margin: 0 0.6rem;

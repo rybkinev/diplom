@@ -4,6 +4,7 @@ import api from "../../../api";
 import HeaderCell from "../Table/HeaderCell";
 import Pagination from "../Table/Pagination";
 import {Link, useLocation} from "react-router-dom";
+import useResponsive from "../../../hooks/useResponsive";
 
 const Public = () => {
   const location = useLocation()
@@ -14,6 +15,12 @@ const Public = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const [sortConfig, setSortConfig] = useState({ key: 'serialNumber', direction: 'asc' });
+
+  const {
+    shouldHideSteeringAxle,
+    shouldHideDriveAxle,
+    shouldHideTransmission,
+  } = useResponsive();
 
   const fetchVehicles = () => {
     const params = {
@@ -52,6 +59,13 @@ const Public = () => {
     setSerialNumber('');
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.target.blur();
+      fetchVehicles();
+    }
+  };
+
   return (
     <div className='main-public-container'>
       <span className='text'>Проверьте комплектацию и технические характеристики техники Силант</span>
@@ -67,6 +81,7 @@ const Public = () => {
             onChange={(e) => {
               setSerialNumber(e.target.value)
             }}
+            onKeyDown={handleKeyDown}
           />
           {serialNumber && (
             <button onClick={handleClear} className="clear-button">
@@ -109,32 +124,38 @@ const Public = () => {
             setSortConfig={setSortConfig}
             name={'engineModel'}
           >
-            Модель двигателя
+            Двигатель
           </HeaderCell>
-          <HeaderCell
-            sortAvailable={false}
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'transmissionModel'}
-          >
-            Модель трансмиссии
-          </HeaderCell>
-          <HeaderCell
-            sortAvailable={false}
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'driveAxleModel'}
-          >
-            Модель ведущего моста
-          </HeaderCell>
-          <HeaderCell
-            sortAvailable={false}
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'steeringAxleModel'}
-          >
-            Модель управляемого моста
-          </HeaderCell>
+          {!shouldHideTransmission &&
+            <HeaderCell
+              sortAvailable={false}
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'transmissionModel'}
+            >
+              Трансмиссия
+            </HeaderCell>
+          }
+          {!shouldHideDriveAxle &&
+            <HeaderCell
+              sortAvailable={false}
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'driveAxleModel'}
+            >
+              Ведущий мост
+            </HeaderCell>
+          }
+          {!shouldHideSteeringAxle &&
+            <HeaderCell
+              sortAvailable={false}
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'steeringAxleModel'}
+            >
+              Управляемый мост
+            </HeaderCell>
+          }
         </tr>
         </thead>
         <tbody>
@@ -165,30 +186,36 @@ const Public = () => {
                 {i.engineModel?.name}
               </Link>
             </td>
-            <td>
-              <Link
-                to={`/vehicles/transmission-model/${i.transmissionModel?.id}`}
-                state={{background: location}}
-              >
-                {i.transmissionModel?.name}
-              </Link>
-            </td>
-            <td>
-              <Link
-                to={`/vehicles/drive-axle-model/${i.driveAxleModel?.id}`}
-                state={{background: location}}
-              >
-                {i.driveAxleModel?.name}
-              </Link>
-            </td>
-            <td>
-              <Link
-                to={`/vehicles/steering-axle-model/${i.driveAxleModel?.id}`}
-                state={{background: location}}
-              >
-                {i.steeringAxleModel?.name}
-              </Link>
-            </td>
+            {!shouldHideTransmission &&
+              <td>
+                <Link
+                  to={`/vehicles/transmission-model/${i.transmissionModel?.id}`}
+                  state={{background: location}}
+                >
+                  {i.transmissionModel?.name}
+                </Link>
+              </td>
+            }
+            {!shouldHideDriveAxle &&
+              <td>
+                <Link
+                  to={`/vehicles/drive-axle-model/${i.driveAxleModel?.id}`}
+                  state={{background: location}}
+                >
+                  {i.driveAxleModel?.name}
+                </Link>
+              </td>
+            }
+            {!shouldHideSteeringAxle &&
+              <td>
+                <Link
+                  to={`/vehicles/steering-axle-model/${i.driveAxleModel?.id}`}
+                  state={{background: location}}
+                >
+                  {i.steeringAxleModel?.name}
+                </Link>
+              </td>
+            }
           </tr>
         ))}
         </tbody>

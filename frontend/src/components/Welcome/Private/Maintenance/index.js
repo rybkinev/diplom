@@ -5,6 +5,7 @@ import api from "../../../../api";
 import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
 import {Link, useLocation, useParams} from "react-router-dom";
+import useResponsive from "../../../../hooks/useResponsive";
 
 
 const Maintenance = () => {
@@ -27,6 +28,13 @@ const Maintenance = () => {
     organization: '',
   });
   const [filterInput, setFilterInput] = useState(filters);
+
+  const {
+    shouldHideOrganization,
+    shouldHideDateOrder,
+    shouldHideWorkOrder,
+    shouldHideOperatingTime,
+  } = useResponsive();
 
   const fetchMaintenance = () => {
     const activeFilters = Object.keys(filters).reduce((acc, key) => {
@@ -91,7 +99,7 @@ const Maintenance = () => {
               setFilters={setFilters}
             />}
           >
-            Дата проведения ТО
+            Дата проведения
           </HeaderCell>
           {!vehicleId &&
             <HeaderCell
@@ -125,66 +133,74 @@ const Maintenance = () => {
           >
             Вид ТО
           </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'operatingTime'}
-            searchInput={<CustomInput
-              placeholder="Наработка"
-              name="operatingTime"
-              value={filterInput.operatingTime}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Наработка, м/час
-          </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'workOrder'}
-            searchInput={<CustomInput
-              placeholder="№ заказ наряда"
-              name="workOrder"
-              value={filterInput.workOrder}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            № заказ наряда
-          </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'dateOrder'}
-            searchInput={<CustomInput
-              placeholder="Дата заказ наряда"
-              name="dateOrder"
-              value={filterInput.dateOrder}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Дата заказ наряда
-          </HeaderCell>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'organization'}
-            searchInput={<CustomInput
-              placeholder="Организация"
-              name="organization"
-              value={filterInput.organization}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Организация, проводившая ТО
-          </HeaderCell>
+          {!shouldHideOperatingTime &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'operatingTime'}
+              searchInput={<CustomInput
+                placeholder="Наработка"
+                name="operatingTime"
+                value={filterInput.operatingTime}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Наработка, м/час
+            </HeaderCell>
+          }
+          {!shouldHideWorkOrder &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'workOrder'}
+              searchInput={<CustomInput
+                placeholder="№ заказ наряда"
+                name="workOrder"
+                value={filterInput.workOrder}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              № заказ наряда
+            </HeaderCell>
+          }
+          {!shouldHideDateOrder &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'dateOrder'}
+              searchInput={<CustomInput
+                placeholder="Дата заказ наряда"
+                name="dateOrder"
+                value={filterInput.dateOrder}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Дата заказ наряда
+            </HeaderCell>
+          }
+          {!shouldHideOrganization &&
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'organization'}
+              searchInput={<CustomInput
+                placeholder="Организация"
+                name="organization"
+                value={filterInput.organization}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Организация, проводившая ТО
+            </HeaderCell>
+          }
         </tr>
         </thead>
         <tbody>
@@ -217,20 +233,28 @@ const Maintenance = () => {
                   </Link>
               }
             </td>
-            <td>{i.operatingTime}</td>
-            <td>{i.workOrder}</td>
-            <td>{i.dateOrder}</td>
-            <td>
-              {vehicleId
-                ? i.organization?.name
-                : <Link
-                      to={`/maintenance/organizations/${i.organization?.id}`}
-                    state={{background: location}}
-                  >
-                    {i.organization?.name}
-                  </Link>
-              }
-            </td>
+            {!shouldHideOperatingTime &&
+              <td>{i.operatingTime}</td>
+            }
+            {!shouldHideWorkOrder &&
+              <td>{i.workOrder}</td>
+            }
+            {!shouldHideDateOrder &&
+              <td>{i.dateOrder}</td>
+            }
+            {!shouldHideOrganization &&
+              <td>
+                {vehicleId
+                  ? i.organization?.name
+                  : <Link
+                        to={`/maintenance/organizations/${i.organization?.id}`}
+                      state={{background: location}}
+                    >
+                      {i.organization?.name}
+                    </Link>
+                }
+              </td>
+            }
           </tr>
         ))}
         </tbody>

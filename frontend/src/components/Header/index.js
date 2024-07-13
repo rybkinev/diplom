@@ -8,7 +8,6 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 
 const Header = () => {
   const phoneNumber = '+7-8352-20-12-09';
-  const [isOpenAuth, setIsOpenAuth] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const dispatch = useDispatch();
@@ -31,11 +30,6 @@ const Header = () => {
     };
   }, []);
 
-  // const handleLoginUser = () => {
-  //   console.debug('Header open Auth')
-  //   setIsOpenAuth(true)
-  // }
-
   const handleLogoutUser = () => {
     dispatch(logoutUser());
     if (location.pathname !== '/swagger') {
@@ -52,12 +46,12 @@ const Header = () => {
         alt='Logo'
       />
 
-      <h1>
+      <h1 className='title'>
         Электронная сервисная книжка "Мой Силант"
       </h1>
       <address>
         <p>
-          <a href={'tel:' + phoneNumber}>{phoneNumber}</a> , telegram
+          <a href={'tel:' + phoneNumber}>{phoneNumber},</a> telegram
         </p>
       </address>
       {
@@ -70,12 +64,6 @@ const Header = () => {
               Выйти
             </a>
           :
-            // <a
-            //   className='btn-login'
-            //   onClick={handleLoginUser}
-            // >
-            //   Войти
-            // </a>
             <Link
               to='login'
               state={{background: location}}
@@ -84,9 +72,6 @@ const Header = () => {
               Войти
             </Link>
       }
-
-
-      {/*<Auth isOpen={isOpenAuth} setIsOpen={setIsOpenAuth}/>*/}
     </header>
   )
 }

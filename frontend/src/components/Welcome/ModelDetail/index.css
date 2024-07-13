@@ -58,6 +58,11 @@
   border-radius: 10px;
   margin: 0;
 }
+@media (max-width: 600px) {
+  .model-detail {
+    padding: 1rem 1rem;
+  }
+}
 .model-detail span {
   font-size: 1.2rem;
 }
@@ -113,6 +118,7 @@
   color: #fff;
   font-weight: normal;
   border: none;
+  transition: 0.2s;
   font-size: 1rem;
   cursor: pointer;
 }

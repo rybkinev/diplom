@@ -7,6 +7,9 @@
 
   background: $main-color3;
   padding: 1.5rem 3rem;
+  @media (max-width: 600px) {
+    padding: 1rem 1rem;
+  }
 
   min-height: 0;
   flex: 1;
@@ -45,6 +48,7 @@
   color: $white-color;
   font-weight: normal;
   border: none;
+  transition: 0.2s;
 }
 
 @mixin navigation {
@@ -67,9 +71,19 @@
       border-radius: 5px;
       color: $white-color;
       font-weight: normal;
+      cursor: default;
     }
-    &:hover {
-      scale: 1.5;
+    @media (hover: hover) and (pointer: fine) {
+      &:not(.active):hover,
+      &:not(.active):focus {
+        scale: 1.5;
+      }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      &:active {
+        background-color: $color-modal-background;
+        border-radius: 5px;
+      }
     }
   }
 }

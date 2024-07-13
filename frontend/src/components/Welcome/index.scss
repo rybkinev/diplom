@@ -19,20 +19,34 @@ main {
       position: relative;
       background-color: $main-color3;
       font-weight: bold;
+      font-size: 1.2rem;
+
+      vertical-align: bottom;
+
+      tr > td {
+        //min-width: 120px;
+        padding: 0 .3rem;
+      }
     }
 
-    tbody tr>td {
-      //text-align: center;
-      padding-left: 1rem;
-    }
-    tbody tr:nth-child(odd) {
-      background-color: rgba(235, 230, 214, 0.7);
-    }
-    tbody tr:nth-child(even) {
-      background-color: $main-color3;
-    }
-    tbody tr + tr {
-      border-top: .5rem solid transparent;
+    tbody {
+      tr > td {
+        //text-align: center;
+        padding-left: 1rem;
+        font-size: 1.2rem;
+      }
+
+      tr:nth-child(odd) {
+        background-color: rgba(235, 230, 214, 0.7);
+      }
+
+      tr:nth-child(even) {
+        background-color: $main-color3;
+      }
+
+      tr + tr {
+        border-top: .9rem solid transparent;
+      }
     }
   }
 

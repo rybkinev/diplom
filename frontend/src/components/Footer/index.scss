@@ -14,6 +14,17 @@ footer {
   margin-top: auto;
   padding: 1.5rem 3rem;
 
+  address {
+    margin-right: 1rem;
+
+    @media (max-width: 400px) {
+      p a::after {
+        content: '\A';
+        white-space: pre;
+      }
+    }
+  }
+
   .copyright {
     font-weight: bold;
     font-size: 1.3rem;

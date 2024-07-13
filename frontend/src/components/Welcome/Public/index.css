@@ -104,6 +104,7 @@ div.main-public-container .main-search-inp button {
   color: #fff;
   font-weight: normal;
   border: none;
+  transition: 0.2s;
 }
 div.main-public-container .text-result {
   font-weight: bold;

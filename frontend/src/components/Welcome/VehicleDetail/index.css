@@ -57,6 +57,11 @@
   flex-direction: column;
   border-radius: 10px;
 }
+@media (max-width: 600px) {
+  .vehicle-detail {
+    padding: 1rem 1rem;
+  }
+}
 .vehicle-detail h1 {
   align-items: center;
 }
@@ -66,18 +71,24 @@
 .vehicle-detail .detail-container .model-container {
   position: relative;
   display: flex;
-  flex-direction: column;
+  justify-content: start;
+  margin: 1rem 0;
 }
 .vehicle-detail .detail-container .model-container .model-info {
   position: relative;
   display: flex;
-  margin: 0.5rem 0;
+  flex-direction: column;
+  margin-right: 1.3rem;
 }
 .vehicle-detail .detail-container .model-container .model-info span:first-child {
   font-weight: bold;
 }
 .vehicle-detail .detail-container .model-container .model-info .model-name {
   margin-right: 3rem;
+  margin-bottom: 0.2rem;
+}
+.vehicle-detail .detail-container .description {
+  align-self: center;
 }
 .vehicle-detail .vehicle-detail-navigate {
   margin: 1rem 0;
@@ -100,9 +111,18 @@
   border-radius: 5px;
   color: #fff;
   font-weight: normal;
+  cursor: default;
 }
-.vehicle-detail .vehicle-detail-navigate a:hover {
-  scale: 1.5;
+@media (hover: hover) and (pointer: fine) {
+  .vehicle-detail .vehicle-detail-navigate a:not(.active):hover, .vehicle-detail .vehicle-detail-navigate a:not(.active):focus {
+    scale: 1.5;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .vehicle-detail .vehicle-detail-navigate a:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

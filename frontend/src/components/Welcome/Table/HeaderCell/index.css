@@ -46,32 +46,43 @@
   font-weight: bold;
   font-style: italic;
 }
-td.table-head-cell {
+td .table-head-cell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   font-size: 1.1rem;
+  padding-bottom: 0.6rem;
 }
-td.table-head-cell .head-cell {
+td .table-head-cell .head-cell {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.6rem;
-  margin-right: 0.5rem;
+  justify-content: space-between;
+  height: 100%;
+  flex-grow: 1;
 }
-td.table-head-cell .head-cell .head-cell-name {
+td .table-head-cell .head-cell .head-cell-name {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 0.3rem;
 }
-td.table-head-cell .head-cell .head-cell-name span {
+td .table-head-cell .head-cell .head-cell-name span {
   margin-right: 0.5rem;
   cursor: pointer;
 }
-td.table-head-cell .head-cell .head-cell-name .direction-container {
+@media (hover: none) and (pointer: coarse) {
+  td .table-head-cell .head-cell .head-cell-name span:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
+}
+td .table-head-cell .head-cell .head-cell-name .direction-container {
   position: relative;
   display: flex;
   flex-direction: column;
 }
-td.table-head-cell .head-cell .head-cell-name .direction-container .direction {
+td .table-head-cell .head-cell .head-cell-name .direction-container .direction {
   font-size: 1.1rem;
   transform: rotate(90deg);
   transition: 0.2s;
@@ -81,20 +92,34 @@ td.table-head-cell .head-cell .head-cell-name .direction-container .direction {
   padding: 0 2px;
   cursor: pointer;
 }
-td.table-head-cell .head-cell .head-cell-name .direction-container .direction.active {
+@media (hover: hover) and (pointer: fine) {
+  td .table-head-cell .head-cell .head-cell-name .direction-container .direction:not(.active):hover, td .table-head-cell .head-cell .head-cell-name .direction-container .direction:not(.active):focus {
+    scale: 1.5;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  td .table-head-cell .head-cell .head-cell-name .direction-container .direction:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
+}
+td .table-head-cell .head-cell .head-cell-name .direction-container .direction.active {
   background-color: #163E6C;
   padding: 0.3rem 0.7rem;
   border-radius: 5px;
   color: #fff;
   font-weight: normal;
   border: none;
+  transition: 0.2s;
   padding: 0 5px;
+  cursor: default;
 }
-td.table-head-cell .head-cell .head-cell-search {
+td .table-head-cell .head-cell .head-cell-search {
   position: relative;
   width: 100%;
+  margin-top: auto;
 }
-td.table-head-cell .head-cell .head-cell-search input {
+td .table-head-cell .head-cell .head-cell-search input {
   width: 100%;
 }
 

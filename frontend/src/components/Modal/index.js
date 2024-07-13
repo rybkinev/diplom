@@ -33,7 +33,7 @@ const Modal = ({children, onClose}) => {
     createPortal (
       <div
         className={`modal-background ${closing ? 'fade-out' : ''}`}
-        onClick={handleClose}
+        // onClick={handleClose}
       >
         <div
           className={`modal-container ${closing ? 'fade-out' : ''}`}

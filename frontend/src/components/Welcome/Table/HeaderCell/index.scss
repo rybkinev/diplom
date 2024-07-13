@@ -1,61 +1,96 @@
 @import '../../../../assets/styles/var';
 @import '../../../../assets/styles/global';
 
-td.table-head-cell {
-  //position: relative;
-  //display: flex;
-  //flex-direction: row;
-  font-size: 1.1rem;
+td {
 
-
-  .head-cell {
-    position: relative;
+  .table-head-cell {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    margin-bottom: .6rem;
-    margin-right: .5rem;
+    font-size: 1.1rem;
+    padding-bottom: .6rem;
+    //padding-right: .5rem;
 
-    .head-cell-name {
+    .head-cell {
+      position: relative;
       display: flex;
-      justify-content: space-around;
-      align-items: center;
-      margin-bottom: .3rem;
+      flex-direction: column;
 
-      span {
-        margin-right: .5rem;
-        cursor: pointer;
-        //white-space: nowrap;
-      }
+      justify-content: space-between;
+      height: 100%;
+      //padding-bottom: .6rem;
+      //padding-right: .5rem;
+      flex-grow: 1;
 
-      .direction-container {
-        position: relative;
+      //margin-bottom: .6rem;
+      //margin-right: .5rem;
+
+      .head-cell-name {
         display: flex;
-        flex-direction: column;
+        //justify-content: space-around;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: .3rem;
 
-        .direction {
-          font-size: 1.1rem;
-          transform: rotate(90deg);
-          transition: 0.2s;
-          color: rgba(0, 0, 0, 0.25);
-          border: none;
-          background: none;
-          padding: 0 2px;
+        span {
+          margin-right: .5rem;
           cursor: pointer;
+          //white-space: nowrap;
 
-          &.active {
-            @include button;
-            padding: 0 5px;
+          @media (hover: none) and (pointer: coarse) {
+            &:active {
+              background-color: $color-modal-background;
+              border-radius: 5px;
+            }
+          }
+        }
+
+        .direction-container {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+
+          .direction {
+            font-size: 1.1rem;
+            transform: rotate(90deg);
+            transition: 0.2s;
+            color: rgba(0, 0, 0, 0.25);
+            border: none;
+            background: none;
+            padding: 0 2px;
+            cursor: pointer;
+
+            @media (hover: hover) and (pointer: fine) {
+              &:not(.active):hover,
+              &:not(.active):focus {
+                scale: 1.5;
+              }
+            }
+            @media (hover: none) and (pointer: coarse) {
+              &:active {
+                background-color: $color-modal-background;
+                border-radius: 5px;
+              }
+            }
+
+
+            &.active {
+              @include button;
+              padding: 0 5px;
+              cursor: default;
+            }
           }
         }
       }
-    }
 
-    .head-cell-search {
-      position: relative;
-      width: 100%;
-
-      input {
+      .head-cell-search {
+        position: relative;
         width: 100%;
+        margin-top: auto;
+
+        input {
+          width: 100%;
+        }
       }
     }
   }

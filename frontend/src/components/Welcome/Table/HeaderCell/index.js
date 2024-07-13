@@ -42,35 +42,37 @@ const HeaderCell = ({sortAvailable=true, sortConfig, setSortConfig, name, search
   }
 
   return (
-    <td className='table-head-cell'>
-      <div className='head-cell'>
-        <div className='head-cell-name'>
-          <span
-            onClick={handleSort}
-          >
-            {children}
-          </span>
-          {sortAvailable &&
-            <div className='direction-container'>
-              <button
-                className={`direction ${getActiveClassName('asc')}`}
-                data-direction='asc'
-                onClick={handleDirection}
-              >
-                {'<'}
-              </button>
-              <button
-                className={`direction ${getActiveClassName('desc')}`}
-                data-direction='desc'
-                onClick={handleDirection}
-              >
-                {'>'}
-              </button>
-            </div>
-          }
-        </div>
-        <div className='head-cell-search'>
-          {searchInput}
+    <td>
+      <div className='table-head-cell'>
+        <div className='head-cell'>
+          <div className='head-cell-name'>
+            <span
+              onClick={handleSort}
+            >
+              {children}
+            </span>
+            {sortAvailable &&
+              <div className='direction-container'>
+                <button
+                  className={`direction ${getActiveClassName('asc')}`}
+                  data-direction='asc'
+                  onClick={handleDirection}
+                >
+                  {'<'}
+                </button>
+                <button
+                  className={`direction ${getActiveClassName('desc')}`}
+                  data-direction='desc'
+                  onClick={handleDirection}
+                >
+                  {'>'}
+                </button>
+              </div>
+            }
+          </div>
+          <div className='head-cell-search'>
+            {searchInput}
+          </div>
         </div>
       </div>
     </td>

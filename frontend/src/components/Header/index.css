@@ -48,28 +48,56 @@
 }
 header {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: sticky;
   top: 0;
   left: 0;
-  display: flex;
   padding: 1.5rem 3rem;
   background: #EBE6D6;
-  align-items: center;
   z-index: 1001;
+}
+@media screen and (max-width: 1150px) {
+  header {
+    flex-wrap: wrap;
+    position: relative;
+    padding-bottom: 0;
+  }
 }
 header.scrolled {
   border-bottom: 1vh solid #fff;
 }
 header img {
   max-height: 60px;
-  height: 80%;
-  margin-right: auto;
+  height: 5vw;
+  order: 1;
 }
-header h1 {
+header h1.title {
   margin-right: 5rem;
+  margin-left: 5rem;
+  justify-self: center;
+  order: 2;
+  font-size: 2rem;
+}
+@media screen and (max-width: 1150px) {
+  header h1.title {
+    order: 4;
+    margin: 2vw;
+    width: 100%;
+    text-align: center;
+  }
 }
 header address {
-  margin-right: 5rem;
+  order: 3;
+  flex-wrap: nowrap;
+  align-self: center;
+}
+@media (max-width: 400px) {
+  header address p a::after {
+    content: "\a";
+    white-space: pre;
+  }
 }
 header .btn-login {
   background-color: #163E6C;
@@ -78,6 +106,19 @@ header .btn-login {
   color: #fff;
   font-weight: normal;
   border: none;
+  transition: 0.2s;
+  order: 3;
+}
+@media (hover: hover) and (pointer: fine) {
+  header .btn-login:hover, header .btn-login:focus {
+    scale: 1.5;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  header .btn-login:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

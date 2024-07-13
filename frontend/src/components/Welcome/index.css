@@ -56,6 +56,11 @@ main {
   display: flex;
   flex-direction: column;
 }
+@media (max-width: 600px) {
+  main {
+    padding: 1rem 1rem;
+  }
+}
 main nav {
   position: relative;
   display: flex;
@@ -75,9 +80,18 @@ main nav a.active {
   border-radius: 5px;
   color: #fff;
   font-weight: normal;
+  cursor: default;
 }
-main nav a:hover {
-  scale: 1.5;
+@media (hover: hover) and (pointer: fine) {
+  main nav a:not(.active):hover, main nav a:not(.active):focus {
+    scale: 1.5;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  main nav a:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
 }
 main table {
   margin-top: 1rem;
@@ -90,9 +104,15 @@ main table thead {
   position: relative;
   background-color: #EBE6D6;
   font-weight: bold;
+  font-size: 1.2rem;
+  vertical-align: bottom;
+}
+main table thead tr > td {
+  padding: 0 0.3rem;
 }
 main table tbody tr > td {
   padding-left: 1rem;
+  font-size: 1.2rem;
 }
 main table tbody tr:nth-child(odd) {
   background-color: rgba(235, 230, 214, 0.7);
@@ -101,7 +121,7 @@ main table tbody tr:nth-child(even) {
   background-color: #EBE6D6;
 }
 main table tbody tr + tr {
-  border-top: 0.5rem solid transparent;
+  border-top: 0.9rem solid transparent;
 }
 main .not-results {
   display: flex;

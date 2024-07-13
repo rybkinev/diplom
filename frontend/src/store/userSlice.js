@@ -97,6 +97,18 @@ const fetchPermissions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
+    // await api.get('/api/v1/account/permissions/').then(
+    //   (response) => {
+    //     const permissions = response.data.permissions
+    //     // console.debug(response.data);
+    //     if (response.data?.superuser) {
+    //       permissions.push('superuser');
+    //     }
+    //     return permissions;
+    //   }
+    // ).catch( (error) => {
+    //   return rejectWithValue(error.response.data);
+    // })
   }
 );
 

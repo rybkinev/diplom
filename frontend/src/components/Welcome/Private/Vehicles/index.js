@@ -4,10 +4,13 @@ import api from "../../../../api";
 import CustomInput from "../../Table/InputTimeout";
 import HeaderCell from "../../Table/HeaderCell";
 import Pagination from "../../Table/Pagination";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import useResponsive from "../../../../hooks/useResponsive";
 
 
 const Vehicles = () => {
+  const location = useLocation()
+
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -21,9 +24,16 @@ const Vehicles = () => {
     driveAxleModel: '',
     steeringAxleModel: '',
   });
+
   const [filterInput, setFilterInput] = useState(filters);
 
-  const location = useLocation()
+  const {
+    shouldHideSteeringAxle,
+    shouldHideDriveAxle,
+    shouldHideTransmission,
+    shouldHideEngine,
+    shouldHideModel,
+  } = useResponsive();
 
   const fetchVehicles = () => {
     const activeFilters = Object.keys(filters).reduce((acc, key) => {
@@ -60,8 +70,10 @@ const Vehicles = () => {
 
   const handleSetFilterDate = (e) => {
     const value = e.target.text;
-    setFilterInput({ ...filterInput, ['shippingDate']: value });
-    setFilters({ ...filters, ['shippingDate']: value });
+    const newFilters = { ...filterInput, ['shippingDate']: value };
+    setFilterInput(newFilters);
+    setFilters(newFilters);
+
   };
 
   return (
@@ -115,66 +127,74 @@ const Vehicles = () => {
             >
               Модель
             </HeaderCell>
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'engineModel'}
-              searchInput={<CustomInput
-                placeholder="Модель двигателя"
-                name="engineModel"
-                value={filterInput.engineModel}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Модель двигателя
-            </HeaderCell>
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'transmissionModel'}
-              searchInput={<CustomInput
-                placeholder="Модель трансмиссии"
-                name="transmissionModel"
-                value={filterInput.transmissionModel}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Модель трансмиссии
-            </HeaderCell>
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'driveAxleModel'}
-              searchInput={<CustomInput
-                placeholder="Модель ведущего моста"
-                name="driveAxleModel"
-                value={filterInput.driveAxleModel}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Модель ведущего моста
-            </HeaderCell>
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'steeringAxleModel'}
-              searchInput={<CustomInput
-                placeholder="Модель управляемого моста"
-                name="steeringAxleModel"
-                value={filterInput.steeringAxleModel}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Модель управляемого моста
-            </HeaderCell>
+            {!shouldHideEngine &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'engineModel'}
+                searchInput={<CustomInput
+                  placeholder="Двигатель"
+                  name="engineModel"
+                  value={filterInput.engineModel}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Двигатель
+              </HeaderCell>
+            }
+            {!shouldHideTransmission &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'transmissionModel'}
+                searchInput={<CustomInput
+                  placeholder="Трансмиссия"
+                  name="transmissionModel"
+                  value={filterInput.transmissionModel}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Трансмиссия
+              </HeaderCell>
+            }
+            {!shouldHideDriveAxle &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'driveAxleModel'}
+                searchInput={<CustomInput
+                  placeholder="Ведущий мост"
+                  name="driveAxleModel"
+                  value={filterInput.driveAxleModel}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Ведущий мост
+              </HeaderCell>
+            }
+            {!shouldHideSteeringAxle &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'steeringAxleModel'}
+                searchInput={<CustomInput
+                  placeholder="Управляемый мост"
+                  name="steeringAxleModel"
+                  value={filterInput.steeringAxleModel}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Управляемый мост
+              </HeaderCell>
+            }
           </tr>
         </thead>
         <tbody>
@@ -202,38 +222,46 @@ const Vehicles = () => {
                   {i.vehicleModel?.name}
                 </Link>
               </td>
-              <td>
-                <Link
-                  to={`/vehicles/engine-model/${i.engineModel?.id}`}
-                  state={{background: location}}
-                >
-                  {i.engineModel?.name}
-                </Link>
-              </td>
-              <td>
-                <Link
-                  to={`/vehicles/transmission-model/${i.transmissionModel?.id}`}
-                  state={{background: location}}
-                >
-                  {i.transmissionModel?.name}
-                </Link>
-              </td>
-              <td>
-                <Link
-                  to={`/vehicles/drive-axle-model/${i.driveAxleModel?.id}`}
-                  state={{background: location}}
-                >
-                  {i.driveAxleModel?.name}
-                </Link>
-              </td>
-              <td>
-                <Link
-                  to={`/vehicles/steering-axle-model/${i.driveAxleModel?.id}`}
-                  state={{background: location}}
-                >
-                  {i.steeringAxleModel?.name}
-                </Link>
-              </td>
+              {!shouldHideEngine &&
+                <td>
+                  <Link
+                    to={`/vehicles/engine-model/${i.engineModel?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.engineModel?.name}
+                  </Link>
+                </td>
+              }
+              {!shouldHideTransmission &&
+                <td>
+                  <Link
+                    to={`/vehicles/transmission-model/${i.transmissionModel?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.transmissionModel?.name}
+                  </Link>
+                </td>
+              }
+              {!shouldHideDriveAxle &&
+                <td>
+                  <Link
+                    to={`/vehicles/drive-axle-model/${i.driveAxleModel?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.driveAxleModel?.name}
+                  </Link>
+                </td>
+              }
+              {!shouldHideSteeringAxle &&
+                <td>
+                  <Link
+                    to={`/vehicles/steering-axle-model/${i.driveAxleModel?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.steeringAxleModel?.name}
+                  </Link>
+                </td>
+              }
             </tr>
           ))}
         </tbody>
