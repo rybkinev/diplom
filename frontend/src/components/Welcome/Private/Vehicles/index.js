@@ -6,10 +6,15 @@ import HeaderCell from "../../Table/HeaderCell";
 import Pagination from "../../Table/Pagination";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
+import usePermissions from "../../../../hooks/usePermissions";
 
 
 const Vehicles = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
+  const hasPermission = usePermissions();
+
+  const hasAddPermission = hasPermission('add_vehicle') || hasPermission('superuser')
 
   const [vehicles, setVehicles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,7 +37,6 @@ const Vehicles = () => {
     shouldHideDriveAxle,
     shouldHideTransmission,
     shouldHideEngine,
-    shouldHideModel,
   } = useResponsive();
 
   const fetchVehicles = () => {
@@ -75,6 +79,17 @@ const Vehicles = () => {
     setFilters(newFilters);
 
   };
+
+  const handleNewRecord = () => {
+    navigate(
+      'add',
+      {
+        state: {
+          background: location,
+          editable: true,
+        }
+      })
+  }
 
   return (
     <div className='main-container vehicle'>
@@ -195,7 +210,18 @@ const Vehicles = () => {
                 Управляемый мост
               </HeaderCell>
             }
-            <td></td>
+            <td>
+              {(hasAddPermission) &&
+                <div className='head-buttons'>
+                  <a
+                    className='head-button-create'
+                    onClick={handleNewRecord}
+                  >
+                    +
+                  </a>
+                </div>
+              }
+            </td>
           </tr>
         </thead>
         <tbody>

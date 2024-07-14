@@ -2,9 +2,69 @@
 @import '../../../../../assets/styles/global';
 
 
-.detail-maintenance-container {
+.detail-maintenanco-container {
   @include main-style;
   border-radius: 10px;
   margin: 0;
 
+  h2 {
+    text-align: center;
+  }
+
+  .edit-mode{
+
+    .edit-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap:  .6rem;
+      font-size: 1.1rem;
+      margin-top: .5rem;
+
+      label {
+        font-weight: bold;
+        justify-self: end;
+      }
+      input {
+        font-size: 1.1rem;
+      }
+    }
+
+    .buttons {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+
+      .delete-button {
+        @include edit-buttons;
+        margin-right: auto;
+
+        a {
+          background-color: $main-color2;
+        }
+      }
+
+      .edit-buttons {
+        @include edit-buttons;
+      }
+    }
+  }
+
+  .view-mode {
+
+    .view-field {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap:  .6rem;
+      font-size: 1.1rem;
+      margin-top: .5rem;
+
+      label {
+        font-weight: bold;
+        justify-self: end;
+      }
+      span {
+        justify-self: start;
+      }
+    }
+  }
 }

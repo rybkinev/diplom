@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
+import './index.css';
 import api from "../../api";
 
 const InputListSelect = ({url, valueName, valueInput, handleChange, name, id}) => {
   const [inputValue, setInputValue] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [allSuggestions, setAllSuggestions] = useState([]);
+
+  const [hasMatch, setHasMatch] = useState(true);
 
   const fetchModelList = async () => {
 
@@ -42,6 +45,7 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name, id}) =
     setInputValue(suggestion[valueName]);
     handleChange(artificialEvent);
     setFilteredSuggestions([]);
+    setHasMatch(true);
   };
 
   const handleInputChange = (e) => {
@@ -53,8 +57,10 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name, id}) =
         .filter(suggestion => suggestion[valueName].toLowerCase().includes(value.toLowerCase()))
         .slice(0, 10);
       setFilteredSuggestions(filtered);
+      setHasMatch(filtered.length > 0);
     } else {
       setFilteredSuggestions([]);
+      setHasMatch(true);
     }
   };
 
@@ -69,7 +75,7 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name, id}) =
   };
 
   return (
-    <div style={{position: 'relative', width: '200px'}}>
+    <div className='input-list-search'>
       <input
         type="text"
         autoComplete="off"
@@ -80,24 +86,13 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name, id}) =
         name={name}
         id={id}
         placeholder='Для поиска начните вводить'
+        className={!hasMatch ? 'input-error' : ''}
       />
       {inputValue && (
-        <ul style={{
-          position: 'absolute',
-          border: '1px solid #ddd',
-          maxHeight: '150px',
-          overflow: 'auto',
-          width: '100%',
-          backgroundColor: 'white',
-          listStyleType: 'none',
-          padding: 0,
-          margin: 0,
-          zIndex:1002,
-        }}>
+        <ul>
           {filteredSuggestions.map((suggestion) => (
             <li
               key={suggestion.id}
-              style={{padding: '5px 10px', cursor: 'pointer'}}
               onMouseDown={() => handleSuggestionClick(suggestion)}
             >
               {suggestion[valueName]}

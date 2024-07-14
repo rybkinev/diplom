@@ -1,0 +1,51 @@
+@import '../../assets/styles/var';
+@import '../../assets/styles/global';
+
+
+.input-list-search {
+  position: relative;
+  width: 100%;
+
+  input {
+    width: 100%;
+
+    &.input-error {
+      border: 2px solid $main-color2;
+
+      &:focus {
+        outline: $main-color2;
+      }
+    }
+  }
+
+  & > ul {
+    position: absolute;
+    border: none;
+    max-height: 11rem;
+    overflow: auto;
+    width: 100%;
+    background-color: $white-color;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1002;
+
+    & > li {
+      padding: .5rem .8rem;
+      cursor: pointer;
+
+      @media (hover: hover) and (pointer: fine) {
+        &:not(.active):hover,
+        &:not(.active):focus {
+          //background-color: $color-modal-background;
+        }
+      }
+      @media (hover: none) and (pointer: coarse) {
+        &:active {
+          background-color: $color-modal-background;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}

@@ -6,11 +6,15 @@ import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
+import usePermissions from "../../../../hooks/usePermissions";
 
 
 const Maintenance = () => {
   const location = useLocation()
   const navigate = useNavigate();
+  const hasPermission = usePermissions();
+
+  const hasAddPermission = hasPermission('add_maintenance') || hasPermission('superuser')
 
   const params = useParams();
   const vehicleId = params.id;
@@ -91,6 +95,17 @@ const Maintenance = () => {
 
     navigate(
       `${idMaintenance}`,
+      {
+        state: {
+          background: location,
+          editable: true,
+        }
+      })
+  }
+
+  const handleNewRecord = () => {
+    navigate(
+      'add',
       {
         state: {
           background: location,
@@ -220,7 +235,18 @@ const Maintenance = () => {
               Организация, проводившая ТО
             </HeaderCell>
           }
-          <td></td>
+          <td>
+            {(!vehicleId && hasAddPermission) &&
+              <div className='head-buttons'>
+                <a
+                  className='head-button-create'
+                  onClick={handleNewRecord}
+                >
+                  +
+                </a>
+              </div>
+            }
+          </td>
         </tr>
         </thead>
         <tbody>
@@ -276,13 +302,15 @@ const Maintenance = () => {
               </td>
             }
             <td>
-              <img
-                className='img-button-open-row'
-                src='/assets/img/open_row.png'
-                alt='Редактировать'
-                data-key={i.id}
-                onClick={handleOpenRowClick}
-              />
+              {!vehicleId &&
+                <img
+                  className='img-button-open-row'
+                  src='/assets/img/open_row.png'
+                  alt='Редактировать'
+                  data-key={i.id}
+                  onClick={handleOpenRowClick}
+                />
+              }
             </td>
           </tr>
         ))}

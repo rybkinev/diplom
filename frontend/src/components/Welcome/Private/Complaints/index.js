@@ -14,7 +14,7 @@ const Complaints = () => {
   const navigate = useNavigate();
   const hasPermission = usePermissions();
 
-  const addPermission = 'add_complaint'
+  const hasAddPermission = hasPermission('add_complaint') || hasPermission('superuser')
 
   const params = useParams();
   const vehicleId = params.id;
@@ -240,7 +240,7 @@ const Complaints = () => {
             </HeaderCell>
           }
           <td>
-            {((hasPermission(addPermission) || hasPermission('superuser'))) &&
+            {(!vehicleId && hasAddPermission) &&
               <div className='head-buttons'>
                 <a
                   className='head-button-create'
@@ -307,13 +307,15 @@ const Complaints = () => {
               <td>{i.dateRecovery}</td>
             }
             <td>
-              <img
-                className='img-button-open-row'
-                src='/assets/img/open_row.png'
-                alt='Редактировать'
-                data-key={i.id}
-                onClick={handleOpenRowClick}
-              />
+              {!vehicleId &&
+                <img
+                  className='img-button-open-row'
+                  src='/assets/img/open_row.png'
+                  alt='Редактировать'
+                  data-key={i.id}
+                  onClick={handleOpenRowClick}
+                />
+              }
             </td>
             {/*{(*/}
             {/*  hasPermission('change_complaint') ||*/}

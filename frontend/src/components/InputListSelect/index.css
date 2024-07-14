@@ -1,3 +1,85 @@
-
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PT-Astra-Sans";
+  src: url("/src/assets/fonts/PT Astra Sans/PT-Astra-Sans_Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+.input-list-search {
+  position: relative;
+  width: 100%;
+}
+.input-list-search input {
+  width: 100%;
+}
+.input-list-search input.input-error {
+  border: 2px solid #D20A11;
+}
+.input-list-search input.input-error:focus {
+  outline: #D20A11;
+}
+.input-list-search > ul {
+  position: absolute;
+  border: none;
+  max-height: 11rem;
+  overflow: auto;
+  width: 100%;
+  background-color: #fff;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1002;
+}
+.input-list-search > ul > li {
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+}
+@media (hover: none) and (pointer: coarse) {
+  .input-list-search > ul > li:active {
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 5px;
+  }
+}
 
 /*# sourceMappingURL=index.css.map */

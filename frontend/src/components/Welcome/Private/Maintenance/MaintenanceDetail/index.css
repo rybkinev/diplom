@@ -46,7 +46,7 @@
   font-weight: bold;
   font-style: italic;
 }
-.detail-maintenance-container {
+.detail-maintenanco-container {
   margin: 1vh 0;
   width: 100%;
   background: #EBE6D6;
@@ -59,9 +59,87 @@
   margin: 0;
 }
 @media (max-width: 600px) {
-  .detail-maintenance-container {
+  .detail-maintenanco-container {
     padding: 1rem 1rem;
   }
+}
+.detail-maintenanco-container h2 {
+  text-align: center;
+}
+.detail-maintenanco-container .edit-mode .edit-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+.detail-maintenanco-container .edit-mode .edit-fields label {
+  font-weight: bold;
+  justify-self: end;
+}
+.detail-maintenanco-container .edit-mode .edit-fields input {
+  font-size: 1.1rem;
+}
+.detail-maintenanco-container .edit-mode .buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.detail-maintenanco-container .edit-mode .buttons .delete-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-right: auto;
+}
+.detail-maintenanco-container .edit-mode .buttons .delete-button a {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.detail-maintenanco-container .edit-mode .buttons .delete-button a:first-child {
+  margin-right: 1rem;
+}
+.detail-maintenanco-container .edit-mode .buttons .delete-button a {
+  background-color: #D20A11;
+}
+.detail-maintenanco-container .edit-mode .buttons .edit-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+.detail-maintenanco-container .edit-mode .buttons .edit-buttons a {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.detail-maintenanco-container .edit-mode .buttons .edit-buttons a:first-child {
+  margin-right: 1rem;
+}
+.detail-maintenanco-container .view-mode .view-field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+.detail-maintenanco-container .view-mode .view-field label {
+  font-weight: bold;
+  justify-self: end;
+}
+.detail-maintenanco-container .view-mode .view-field span {
+  justify-self: start;
 }
 
 /*# sourceMappingURL=index.css.map */
