@@ -3,7 +3,7 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import ServiceCompany
-from core.serializers import CamelCaseSerializerMixin
+from core.serializers import CamelCaseSerializerMixin, ReferenceSerializer
 
 
 class CustomTokenRefreshSerializer(TokenRefreshSerializer):
@@ -18,7 +18,7 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
         return data
 
 
-class ServiceCompanySerializer(CamelCaseSerializerMixin, ModelSerializer):
-    class Meta:
+class ServiceCompanySerializer(ReferenceSerializer):
+    class Meta(ReferenceSerializer.Meta):
         model = ServiceCompany
-        fields = ['id', 'name', 'description']
+        # fields = ['id', 'name', 'description']

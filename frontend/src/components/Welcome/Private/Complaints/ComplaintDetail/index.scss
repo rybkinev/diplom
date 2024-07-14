@@ -2,7 +2,7 @@
 @import '../../../../../assets/styles/global';
 
 
-.edit-complaint-container {
+.detail-complaint-container {
   @include main-style;
   border-radius: 10px;
   margin: 0;
@@ -29,10 +29,31 @@
       }
     }
 
-    .edit-buttons {
-      @include edit-buttons;
-      margin-top: 1rem;
-    }
+    //.buttons-container {
+    //  display: flex;
+    //  justify-content: end;
+    //  //width: 100%;
+
+      .buttons {
+        //width: 100%;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+
+        .delete-button {
+          @include edit-buttons;
+          margin-right: auto;
+
+          a {
+            background-color: $main-color2;
+          }
+        }
+
+        .edit-buttons {
+          @include edit-buttons;
+        }
+      }
+    //}
   }
 
   .view-mode {

@@ -1,11 +1,13 @@
 from django.conf import settings
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, DjangoModelPermissionsOrAnonReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from accounts import serializers, models
 from accounts.serializers import CustomTokenRefreshSerializer
 
 
@@ -40,3 +42,9 @@ class UserPermissionsView(APIView):
             "permissions": permissions,
             'superuser': user.is_superuser,
         })
+
+
+class ServiceCompanyViewSet(ModelViewSet):
+    queryset = models.ServiceCompany.objects.all()
+    serializer_class = serializers.ServiceCompanySerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]

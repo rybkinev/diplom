@@ -1,28 +1,34 @@
 import React, {useEffect, useState} from "react";
 import './index.css';
-import {useLocation, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useNavigate, useParams} from "react-router-dom";
+// import {useDispatch, useSelector} from "react-redux";
 import api from "../../../../../api";
-import {fetchPermissions} from "../../../../../store/userSlice";
+// import {fetchPermissions} from "../../../../../store/userSlice";
 import InputListSelect from "../../../../InputListSelect";
+import usePermissions from "../../../../../hooks/usePermissions";
 
 
 const ComplaintDetail = () => {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const permissions = useSelector((state) => state.user?.permissions);
+  const navigate = useNavigate();
+  const hasPermission = usePermissions();
+
   const params = useParams();
 
-  const editPermission = 'change_complaint'
+  const addPermission = 'add_complaint';
+  const editPermission = 'change_complaint';
+  const deletePermission = 'delete_complaint';
+  const superuserPermission = 'superuser';
 
+  const [editMode, setEditMode] = useState( true);
   const prodId = params?.id;
 
-  let url = 'api/v1/complaint/'
-  if (prodId)
-    url = `api/v1/complaint/${prodId}/`
+  const createComplaint = prodId === 'add';
 
-  const state = location?.state || {};
-  const [editMode, setEditMode] = useState( false);
+  let url = 'api/v1/complaint/'
+  if (!createComplaint) {
+    url = `api/v1/complaint/${prodId}/`
+  }
+
 
   const [data, setData] = useState({
     name: '',
@@ -39,13 +45,14 @@ const ComplaintDetail = () => {
   const [editData, setEditData] = useState(data);
 
   const fetchComplaintDetail = async () => {
-    if (!prodId) return;
+
+    if (createComplaint) return;
 
     await api.get(
       url,
     ).then((response) => {
       const data = response.data
-      console.debug('ComplaintDetail fetchComplaintDetail api.get response.data', data)
+      // console.debug('ComplaintDetail fetchComplaintDetail api.get response.data', data)
       setData(data);
       setEditData(data);
     }).catch((error) => {
@@ -53,22 +60,12 @@ const ComplaintDetail = () => {
     });
   }
 
-  const hasPermission = (perm) => permissions.includes(perm);
-
-  const upgradePermission = () => {
-    dispatch(fetchPermissions());
-    if (
-      prodId && !hasPermission(editPermission)
-      && !hasPermission('superuser')
-    ) {
-      setEditMode(false);
-      setEditData(data);
-    }
-  };
-
   useEffect(() => {
-    upgradePermission();
+    // upgradePermission();
     fetchComplaintDetail();
+    if (prodId !== 'add') {
+      setEditMode(false);
+    }
   }, []);
 
   const handleEditClick = () => {
@@ -85,33 +82,63 @@ const ComplaintDetail = () => {
     setEditData(data); // Отмена изменений
   };
   const handleSaveClick = async () => {
-    try {
 
-      // Создаем новый объект, в котором будут только ID для связанных объектов
-      const payload = {
-        ...editData,
-        vehicle: editData.vehicle.id,
-        nodeFailure: editData.nodeFailure.id,
-        recoveryMethod: editData.recoveryMethod.id,
-        serviceCompany: editData.serviceCompany.id
-      };
+    const payload = {
+      ...editData,
+      vehicle: editData.vehicle.id,
+      nodeFailure: editData.nodeFailure.id,
+      recoveryMethod: editData.recoveryMethod.id,
+      serviceCompany: editData.serviceCompany.id
+    };
 
-      console.debug('ComplaintDetail handleSaveClick', payload);
+    // console.debug('ComplaintDetail handleSaveClick', payload);
 
-      const response = await api.put(
+    if (!createComplaint) {
+      await api.put(
         url,
         payload
-      );
-      setData(response.data);
-      setEditMode(false);
-    } catch (error) {
-      console.debug('handleSaveClick api.put', error);
+      ).then((response) => {
+        setData(response.data);
+        setEditMode(false);
+      }).catch((error) => {
+        console.debug('ComplaintDetail handleSaveClick api.put', error)
+      });
     }
+    else {
+      await api.post(
+        url,
+        payload
+      ).then((response) => {
+        setData(response.data);
+        setEditMode(false);
+      }).catch((error) => {
+        console.debug('ComplaintDetail handleSaveClick api.put', error)
+      });
+    }
+
   };
+  const handleDeleteClick = async () => {
+    if (createComplaint) return;
+
+    const isConfirmed = window.confirm('Вы уверены, что хотите удалить эту запись?');
+
+    if (isConfirmed) {
+      await api.delete(
+        url
+      ).catch((error) => {
+        console.debug('handleDeleteClick api.delete', error);
+      });
+      navigate(-1);
+      console.debug('handleDeleteClick api.delete');
+    }
+  }
 
   return (
-    <div className='edit-complaint-container'>
-      {(hasPermission(editPermission) || hasPermission('superuser')) && !editMode &&
+    <div className='detail-complaint-container'>
+      {createComplaint && !hasPermission(addPermission) && !hasPermission(superuserPermission) &&
+        <h1>У Вас нет прав на создание рекламаций</h1>
+      }
+      {(hasPermission(editPermission) || hasPermission(superuserPermission)) && !editMode &&
         <img
           className='img-button-edit'
           src='/assets/img/edit_page.png'
@@ -119,14 +146,15 @@ const ComplaintDetail = () => {
           onClick={handleEditClick}
         />
       }
-      <h2>{prodId ? editMode ? 'Редактирование рекламации' : 'Подробности рекламации' : 'Создание рекламации'}</h2>
+      <h2>{!createComplaint ? editMode ? 'Редактирование рекламации' : 'Подробности рекламации' : 'Создание рекламации'}</h2>
       {editMode
         ? (
           <div className='edit-mode'>
             <div className='edit-fields date-failure'>
-              <label>Дата поломки</label>
+              <label htmlFor='editDateFailure'>Дата поломки</label>
               <input
                 type="date"
+                id='editDateFailure'
                 name="dateFailure"
                 value={editData.dateFailure}
                 onChange={handleChange}
@@ -134,25 +162,29 @@ const ComplaintDetail = () => {
             </div>
 
             <div className='edit-fields vehicle'>
-              <label>Машина</label>
-              <input
-                type="text"
-                name="vehicle"
-                value={editData.vehicle.serialNumber}
-                list="vehicle-list"
-                onChange={handleChange}
-              />
-            </div>
-            <div className='edit-fields node'>
-              <label>Неисправный узел</label>
+              <label htmlFor='editVehicle'>Машина</label>
               {/*<input*/}
               {/*  type="text"*/}
-              {/*  name="nodeFailure"*/}
-              {/*  value={editData.nodeFailure.name}*/}
+              {/*  id='editVehicle'*/}
+              {/*  name="vehicle"*/}
+              {/*  value={editData.vehicle.serialNumber}*/}
+              {/*  list="vehicle-list"*/}
               {/*  onChange={handleChange}*/}
               {/*/>*/}
               <InputListSelect
+                name="vehicle"
+                id='editVehicle'
+                url='api/v1/vehicles/'
+                valueName='serialNumber'
+                valueInput={editData.vehicle.serialNumber}
+                handleChange={handleChange}
+              />
+            </div>
+            <div className='edit-fields node'>
+              <label htmlFor='editNodeFailure'>Неисправный узел</label>
+              <InputListSelect
                 name="nodeFailure"
+                id='editNodeFailure'
                 url='api/v1/complaint/failure-node/'
                 valueName='name'
                 valueInput={editData.nodeFailure.name}
@@ -160,78 +192,126 @@ const ComplaintDetail = () => {
               />
             </div>
             <div className='edit-fields operating-time'>
-              <label>Наработка, м/час</label>
+              <label htmlFor='editOperatingTime'>Наработка, м/час</label>
               <input
                 type="number"
+                id='editOperatingTime'
                 name="operatingTime"
                 value={editData.operatingTime}
                 onChange={handleChange}
               />
             </div>
             <div className='edit-fields used-parts'>
-              <label>Используемые запчасти</label>
+              <label htmlFor='editUsedParts'>Используемые запчасти</label>
               <input
                 type="text"
+                id='editUsedParts'
                 name="usedParts"
                 value={editData.usedParts}
                 onChange={handleChange}
               />
             </div>
             <div className='edit-fields recovery-method'>
-              <label>Метод восстановления</label>
-              <input
-                type="text"
+              <label htmlFor='editRecoveryMethod'>Метод восстановления</label>
+              {/*<input*/}
+              {/*  type="text"*/}
+              {/*  name="recoveryMethod"*/}
+              {/*  id='editRecoveryMethod'*/}
+              {/*  value={editData.recoveryMethod.name}*/}
+              {/*  onChange={handleChange}*/}
+              {/*/>*/}
+              <InputListSelect
                 name="recoveryMethod"
-                value={editData.recoveryMethod.name}
-                onChange={handleChange}
+                id='editRecoveryMethod'
+                url='api/v1/complaint/recovery-method/'
+                valueName='name'
+                valueInput={editData.recoveryMethod.name}
+                handleChange={handleChange}
               />
             </div>
             <div className='edit-fields date-recovery'>
-              <label>Дата восстановления</label>
+              <label htmlFor='editDateRecovery'>Дата восстановления</label>
               <input
                 type="date"
+                id='editDateRecovery'
                 name="dateRecovery"
                 value={editData.dateRecovery}
                 onChange={handleChange}
               />
             </div>
+            <div className='edit-fields service-company'>
+              <label htmlFor='editServiceCompany'>Сервисная компания</label>
+              <InputListSelect
+                name="serviceCompany"
+                id='editServiceCompany'
+                url='api/v1/account/service-company/'
+                valueName='name'
+                valueInput={editData.serviceCompany.name}
+                handleChange={handleChange}
+              />
+            </div>
+            <div className='edit-fields description-failure'>
+              <label htmlFor='editDescriptionFailure'>Описание неисправности</label>
+              <input
+                type="text"
+                id='editDescriptionFailure'
+                name="descriptionFailure"
+                value={editData.descriptionFailure}
+                onChange={handleChange}
+              />
+            </div>
 
-            <div className='edit-buttons'>
-              <a onClick={handleSaveClick}>Сохранить</a>
-              <a onClick={handleCancelClick}>Отмена</a>
+            <div className='buttons'>
+              <div className='delete-button'>
+                {(!createComplaint && (hasPermission(deletePermission) || hasPermission(superuserPermission))) &&
+                  <a onClick={handleDeleteClick}>Удалить</a>
+                }
+              </div>
+              <div className='edit-buttons'>
+                <a onClick={handleSaveClick}>Сохранить</a>
+                <a onClick={handleCancelClick}>Отмена</a>
+              </div>
             </div>
           </div>
         )
         : (
           <div className='view-mode'>
             <div className='view-field date-failure'>
-              <label>Дата поломки:</label>
-              <span>{editData.dateFailure}</span>
+              <label htmlFor='dateFailure'>Дата поломки:</label>
+              <span id='dateFailure'>{editData.dateFailure}</span>
             </div>
 
             <div className='view-field vehicle'>
-              <label>Машина:</label>
-              <span>{editData.vehicle.serialNumber}</span>
+              <label htmlFor='serialNumber'>Машина:</label>
+              <span id='serialNumber'>{editData.vehicle.serialNumber}</span>
             </div>
             <div className='view-field node'>
-              <label>Неисправный узел:</label>
-              <span>{editData.nodeFailure.name}</span>
+              <label htmlFor='nodeFailure'>Неисправный узел:</label>
+              <span id='nodeFailure'>{editData.nodeFailure.name}</span>
             </div>
             <div className='view-field operating-time'>
-              <label>Наработка, м/час:</label>
-              <span>{editData.operatingTime}</span>
+              <label htmlFor='operatingTime'>Наработка, м/час:</label>
+              <span id='operatingTime'>{editData.operatingTime}</span>
             </div>
             <div className='view-field used-parts'>
-              <label>Используемые запчасти:</label>
-              <span>{editData.usedParts}</span>
+              <label htmlFor='usedParts'>Используемые запчасти:</label>
+              <span id='usedParts'>{editData.usedParts}</span>
             </div>
             <div className='view-field recovery-method'>
-              <label>Метод восстановления:</label>
-              <span>{editData.recoveryMethod.name}</span>
+              <label htmlFor='recoveryMethod'>Метод восстановления:</label>
+              <span id='recoveryMethod'>{editData.recoveryMethod.name}</span>
             </div>
             <div className='view-field date-recovery'>
-              <label>Дата восстановления:</label>
-              <span>{editData.dateRecovery}</span>
+              <label htmlFor='dateRecovery'>Дата восстановления:</label>
+              <span id='dateRecovery'>{editData.dateRecovery}</span>
+            </div>
+            <div className='view-field service-company'>
+              <label htmlFor='serviceCompany'>Сервисная компания:</label>
+              <span id='serviceCompany'>{editData.serviceCompany.name}</span>
+            </div>
+            <div className='view-field description-failure'>
+              <label htmlFor='descriptionFailure'>Сервисная компания:</label>
+              <span id='descriptionFailure'>{editData.descriptionFailure}</span>
             </div>
           </div>
         )

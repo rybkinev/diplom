@@ -6,15 +6,15 @@ import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchPermissions} from "../../../../store/userSlice";
+import usePermissions from "../../../../hooks/usePermissions";
 
 
 const Complaints = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const permissions = useSelector((state) => state.user?.permissions);
+  const hasPermission = usePermissions();
+
+  const addPermission = 'add_complaint'
 
   const params = useParams();
   const vehicleId = params.id;
@@ -36,28 +36,11 @@ const Complaints = () => {
   const [filterInput, setFilterInput] = useState(filters);
 
   const {
-    shouldHideButtonEdit,
     shouldHideDateRecovery,
     shouldHideMethodRecovery,
     shouldHideUsedParts,
     shouldHideComplaintOperatingTime,
   } = useResponsive();
-
-  // const hasPermission = (perm) => permissions.includes(perm);
-
-  // const handleSort = (key) => {
-  //   let direction = 'asc';
-  //   if (sortConfig.key === key && sortConfig.direction === 'asc') {
-  //     direction = 'desc';
-  //   }
-  //   setSortConfig({ key, direction });
-  // };
-  // const getSortIndicator = (key) => {
-  //   if (sortConfig.key === key) {
-  //     return sortConfig.direction === 'asc' ? '🔼' : '🔽';
-  //   }
-  //   return '';
-  // };
 
   const fetchComplaints = () => {
     const activeFilters = Object.keys(filters).reduce((acc, key) => {
@@ -98,9 +81,6 @@ const Complaints = () => {
     fetchComplaints();
   }, [currentPage, sortConfig, filters]);
 
-  // useEffect(() => {
-  //   dispatch(fetchPermissions());
-  // }, [dispatch]);
 
   const handleSetFilterDate = (e) => {
     const value = e.target.text;
@@ -108,13 +88,28 @@ const Complaints = () => {
     setFilters({ ...filters, ['dateFailure']: value });
   };
 
-  const handleEditRowClick = (e) => {
+  const handleOpenRowClick = (e) => {
     const idComplaint = e.currentTarget.getAttribute('data-key')
 
-    console.debug('Complaints handleEditRowClick', idComplaint, e.target);
+    if (!idComplaint) {
+      console.debug('Complaints handleEditRowClick', '!idComplaint', e.target);
+      return;
+    }
+    // console.debug('Complaints handleEditRowClick', idComplaint, e.target);
 
     navigate(
       `${idComplaint}`,
+      {
+        state: {
+          background: location,
+          editable: true,
+        }
+      })
+  }
+
+  const handleNewRecord = () => {
+    navigate(
+      'add',
       {
         state: {
           background: location,
@@ -244,7 +239,18 @@ const Complaints = () => {
               Дата восстановления
             </HeaderCell>
           }
-          <td></td>
+          <td>
+            {((hasPermission(addPermission) || hasPermission('superuser'))) &&
+              <div className='head-buttons'>
+                <a
+                  className='head-button-create'
+                  onClick={handleNewRecord}
+                >
+                  +
+                </a>
+              </div>
+            }
+          </td>
         </tr>
         </thead>
         <tbody>
@@ -301,16 +307,14 @@ const Complaints = () => {
               <td>{i.dateRecovery}</td>
             }
             <td>
-              <div className='buttons-row-edit'>
-                <img
-                  className='img-button-open-row'
-                  src='/assets/img/open_row.png'
-                  alt='Редактировать'
-                  data-key={i.id}
-                  onClick={handleEditRowClick}
-                />
-              </div>
-              </td>
+              <img
+                className='img-button-open-row'
+                src='/assets/img/open_row.png'
+                alt='Редактировать'
+                data-key={i.id}
+                onClick={handleOpenRowClick}
+              />
+            </td>
             {/*{(*/}
             {/*  hasPermission('change_complaint') ||*/}
             {/*  hasPermission('delete_complaint') ||*/}

@@ -67,23 +67,27 @@ a {
     cursor: pointer;
 }
 
-.buttons-row-edit {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-
-    .img-button-open-row {
-        @include button;
-        padding: .1rem .1rem;
-        height: 1.4rem;
-        cursor: pointer;
-    }
-    .img-button-delete-row {
-        @include button;
-        background-color: $main-color2;
-        margin-left: .4rem;
-        padding: .1rem .1rem;
-        height: 1.3rem;
-        cursor: pointer;
-    }
+.img-button-open-row {
+    @include button-row;
 }
+
+//.buttons-row-edit {
+//    display: flex;
+//    flex-direction: row;
+//    justify-content: end;
+//
+//    .img-button-edit-row {
+//        @include button;
+//        padding: .1rem .1rem;
+//        height: 1.4rem;
+//        cursor: pointer;
+//    }
+//    .img-button-delete-row {
+//        @include button;
+//        background-color: $main-color2;
+//        margin-left: .4rem;
+//        padding: .1rem .1rem;
+//        height: 1.3rem;
+//        cursor: pointer;
+//    }
+//}

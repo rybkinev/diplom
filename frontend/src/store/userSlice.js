@@ -72,47 +72,36 @@ const userSlice = createSlice({
       // .addCase(fetchPermissions.pending, (state) => {
       //   console.debug('fetchPermissions.pending');
       // })
-      .addCase(fetchPermissions.fulfilled, (state, action) => {
-        // console.debug('fetchPermissions.fulfilled');
-        state.permissions = action.payload;
-      })
-      .addCase(fetchPermissions.rejected, (state, action) => {
-        console.debug('fetchPermissions.rejected');
-        state.error = action.payload;
-      })
+      // .addCase(fetchPermissions.fulfilled, (state, action) => {
+      //   // console.debug('fetchPermissions.fulfilled');
+      //   state.permissions = action.payload;
+      //   console.debug('userSlice fetchPermissions.fulfilled', state.permissions);
+      // })
+      // .addCase(fetchPermissions.rejected, (state, action) => {
+      //   console.debug('fetchPermissions.rejected');
+      //   state.error = action.payload;
+      // })
   }
 });
 
-const fetchPermissions = createAsyncThunk(
-  'user/fetchPermissions',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await api.get('/api/v1/account/permissions/');
-      const permissions = response.data.permissions
-      // console.debug(response.data);
-      if (response.data?.superuser) {
-        permissions.push('superuser');
-      }
-      return permissions;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-    // await api.get('/api/v1/account/permissions/').then(
-    //   (response) => {
-    //     const permissions = response.data.permissions
-    //     // console.debug(response.data);
-    //     if (response.data?.superuser) {
-    //       permissions.push('superuser');
-    //     }
-    //     return permissions;
-    //   }
-    // ).catch( (error) => {
-    //   return rejectWithValue(error.response.data);
-    // })
-  }
-);
+// const fetchPermissions = createAsyncThunk(
+//   'user/fetchPermissions',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await api.get('/api/v1/account/permissions/');
+//       const permissions = response.data.permissions
+//       console.debug('userSlice fetchPermissions', response.data);
+//       if (response.data?.superuser) {
+//         permissions.push('superuser');
+//       }
+//       return permissions;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
 
 export default userSlice.reducer;
 export const { setUser, updateAccessToken } = userSlice.actions;
-export {logoutUser, fetchPermissions};
+export {logoutUser};

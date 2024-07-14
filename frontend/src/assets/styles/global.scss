@@ -50,6 +50,12 @@
   border: none;
   transition: 0.2s;
 }
+@mixin button-row {
+  @include button;
+  padding: .1rem .1rem;
+  height: 1.4rem;
+  cursor: pointer;
+}
 
 @mixin navigation {
   position: relative;

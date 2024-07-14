@@ -2,24 +2,27 @@ import React, {useEffect, useState} from "react";
 import './index.css';
 import api from "../../../api";
 import {useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchPermissions} from "../../../store/userSlice";
+// import {useDispatch, useSelector} from "react-redux";
+// import {fetchPermissions} from "../../../store/userSlice";
+import usePermissions from "../../../hooks/usePermissions";
 
 
 const ModelDetail = ({url, title, editPermission}) => {
+  const params = useParams();
+  const hasPermission = usePermissions();
+
   const [data, setData] = useState({
     name: '',
     description: '',
     label: ''
   });
   const [editMode, setEditMode] = useState(false);
-  const [editData, setEditData] = useState(data);
 
-  const params = useParams();
+  const [editData, setEditData] = useState(data);
   const prodId = params.id;
 
-  const dispatch = useDispatch();
-  const permissions = useSelector((state) => state.user.permissions);
+  // const dispatch = useDispatch();
+  // const permissions = useSelector((state) => state.user.permissions);
 
   const fetchModelDetail = async () => {
 
@@ -43,12 +46,12 @@ const ModelDetail = ({url, title, editPermission}) => {
     fetchData();
 
   }, [url]);
-  useEffect(() => {
-    dispatch(fetchPermissions());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchPermissions());
+  // }, [dispatch]);
 
 
-  const hasPermission = (perm) => permissions.includes(perm);
+  // const hasPermission = (perm) => permissions.includes(perm);
 
   const handleEditClick = () => {
     setEditMode(true);

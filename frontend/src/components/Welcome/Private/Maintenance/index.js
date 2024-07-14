@@ -4,12 +4,13 @@ import CustomInput from "../../Table/InputTimeout";
 import api from "../../../../api";
 import Pagination from "../../Table/Pagination";
 import HeaderCell from "../../Table/HeaderCell";
-import {Link, useLocation, useParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
 
 
 const Maintenance = () => {
   const location = useLocation()
+  const navigate = useNavigate();
 
   const params = useParams();
   const vehicleId = params.id;
@@ -79,6 +80,24 @@ const Maintenance = () => {
     setFilterInput({ ...filterInput, ['dateMaintenance']: value });
     setFilters({ ...filters, ['dateMaintenance']: value });
   };
+
+  const handleOpenRowClick = (e) => {
+    const idMaintenance = e.currentTarget.getAttribute('data-key')
+    if (!idMaintenance) {
+      console.debug('Maintenance handleEditRowClick', '!idMaintenance', e.target);
+      return;
+    }
+    // console.debug('Maintenance handleEditRowClick', idMaintenance, e.target);
+
+    navigate(
+      `${idMaintenance}`,
+      {
+        state: {
+          background: location,
+          editable: true,
+        }
+      })
+  }
 
   return(
     <div className='main-container maintenance'>
@@ -201,6 +220,7 @@ const Maintenance = () => {
               Организация, проводившая ТО
             </HeaderCell>
           }
+          <td></td>
         </tr>
         </thead>
         <tbody>
@@ -226,11 +246,11 @@ const Maintenance = () => {
               {vehicleId
                 ? i.typeMaintenance?.name
                 : <Link
-                    to={`/maintenance/maintenance-type/${i.typeMaintenance?.id}`}
-                    state={{background: location}}
-                  >
-                    {i.typeMaintenance?.name}
-                  </Link>
+                  to={`/maintenance/maintenance-type/${i.typeMaintenance?.id}`}
+                  state={{background: location}}
+                >
+                  {i.typeMaintenance?.name}
+                </Link>
               }
             </td>
             {!shouldHideOperatingTime &&
@@ -247,14 +267,23 @@ const Maintenance = () => {
                 {vehicleId
                   ? i.organization?.name
                   : <Link
-                        to={`/maintenance/organizations/${i.organization?.id}`}
-                      state={{background: location}}
-                    >
-                      {i.organization?.name}
-                    </Link>
+                    to={`/maintenance/organizations/${i.organization?.id}`}
+                    state={{background: location}}
+                  >
+                    {i.organization?.name}
+                  </Link>
                 }
               </td>
             }
+            <td>
+              <img
+                className='img-button-open-row'
+                src='/assets/img/open_row.png'
+                alt='Редактировать'
+                data-key={i.id}
+                onClick={handleOpenRowClick}
+              />
+            </td>
           </tr>
         ))}
         </tbody>

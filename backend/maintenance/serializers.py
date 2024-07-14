@@ -37,6 +37,7 @@ class MaintenanceSerializer(CamelCaseSerializerMixin, ModelSerializer):
     class Meta:
         model = Maintenance
         fields = [
+            'id',
             'vehicle',
             'typeMaintenance',
             'dateMaintenance',

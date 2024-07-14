@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import api from "../../api";
 
-const InputListSelect = ({url, valueName, valueInput, handleChange, name}) => {
+const InputListSelect = ({url, valueName, valueInput, handleChange, name, id}) => {
   const [inputValue, setInputValue] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [allSuggestions, setAllSuggestions] = useState([]);
@@ -12,10 +12,10 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name}) => {
       url,
     ).then((response) => {
       const result = response.data.results
-      console.debug('InputListSelect fetchModelList api.get', response.data)
+      // console.debug('InputListSelect fetchModelList api.get', url, response.data)
       setAllSuggestions(result);
     }).catch((error) => {
-      console.debug('InputListSelect fetchModelList api.get error', error)
+      console.error('InputListSelect fetchModelList api.get error', error)
     });
   }
 
@@ -33,25 +33,24 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name}) => {
     const artificialEvent = {
       target: {
         name: name,
-        value: { id: suggestion.id, name: suggestion.name },
+        value: { id: suggestion.id, [valueName]: suggestion[valueName] },
       },
     };
 
     // console.debug('InputListSelect handleSuggestionClick', suggestion);
 
-    setInputValue(suggestion.name);
+    setInputValue(suggestion[valueName]);
     handleChange(artificialEvent);
     setFilteredSuggestions([]);
   };
 
   const handleInputChange = (e) => {
     const value = e.target.value;
+
     setInputValue(value);
     if (value) {
       const filtered = allSuggestions
-        .filter(suggestion =>
-          suggestion[valueName].toLowerCase().includes(value.toLowerCase())
-        )
+        .filter(suggestion => suggestion[valueName].toLowerCase().includes(value.toLowerCase()))
         .slice(0, 10);
       setFilteredSuggestions(filtered);
     } else {
@@ -79,7 +78,8 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name}) => {
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         name={name}
-
+        id={id}
+        placeholder='Для поиска начните вводить'
       />
       {inputValue && (
         <ul style={{
@@ -92,14 +92,15 @@ const InputListSelect = ({url, valueName, valueInput, handleChange, name}) => {
           listStyleType: 'none',
           padding: 0,
           margin: 0,
+          zIndex:1002,
         }}>
           {filteredSuggestions.map((suggestion) => (
             <li
               key={suggestion.id}
               style={{padding: '5px 10px', cursor: 'pointer'}}
-              onMouseDown={() => handleSuggestionClick(suggestion)}>
+              onMouseDown={() => handleSuggestionClick(suggestion)}
             >
-              {suggestion.name}
+              {suggestion[valueName]}
             </li>
           ))}
         </ul>

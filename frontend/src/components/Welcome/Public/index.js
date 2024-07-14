@@ -23,6 +23,9 @@ const Public = () => {
   } = useResponsive();
 
   const fetchVehicles = () => {
+
+    if (!serialNumber) return;
+
     const params = {
       page: currentPage,
       ...(serialNumber && { serialNumber: serialNumber }),

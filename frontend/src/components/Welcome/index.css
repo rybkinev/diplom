@@ -109,9 +109,27 @@ main table thead {
 }
 main table thead tr > td {
   padding: 0 0.3rem;
+  text-align: center;
+}
+main table thead tr > td .head-buttons {
+  margin-bottom: 2rem;
+}
+main table thead tr > td .head-buttons .head-button-create {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  padding: 0.1rem 0.1rem;
+  height: 1.4rem;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: 0 0.3rem;
 }
 main table tbody tr > td {
-  padding-left: 1rem;
+  padding-left: 0.5rem;
   font-size: 1.2rem;
 }
 main table tbody tr:nth-child(odd) {

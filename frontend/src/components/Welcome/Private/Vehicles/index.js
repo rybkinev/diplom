@@ -195,6 +195,7 @@ const Vehicles = () => {
                 Управляемый мост
               </HeaderCell>
             }
+            <td></td>
           </tr>
         </thead>
         <tbody>
@@ -262,6 +263,15 @@ const Vehicles = () => {
                   </Link>
                 </td>
               }
+              <td>
+                <img
+                  className='img-button-open-row'
+                  src='/assets/img/open_row.png'
+                  alt='Редактировать'
+                  data-key={i.id}
+                  // onClick={handleOpenRowClick}
+                />
+              </td>
             </tr>
           ))}
         </tbody>

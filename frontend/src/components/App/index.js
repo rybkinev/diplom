@@ -16,6 +16,7 @@ import Auth from "../Auth";
 import Modal from "../Modal";
 import ModelDetail from "../Welcome/ModelDetail";
 import ComplaintDetail from "../Welcome/Private/Complaints/ComplaintDetail";
+import MaintenanceDetail from "../Welcome/Private/Maintenance/MaintenanceDetail";
 
 
 const App = () => {
@@ -73,10 +74,12 @@ const App = () => {
             ? <Route path="private" element={<Private/>}>
                 <Route index element={<Navigate to="vehicles"/>}/>
                 <Route path="vehicles" element={<Vehicles/>}/>
-                  <Route index element={<Vehicles/>}/>
-                  {/*<Route path=":id" element={<VehicleDetail/>}/>*/}
-                {/*</Route>*/}
+                <Route index element={<Vehicles/>}/>
+
                 <Route path="maintenance" element={<Maintenance/>}/>
+                <Route path="maintenance/:id" element={<MaintenanceDetail/>}/>
+                <Route path="maintenance/new" element={<MaintenanceDetail/>}/>
+
                 <Route path="complaints" element={<Complaints/>}/>
                 <Route path="complaints/:id" element={<ComplaintDetail/>}/>
                 <Route path="complaints/new" element={<ComplaintDetail/>}/>
@@ -93,14 +96,6 @@ const App = () => {
       {background && (
         <Routes>
           <Route
-            path="/vehicles/:id"
-            element={
-              <Modal onClose={handleCloseModal}>
-                <VehicleDetail />
-              </Modal>
-            }
-          />
-          <Route
             path='login'
             element={
               <Modal onClose={handleCloseModal}>
@@ -108,13 +103,29 @@ const App = () => {
               </Modal>
             }
           />
+          <Route
+            path="/vehicles/:id"
+            element={
+              <Modal onClose={handleCloseModal}>
+                <VehicleDetail />
+              </Modal>
+            }
+          />
+          <Route path="private" element={<Private/>}>
+            <Route path="maintenance/:id" element={
+              <Modal onClose={handleCloseModal}>
+                <MaintenanceDetail/>
+              </Modal>
+            }/>
+            {/*<Route path="complaints/new" element={<EditComplaint/>}/>*/}
+          </Route>
           <Route path="private" element={<Private/>}>
             <Route path="complaints/:id" element={
               <Modal onClose={handleCloseModal}>
                 <ComplaintDetail/>
               </Modal>
             }/>
-            {/*<Route path="complaints/new" element={<EditComplaint/>}/>*/}
+            {/*<Route path="complaints/new" element={<ComplaintDetail/>}/>*/}
           </Route>
 
 

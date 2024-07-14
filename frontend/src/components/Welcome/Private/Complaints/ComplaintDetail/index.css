@@ -46,7 +46,7 @@
   font-weight: bold;
   font-style: italic;
 }
-.edit-complaint-container {
+.detail-complaint-container {
   margin: 1vh 0;
   width: 100%;
   background: #EBE6D6;
@@ -59,34 +59,39 @@
   margin: 0;
 }
 @media (max-width: 600px) {
-  .edit-complaint-container {
+  .detail-complaint-container {
     padding: 1rem 1rem;
   }
 }
-.edit-complaint-container h2 {
+.detail-complaint-container h2 {
   text-align: center;
 }
-.edit-complaint-container .edit-mode .edit-fields {
+.detail-complaint-container .edit-mode .edit-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
   font-size: 1.1rem;
   margin-top: 0.5rem;
 }
-.edit-complaint-container .edit-mode .edit-fields label {
+.detail-complaint-container .edit-mode .edit-fields label {
   font-weight: bold;
   justify-self: end;
 }
-.edit-complaint-container .edit-mode .edit-fields input {
+.detail-complaint-container .edit-mode .edit-fields input {
   font-size: 1.1rem;
 }
-.edit-complaint-container .edit-mode .edit-buttons {
+.detail-complaint-container .edit-mode .buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.detail-complaint-container .edit-mode .buttons .delete-button {
   display: flex;
   flex-direction: row;
   justify-content: end;
-  margin-top: 1rem;
+  margin-right: auto;
 }
-.edit-complaint-container .edit-mode .edit-buttons a {
+.detail-complaint-container .edit-mode .buttons .delete-button a {
   background-color: #163E6C;
   padding: 0.3rem 0.7rem;
   border-radius: 5px;
@@ -97,21 +102,43 @@
   font-size: 1rem;
   cursor: pointer;
 }
-.edit-complaint-container .edit-mode .edit-buttons a:first-child {
+.detail-complaint-container .edit-mode .buttons .delete-button a:first-child {
   margin-right: 1rem;
 }
-.edit-complaint-container .view-mode .view-field {
+.detail-complaint-container .edit-mode .buttons .delete-button a {
+  background-color: #D20A11;
+}
+.detail-complaint-container .edit-mode .buttons .edit-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+.detail-complaint-container .edit-mode .buttons .edit-buttons a {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.detail-complaint-container .edit-mode .buttons .edit-buttons a:first-child {
+  margin-right: 1rem;
+}
+.detail-complaint-container .view-mode .view-field {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
   font-size: 1.1rem;
   margin-top: 0.5rem;
 }
-.edit-complaint-container .view-mode .view-field label {
+.detail-complaint-container .view-mode .view-field label {
   font-weight: bold;
   justify-self: end;
 }
-.edit-complaint-container .view-mode .view-field span {
+.detail-complaint-container .view-mode .view-field span {
   justify-self: start;
 }
 

@@ -22,8 +22,8 @@ class Command(BaseCommand):
             editors_group.permissions.clear()
 
         # ++ maintenance
-        editors_group.permissions.add(Permission.objects.get(codename='add_maintenancetype'))
-        editors_group.permissions.add(Permission.objects.get(codename='change_maintenancetype'))
+        editors_group.permissions.add(Permission.objects.get(codename='add_maintenance'))
+        editors_group.permissions.add(Permission.objects.get(codename='change_maintenance'))
         # -- maintenance
 
         editors_group.permissions.add(Permission.objects.get(codename='view_vehicle'))
