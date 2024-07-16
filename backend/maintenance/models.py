@@ -36,12 +36,20 @@ class Maintenance(models.Model):
         default=None
     )
 
+    class Meta:
+        verbose_name = 'ТО'
+        verbose_name_plural = 'ТО'
+
 
 class MaintenanceType(ReferenceModel):
     # вид ТО
-    pass
+    class Meta:
+        verbose_name = 'Вид ТО'
+        verbose_name_plural = 'Виды ТО'
 
 
 class Organization(ReferenceModel):
     # Организация делавшая ТО
-    pass
+    class Meta:
+        verbose_name = 'Организация'
+        verbose_name_plural = 'Организации'

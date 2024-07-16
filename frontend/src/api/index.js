@@ -3,8 +3,8 @@ import {logoutUser, updateAccessToken} from "../store/userSlice";
 import store from "../store/store";
 
 
-const API_URL = 'http://localhost:8000';
-// const API_URL = 'http://192.168.88.148:8000';
+// const API_URL = 'http://localhost:8000';
+const API_URL = 'http://192.168.88.148:8000';
 
 const api = axios.create({
   baseURL: API_URL,

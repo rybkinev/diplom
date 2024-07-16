@@ -10,6 +10,10 @@ class ServiceCompany(models.Model):
     name = models.CharField(max_length=120, default='')
     description = models.TextField(default='')
 
+    class Meta:
+        verbose_name = 'Сервисная компания'
+        verbose_name_plural = 'Сервисные компании'
+
     def __str__(self):
         return self.name
 

@@ -83,30 +83,44 @@ class Vehicle(models.Model):
     # client = models.CharField(max_length=200, default='')
     # service_company = models.CharField(max_length=200, default='')
 
+    class Meta:
+        verbose_name = 'Машина'
+        verbose_name_plural = 'Машины'
+
     def __str__(self):
         return self.serial_number
 
 
 class VehicleModel(ReferenceModel):
     # Модель техники
-    pass
+    class Meta:
+        verbose_name = 'Модель машины'
+        verbose_name_plural = 'Модели машин'
 
 
 class EngineModel(ReferenceModel):
     # Модель двигателя
-    pass
+    class Meta:
+        verbose_name = 'Модель двигателя'
+        verbose_name_plural = 'Модели двигателей'
 
 
 class TransmissionModel(ReferenceModel):
     # Модель трансмиссии
-    pass
+    class Meta:
+        verbose_name = 'Модель трансмиссии'
+        verbose_name_plural = 'Модели трансмиссий'
 
 
 class DriveAxleModel(ReferenceModel):
     # модель ведущего моста
-    pass
+    class Meta:
+        verbose_name = 'Модель ведущего моста'
+        verbose_name_plural = 'Модели ведущих мостов'
 
 
 class SteeringAxleModel(ReferenceModel):
     # модель управляемого моста
-    pass
+    class Meta:
+        verbose_name = 'Модель управляемого моста'
+        verbose_name_plural = 'Модели управляемых мостов'

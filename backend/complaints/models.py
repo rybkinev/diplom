@@ -26,22 +26,20 @@ class Complaint(models.Model):
     def downtime(self):
         return self.date_recovery - self.date_failure
 
+    class Meta:
+        verbose_name = 'Рекламация'
+        verbose_name_plural = 'Рекламации'
+
 
 class FailureNode(ReferenceModel):
     # Узел отказа
-    # name = models.CharField(max_length=120)
-    # description = models.TextField()
-    #
-    # def __str__(self):
-    #     return self.name
-    pass
+    class Meta:
+        verbose_name = 'Узел отказа'
+        verbose_name_plural = 'Узлы отказа'
 
 
 class RecoveryMethod(ReferenceModel):
     # Метод восстановления
-    # name = models.CharField(max_length=120)
-    # description = models.TextField()
-    #
-    # def __str__(self):
-    #     return self.name
-    pass
+    class Meta:
+        verbose_name = 'Метод восстановления'
+        verbose_name_plural = 'Методы восстановления'
