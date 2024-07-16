@@ -11,6 +11,7 @@ router.register(r'engine-model', views.EngineModelViewSet)
 router.register(r'transmission-model', views.TransmissionModelViewSet)
 router.register(r'drive-axle-model', views.DriveAxleModelViewSet)
 router.register(r'steering-axle-model', views.SteeringAxleModelViewSet)
+router.register(r'clients', views.ClientViewSet)
 router.register(r'', views.VehicleViewSet)
 
 urlpatterns = [

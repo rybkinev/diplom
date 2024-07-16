@@ -1,3 +1,5 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -168,3 +170,12 @@ class SteeringAxleModelViewSet(viewsets.ModelViewSet):
     queryset = models.SteeringAxleModel.objects.all()
     serializer_class = serializers.SteeringAxleModelSerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    group_name = 'Client'
+    group = Group.objects.get(name=group_name)
+    queryset = get_user_model().objects.filter(groups=group)
+
+    serializer_class = serializers.ClientSerializer
+    permission_classes = [DjangoModelPermissions]

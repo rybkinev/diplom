@@ -130,7 +130,7 @@ const MaintenanceDetail = () => {
   }
 
   if (createMaintenance && !hasAddPermission) {
-    return <h1>У Вас нет прав на создание рекламаций</h1>;
+    return <h1>У Вас нет прав на добавление записей о ТО</h1>;
   }
 
   return (

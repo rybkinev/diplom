@@ -1,6 +1,10 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from rest_framework.fields import CharField, DateField
+from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 
+from accounts.models import ServiceCompany
 from accounts.serializers import ServiceCompanySerializer
 from core.serializers import CamelCaseSerializerMixin, ReferenceSerializer
 from vehicle.models import Vehicle, DriveAxleModel, TransmissionModel, EngineModel, VehicleModel, SteeringAxleModel
@@ -46,20 +50,42 @@ class SteeringAxleModelSerializer(ReferenceSerializer):
         return "Модель управляемого моста"
 
 
+class ClientSerializer(CamelCaseSerializerMixin, ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'first_name')
+
+
 class PrivateVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
     serialNumber = CharField(source='serial_number')
-    vehicleModel = VehicleModelSerializer(source='vehicle_model')
-    engineModel = EngineModelSerializer(source='engine_model')
     snEngine = CharField(source='sn_engine')
-    transmissionModel = TransmissionModelSerializer(source='transmission_model')
     snTransmission = CharField(source='sn_transmission')
-    driveAxleModel = DriveAxleModelSerializer(source='drive_axle_model')
     snDriveAxle = CharField(source='sn_drive_axle')
-    steeringAxleModel = SteeringAxleModelSerializer(source='steering_axle_model')
     snSteeringAxle = CharField(source='sn_steering_axle')
     shippingDate = DateField(source='shipping_date')
     deliveryAddress = CharField(source='delivery_address')
-    serviceCompany = ServiceCompanySerializer(source='service_company')
+
+    # vehicleModel = VehicleModelSerializer(source='vehicle_model')
+    # engineModel = EngineModelSerializer(source='engine_model')
+    # transmissionModel = TransmissionModelSerializer(source='transmission_model')
+    # driveAxleModel = DriveAxleModelSerializer(source='drive_axle_model')
+    # steeringAxleModel = SteeringAxleModelSerializer(source='steering_axle_model')
+    # serviceCompany = ServiceCompanySerializer(source='service_company')
+
+    vehicleModel = PrimaryKeyRelatedField(queryset=VehicleModel.objects.all(), source='vehicle_model')
+    engineModel = PrimaryKeyRelatedField(queryset=EngineModel.objects.all(), source='engine_model')
+    transmissionModel = PrimaryKeyRelatedField(queryset=TransmissionModel.objects.all(), source='transmission_model')
+    driveAxleModel = PrimaryKeyRelatedField(queryset=DriveAxleModel.objects.all(), source='drive_axle_model')
+    steeringAxleModel = PrimaryKeyRelatedField(queryset=SteeringAxleModel.objects.all(), source='steering_axle_model')
+    serviceCompany = PrimaryKeyRelatedField(queryset=ServiceCompany.objects.all(), source='service_company')
+    client = PrimaryKeyRelatedField(queryset=get_user_model().objects.none())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Проверяем группу пользователя и фильтруем queryset в зависимости от группы
+        group_name = 'Client'
+        group = Group.objects.get(name=group_name)
+        self.fields['client'].queryset = get_user_model().objects.filter(groups=group)
 
     class Meta:
         model = Vehicle
@@ -83,6 +109,18 @@ class PrivateVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):
             'client',
             'serviceCompany'
         ]
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['vehicleModel'] = VehicleModelSerializer(instance.vehicle_model).data
+        ret['engineModel'] = EngineModelSerializer(instance.engine_model).data
+        ret['transmissionModel'] = TransmissionModelSerializer(instance.transmission_model).data
+        ret['driveAxleModel'] = DriveAxleModelSerializer(instance.drive_axle_model).data
+        ret['steeringAxleModel'] = SteeringAxleModelSerializer(instance.steering_axle_model).data
+        ret['client'] = ClientSerializer(instance.client).data
+        ret['serviceCompany'] = ServiceCompanySerializer(
+            instance.service_company).data if instance.service_company else None
+        return ret
 
 
 class PublicVehicleSerializer(CamelCaseSerializerMixin, ModelSerializer):

@@ -44,6 +44,7 @@ const Header = () => {
         className='brand-logo'
         src='/assets/img/logo/Logo_Blue.svg'
         alt='Logo'
+        onClick={() => navigate('/')}
       />
 
       <h1 className='title'>

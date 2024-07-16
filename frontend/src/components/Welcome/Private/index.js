@@ -1,16 +1,19 @@
 import React from "react";
 import './index.css';
 import {NavLink, Outlet} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 
 const Private = () => {
+  const userName = useSelector((state) => state.user.user);
+  const userType = useSelector((state) => state.user.userType);
+
 
   return (
     <div className='main-private-container'>
       <div className='client-info'>
-        {/*Покупатель: ООО "ФПК21"*/}
-        <h3>Сервисная компания: ООО Силант</h3>
-        {/*Менеджер: Самый главный*/}
+        <span>Вы авторизованы как: </span>
+        <h3>{userType}{userName ? `: ${userName}` : '' }</h3>
       </div>
 
       <div className='private-navigate'>

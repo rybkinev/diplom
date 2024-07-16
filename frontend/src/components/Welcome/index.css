@@ -51,7 +51,6 @@ main {
   width: 100%;
   background: #EBE6D6;
   padding: 1.5rem 3rem;
-  min-height: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -65,7 +64,7 @@ main nav {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 main nav a {
   margin: 0 1rem;

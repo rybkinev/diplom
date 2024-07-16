@@ -3,7 +3,9 @@ import api from "../api";
 
 
 const initialState = {
-  user: null,
+  login: localStorage.getItem('login') || null,
+  user: localStorage.getItem('user') || null,
+  userType: localStorage.getItem('userType') || null,
   accessToken: localStorage.getItem('accessToken') || null,
   refreshToken: localStorage.getItem('refreshToken') || null,
   isAuthenticated: !!localStorage.getItem('accessToken'),
@@ -21,11 +23,11 @@ const logoutUser = createAsyncThunk(
       }
     ).then(r => {
       console.debug('success logout')
-      return r.data;
+      return r?.data;
     }).catch(
       (error) => {
         console.debug(error)
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(error.response?.data);
       }
     )
   }
@@ -37,12 +39,19 @@ const userSlice = createSlice({
   // Синхронные действия
   reducers: {
     setUser(state, action) {
+      state.login = action.payload.login;
       state.user = action.payload.user;
+      state.userType = action.payload.userType;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.isAuthenticated = true;
+
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
+
+      localStorage.setItem('login', action.payload.login);
+      localStorage.setItem('user', action.payload.user);
+      localStorage.setItem('userType', action.payload.userType);
     },
     updateAccessToken(state, action) {
       state.accessToken = action.payload.accessToken;
@@ -57,13 +66,20 @@ const userSlice = createSlice({
       // })
       .addCase(logoutUser.fulfilled, (state) => {
         console.debug('logoutUser.fulfilled');
+        state.login = null;
         state.user = null;
+        state.userType = null;
         state.accessToken = null;
         state.refreshToken = null;
         state.isAuthenticated = false;
         state.permissions = [];
+
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+
+        localStorage.removeItem('login');
+        localStorage.removeItem('user');
+        localStorage.removeItem('userType');
       })
       .addCase(logoutUser.rejected, (state, action) => {
         console.debug('logoutUser.rejected');

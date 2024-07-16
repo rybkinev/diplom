@@ -82,7 +82,25 @@ const Vehicles = () => {
 
   const handleNewRecord = () => {
     navigate(
-      'add',
+      '/vehicles/add',
+      {
+        state: {
+          background: location,
+          editable: true,
+        }
+      })
+  }
+
+  const handleOpenRowClick = (e) => {
+    const vehicleId = e.currentTarget.getAttribute('data-key')
+    if (!vehicleId) {
+      console.debug('Maintenance handleEditRowClick', '!idMaintenance', e.target);
+      return;
+    }
+    // console.debug('Maintenance handleEditRowClick', idMaintenance, e.target);
+
+    navigate(
+      `/vehicles/${vehicleId}`,
       {
         state: {
           background: location,
@@ -295,7 +313,7 @@ const Vehicles = () => {
                   src='/assets/img/open_row.png'
                   alt='Редактировать'
                   data-key={i.id}
-                  // onClick={handleOpenRowClick}
+                  onClick={handleOpenRowClick}
                 />
               </td>
             </tr>

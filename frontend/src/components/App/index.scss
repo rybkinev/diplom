@@ -27,6 +27,9 @@ html {
     }
 }
 
+body.no-scroll {
+  overflow: hidden;
+}
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -62,8 +65,9 @@ a {
     padding: .3rem .2rem;
     height: 2rem;
     position: absolute;
-    right: .3rem;
-    top: .3rem;
+    right: 1.5rem;
+    top: 3rem;
+    //position: relative;
     cursor: pointer;
 }
 

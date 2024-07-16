@@ -1,6 +1,9 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated, DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated, DjangoModelPermissionsOrAnonReadOnly, \
+    DjangoModelPermissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -48,3 +51,17 @@ class ServiceCompanyViewSet(ModelViewSet):
     queryset = models.ServiceCompany.objects.all()
     serializer_class = serializers.ServiceCompanySerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
+
+class UserInfoViewSet(APIView):
+    permission_classes = [DjangoModelPermissions]
+    serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return get_user_model().objects.filter(id=user.id)
+
+    def get(self, request, *args, **kwargs):
+        serializer = serializers.UserSerializer(self.request.user, many=False)
+
+        return Response(serializer.data)

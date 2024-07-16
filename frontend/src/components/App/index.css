@@ -77,6 +77,10 @@ html {
   }
 }
 
+body.no-scroll {
+  overflow: hidden;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   font-family: PT-Astra-Sans, sans-serif;
@@ -111,8 +115,8 @@ a:hover {
   padding: 0.3rem 0.2rem;
   height: 2rem;
   position: absolute;
-  right: 0.3rem;
-  top: 0.3rem;
+  right: 1.5rem;
+  top: 3rem;
   cursor: pointer;
 }
 

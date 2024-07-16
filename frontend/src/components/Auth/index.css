@@ -58,6 +58,8 @@
   justify-content: center;
 }
 .auth-form .auth-form-btn-submit {
+  position: relative;
+  max-height: 4.5rem;
   font-size: 1.5rem;
   border-radius: 5px;
   cursor: pointer;

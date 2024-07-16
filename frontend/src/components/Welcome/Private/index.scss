@@ -10,6 +10,7 @@
   .client-info {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-self: center;
 
     h3 {

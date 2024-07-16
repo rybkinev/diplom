@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {logoutUser, setUser, updateAccessToken} from "../store/userSlice";
+import {logoutUser, updateAccessToken} from "../store/userSlice";
 import store from "../store/store";
 
 
-// const API_URL = 'http://localhost:8000';
-const API_URL = 'http://192.168.88.148:8000';
+const API_URL = 'http://localhost:8000';
+// const API_URL = 'http://192.168.88.148:8000';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -31,7 +31,12 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    return await RefreshToken(error)
+  }
+);
+
+const RefreshToken = async ({error, }) => {
+  const originalRequest = error.config;
     // console.debug('api.interceptors.response originalRequest', originalRequest);
 
     // Получаем текущее состояние из хранилища
@@ -71,7 +76,7 @@ api.interceptors.response.use(
     // Если ошибка не связана с токеном или обновление токена провалилось
     // console.debug('api.interceptors.response Promise')
     return Promise.reject(error);
-  }
-);
+}
 
 export default api;
+export {API_URL, RefreshToken};

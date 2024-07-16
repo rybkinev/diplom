@@ -26,11 +26,10 @@ header {
   }
 
 
-  img {
+  img.brand-logo {
     max-height: 60px;
     height: 5vw;
-    //height: 80%;
-    //margin-right: auto;
+    cursor: pointer;
     order: 1;
   }
 

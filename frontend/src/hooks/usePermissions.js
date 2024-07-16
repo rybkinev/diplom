@@ -1,11 +1,16 @@
 import {useEffect, useState} from "react";
 import api from "../api";
+import {useSelector} from "react-redux";
 
 
 const usePermissions = () => {
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+
   const [permissions, setPermissions] = useState([]);
 
   const fetchPermission = async () => {
+    if (!isAuthenticated) return;
+
     try {
       const response = await api.get('/api/v1/account/permissions/');
       const permissions = response.data.permissions;

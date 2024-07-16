@@ -54,6 +54,7 @@
 .main-private-container .client-info {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-self: center;
 }
 .main-private-container .client-info h3 {
@@ -63,7 +64,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   justify-content: start;
 }
 .main-private-container .private-navigate a {

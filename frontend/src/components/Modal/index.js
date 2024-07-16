@@ -13,10 +13,13 @@ const Modal = ({children, onClose}) => {
       }
     };
 
+    document.body.classList.add('no-scroll');
+
     document.addEventListener('keydown', handleEscape);
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.body.classList.remove('no-scroll');
     };
   }, [onClose]);
 
@@ -43,9 +46,12 @@ const Modal = ({children, onClose}) => {
             className='btn-close'
             onClick={handleClose}
           >
-            &times;
+            {/*&times;*/}
+            X
           </button>
-          {children}
+          <div className='modal'>
+            {children}
+          </div>
         </div>
       </div>,
       document.body

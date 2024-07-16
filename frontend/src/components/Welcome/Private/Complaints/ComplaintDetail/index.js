@@ -74,6 +74,9 @@ const ComplaintDetail = () => {
   };
 
   const handleCancelClick = () => {
+    if (createComplaint)
+      navigate(-1);
+
     setEditMode(false);
     setEditData(data); // Отмена изменений
   };

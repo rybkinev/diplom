@@ -35,49 +35,52 @@ const Auth = ({isOpen, setIsOpen}) => {
     e.preventDefault();
 
     setLoading(true);
-    await api.post(
-      '/api/v1/account/token/',
-      {username, password}
-    ).then((response) => {
+    try {
+      const response = await api.post('/api/v1/account/token/', { username, password });
       const { access, refresh } = response.data;
 
-      // console.debug('handleSubmit 1', response.data);
-      // console.debug('accessToken', access);
-      // console.debug('refreshToken', refresh);
+      const userResponse = await api.get('api/v1/account/info/', {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        }
+      });
+
+      const data = userResponse.data;
+      const name = data?.firstName;
+      const type = data?.userType;
+
+      dispatch(setUser({
+        accessToken: access,
+        refreshToken: refresh,
+        login: username,
+        userType: type,
+        user: name,
+      }));
 
       setUsername('');
       setPassword('');
       setLoading(false);
 
-      dispatch(setUser({accessToken: access, refreshToken: refresh, login: username}));
-
       const state = location.state;
       const background = state && state.background;
 
-      console.debug('AUTH background pathname', background.pathname);
-
       if (background.pathname === '/swagger') {
-        // Если текущая страница /swagger, остаёмся на ней
         navigate(background.pathname);
       } else {
-        // В остальных случаях редирект на "private"
         navigate('/private');
       }
 
-    })
-      .catch((error) => {
-        setLoading(false);
-        console.error('Login failed', error);
-        if (error.response?.status === 401) {
-          setPasswordError('Неправильный пароль');
-        }
-        else {
-          console.debug('Auth error not 401');
-          // TODO Желательно показывать какую то другую ошибку
-          setPasswordError('Непредвиденная ошибка');
-        }
-      });
+    } catch (error) {
+      setLoading(false);
+      console.error('Login failed', error);
+      if (error.response?.status === 401) {
+        setPasswordError('Неправильный пароль');
+      } else {
+        setPasswordError('Непредвиденная ошибка');
+      }
+    }
   }
+
 
   return(
     <form className="auth-form" method='post' onSubmit={handleSubmit}>

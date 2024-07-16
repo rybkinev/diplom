@@ -1,41 +1,47 @@
 import React, { useMemo } from 'react';
 import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
-import { useSelector } from 'react-redux';
-import api from "../api";
+import {useDispatch, useSelector} from 'react-redux';
+import api, {API_URL} from "../api";
+import axios from "axios";
+import {logoutUser, updateAccessToken} from "../store/userSlice";
 
 const Swagger = () => {
   const token = useSelector((state) => state.user.accessToken);
+  const refreshToken = useSelector((state) => state.user.refreshToken);
+  const dispatch = useDispatch();
 
   const swaggerOptions = useMemo(() => ({
-    url: 'http://localhost:8000/api/v1/schemas',
+    url: `${API_URL}/api/v1/schemas`,
     requestInterceptor: async (req) => {
       if (token) {
         req.headers['Authorization'] = `Bearer ${token}`;
       }
       return req;
     },
-    request: (request) => {
-      console.debug('swagger request', request)
-      return api({
-        method: request.method,
-        url: request.url,
-        data: request.body,
-        headers: request.headers,
-      })
-        .then((response) => {
-          return {
-            ok: true,
-            url: request.url,
-            status: response.status,
-            statusText: response.statusText,
-            headers: response.headers,
-            text: response.data,
+    responseInterceptor: async (response) => {
+      if (response.status === 401 && refreshToken) {
+        try {
+          const { data } = await axios.post(
+            `${API_URL}/api/v1/account/token/refresh/`,
+            { refresh: refreshToken }
+          );
+          const newAccessToken = data.access;
+          dispatch(updateAccessToken({ accessToken: newAccessToken }));
+
+          const retryOriginalRequest = {
+            ...response.config,
+            headers: {
+              ...response.config.headers,
+              'Authorization': `Bearer ${newAccessToken}`,
+            },
           };
-        })
-        .catch((error) => {
-          throw new Error(error.message);
-        });
+          return api(retryOriginalRequest);
+        } catch (error) {
+          dispatch(logoutUser());
+        }
+      }
+      return response;
     },
   }), [token]);
 

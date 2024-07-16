@@ -51,11 +51,11 @@
   width: 100%;
   background: #EBE6D6;
   padding: 1.5rem 3rem;
-  min-height: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  margin: 0;
 }
 @media (max-width: 600px) {
   .vehicle-detail {
@@ -65,8 +65,80 @@
 .vehicle-detail h1 {
   align-items: center;
 }
+.vehicle-detail .edit-mode .edit-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+.vehicle-detail .edit-mode .edit-fields label {
+  font-weight: bold;
+  text-align: right;
+  width: 100%;
+}
+.vehicle-detail .edit-mode .edit-fields input {
+  font-size: 1.1rem;
+  width: 100%;
+}
+.vehicle-detail .edit-mode .buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.vehicle-detail .edit-mode .buttons .delete-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-right: auto;
+}
+.vehicle-detail .edit-mode .buttons .delete-button a {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.vehicle-detail .edit-mode .buttons .delete-button a:first-child {
+  margin-right: 1rem;
+}
+.vehicle-detail .edit-mode .buttons .delete-button a {
+  background-color: #D20A11;
+}
+.vehicle-detail .edit-mode .buttons .edit-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+.vehicle-detail .edit-mode .buttons .edit-buttons a {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.vehicle-detail .edit-mode .buttons .edit-buttons a:first-child {
+  margin-right: 1rem;
+}
 .vehicle-detail .detail-container {
   font-size: 1.1rem;
+}
+.vehicle-detail .detail-container .detail-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 770px) {
+  .vehicle-detail .detail-container .detail-grid-container {
+    grid-template-columns: 1fr;
+  }
 }
 .vehicle-detail .detail-container .model-container {
   position: relative;
@@ -84,11 +156,17 @@
   font-weight: bold;
 }
 .vehicle-detail .detail-container .model-container .model-info .model-name {
-  margin-right: 3rem;
   margin-bottom: 0.2rem;
 }
 .vehicle-detail .detail-container .description {
   align-self: center;
+}
+.vehicle-detail .detail-container .detail {
+  display: flex;
+}
+.vehicle-detail .detail-container .detail .label {
+  font-weight: bold;
+  margin-right: 0.5rem;
 }
 .vehicle-detail .vehicle-detail-navigate {
   margin: 1rem 0;
@@ -96,7 +174,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .vehicle-detail .vehicle-detail-navigate a {
   margin: 0 1rem;
