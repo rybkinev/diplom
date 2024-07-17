@@ -7,6 +7,7 @@ import HeaderCell from "../../Table/HeaderCell";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
 import usePermissions from "../../../../hooks/usePermissions";
+import Filter from "../../Filter";
 
 
 const Maintenance = () => {
@@ -31,8 +32,11 @@ const Maintenance = () => {
     workOrder: '',
     dateOrder: '',
     organization: '',
+    serviceCompany: '',
   });
   const [filterInput, setFilterInput] = useState(filters);
+
+  const [showFilters, setShowFilters] = useState(false);
 
   const {
     shouldHideOrganization,
@@ -114,140 +118,206 @@ const Maintenance = () => {
       })
   }
 
+  const handleOpenFilters = () => {
+    setShowFilters(true);
+  }
+  const handleCloseFilters = () => {
+    setShowFilters(false);
+  }
+
   return(
     <div className='main-container maintenance'>
-      <span className='text'>Информация о техническом обслуживании Вашей техники</span>
-      <table>
-        <thead>
-        <tr>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'dateMaintenance'}
-            searchInput={<CustomInput
-              placeholder="Дата проведения ТО"
-              name="dateMaintenance"
-              value={filterInput.dateMaintenance}
-              filterInput={filterInput}
-              setFilterInput={setFilterInput}
-              setFilters={setFilters}
-            />}
-          >
-            Дата проведения
-          </HeaderCell>
+      {showFilters &&
+        <Filter
+          handleCloseFilters={handleCloseFilters}
+        >
           {!vehicleId &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'vehicle'}
-              searchInput={<CustomInput
+            <div className='filter-field-container'>
+              <label htmlFor='vehicle'>Заводской номер:</label>
+              <CustomInput
                 placeholder="Заводской номер"
                 name="vehicle"
                 value={filterInput.vehicle}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />}
-            >
-              Заводской номер
-            </HeaderCell>
+              />
+            </div>
           }
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'typeMaintenance'}
-            searchInput={<CustomInput
+          <div className='filter-field-container'>
+            <label htmlFor='typeMaintenance'>Вид ТО:</label>
+            <CustomInput
               placeholder="Вид ТО"
               name="typeMaintenance"
               value={filterInput.typeMaintenance}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='serviceCompany'>Сервисная компания:</label>
+            <CustomInput
+              placeholder="Сервисная компания"
+              name="serviceCompany"
+              value={filterInput.serviceCompany}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+        </Filter>
+      }
+      <span className='text'>Информация о техническом обслуживании Вашей техники</span>
+      {(!vehicleId && hasAddPermission) &&
+        <div className='head-buttons'>
+          <a
+            className='head-button-create'
+            onClick={handleNewRecord}
           >
-            Вид ТО
-          </HeaderCell>
-          {!shouldHideOperatingTime &&
+            Добавить запись
+          </a>
+        </div>
+      }
+      <table>
+        <thead>
+          <tr>
             <HeaderCell
               sortConfig={sortConfig}
               setSortConfig={setSortConfig}
-              name={'operatingTime'}
+              name={'dateMaintenance'}
               searchInput={<CustomInput
-                placeholder="Наработка"
-                name="operatingTime"
-                value={filterInput.operatingTime}
+                placeholder="Дата проведения ТО"
+                name="dateMaintenance"
+                value={filterInput.dateMaintenance}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
               />}
             >
-              Наработка, м/час
+              Дата проведения
             </HeaderCell>
-          }
-          {!shouldHideWorkOrder &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'workOrder'}
-              searchInput={<CustomInput
-                placeholder="№ заказ наряда"
-                name="workOrder"
-                value={filterInput.workOrder}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              № заказ наряда
-            </HeaderCell>
-          }
-          {!shouldHideDateOrder &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'dateOrder'}
-              searchInput={<CustomInput
-                placeholder="Дата заказ наряда"
-                name="dateOrder"
-                value={filterInput.dateOrder}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Дата заказ наряда
-            </HeaderCell>
-          }
-          {!shouldHideOrganization &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'organization'}
-              searchInput={<CustomInput
-                placeholder="Организация"
-                name="organization"
-                value={filterInput.organization}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Организация, проводившая ТО
-            </HeaderCell>
-          }
-          <td>
-            {(!vehicleId && hasAddPermission) &&
-              <div className='head-buttons'>
-                <a
-                  className='head-button-create'
-                  onClick={handleNewRecord}
-                >
-                  +
-                </a>
-              </div>
+            {!vehicleId &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'vehicle'}
+                searchInput={<CustomInput
+                  placeholder="Заводской номер"
+                  name="vehicle"
+                  value={filterInput.vehicle}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Заводской номер
+              </HeaderCell>
             }
-          </td>
-        </tr>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'typeMaintenance'}
+              searchInput={<CustomInput
+                placeholder="Вид ТО"
+                name="typeMaintenance"
+                value={filterInput.typeMaintenance}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Вид ТО
+            </HeaderCell>
+            {!shouldHideOperatingTime &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'operatingTime'}
+                searchInput={<CustomInput
+                  placeholder="Наработка"
+                  name="operatingTime"
+                  value={filterInput.operatingTime}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Наработка, м/час
+              </HeaderCell>
+            }
+            {!shouldHideWorkOrder &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'workOrder'}
+                searchInput={<CustomInput
+                  placeholder="№ заказ наряда"
+                  name="workOrder"
+                  value={filterInput.workOrder}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                № заказ наряда
+              </HeaderCell>
+            }
+            {!shouldHideDateOrder &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'dateOrder'}
+                searchInput={<CustomInput
+                  placeholder="Дата заказ наряда"
+                  name="dateOrder"
+                  value={filterInput.dateOrder}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Дата заказ наряда
+              </HeaderCell>
+            }
+            {!shouldHideOrganization &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'organization'}
+                searchInput={<CustomInput
+                  placeholder="Организация"
+                  name="organization"
+                  value={filterInput.organization}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Организация, проводившая ТО
+              </HeaderCell>
+            }
+            <td>
+              {/*{(!vehicleId && hasAddPermission) &&*/}
+              {/*  <div className='head-buttons'>*/}
+              {/*    <a*/}
+              {/*      className='head-button-create'*/}
+              {/*      onClick={handleNewRecord}*/}
+              {/*    >*/}
+              {/*      +*/}
+              {/*    </a>*/}
+              {/*  </div>*/}
+              {/*}*/}
+              <div className='head-buttons'>
+                <img
+                  className='img-button-open-row'
+                  src='/assets/img/filter_white.png'
+                  alt='Редактировать'
+                  onClick={handleOpenFilters}
+                />
+              </div>
+            </td>
+          </tr>
         </thead>
         <tbody>
         {maintenance.map((i, index) => (

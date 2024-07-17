@@ -25,7 +25,7 @@ const VehicleDetail = () => {
   const [activePage, setActivePage] = useState('maintenance');
 
   const [editMode, setEditMode] = useState( true);
-  const createVehicle = prodId === 'add';
+  const [createVehicle, setCreateVehicle] = useState(prodId === 'add');
 
   let url = 'api/v1/vehicles/';
   if (!createVehicle)
@@ -131,6 +131,8 @@ const VehicleDetail = () => {
       ).then((response) => {
         setData(response.data);
         setEditMode(false);
+        window.history.replaceState(null, '', `/vehicles/${response.data.id}`);
+        setCreateVehicle(false);
       }).catch((error) => {
         console.debug('VehicleDetail handleSaveClick api.put', error)
       });

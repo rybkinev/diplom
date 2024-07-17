@@ -20,7 +20,7 @@ const MaintenanceDetail = () => {
 
   const prodId = params?.id;
 
-  const createMaintenance = prodId === 'add';
+  const [createMaintenance, setCreateMaintenance] = useState(prodId === 'add');
 
   let url = 'api/v1/maintenance/'
   if (!createMaintenance)
@@ -107,6 +107,8 @@ const MaintenanceDetail = () => {
       ).then((response) => {
         setData(response.data);
         setEditMode(false);
+        window.history.replaceState(null, '', `/private/maintenance/${response.data.id}`);
+        setCreateMaintenance(false);
       }).catch((error) => {
         console.debug('MaintenanceDetail handleSaveClick api.put', error)
       });

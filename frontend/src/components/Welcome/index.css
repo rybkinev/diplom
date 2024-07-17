@@ -93,7 +93,6 @@ main nav a.active {
   }
 }
 main table {
-  margin-top: 1rem;
   position: relative;
   width: 100%;
   border-collapse: collapse;

@@ -100,5 +100,19 @@
 .main-private-container .main-container .text {
   font-size: 1.3rem;
 }
+.main-private-container .main-container .head-buttons {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+.main-private-container .main-container .head-buttons .head-button-create {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+  font-size: 1.2rem;
+}
 
 /*# sourceMappingURL=index.css.map */

@@ -10,6 +10,7 @@ const CustomInput = (
     setFilterInput,
     setFilters,
     timeout,
+    type="text"
   }) => {
 
   if (!timeout) timeout = 700;
@@ -43,7 +44,7 @@ const CustomInput = (
   return (
     <div className="clearable-input">
       <input
-        type="text"
+        type={type}
         placeholder={placeholder}
         name={name}
         value={value}

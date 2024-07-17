@@ -46,31 +46,73 @@
   font-weight: bold;
   font-style: italic;
 }
-.clearable-input {
-  position: relative;
+.filters {
+  margin: 1vh 0;
+  width: 100%;
+  background: #EBE6D6;
+  padding: 1.5rem 3rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  z-index: 100;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #EBE6D6;
+  border: solid 2px #163E6C;
+  border-radius: 10px;
+  box-shadow: 10px 0 10px rgba(0, 0, 0, 0.7);
 }
-.clearable-input .custom-input {
+@media (max-width: 600px) {
+  .filters {
+    padding: 1rem 1rem;
+  }
+}
+@media (max-width: 500px) {
+  .filters {
+    width: 90%;
+  }
+}
+.filters .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filters .head .head-button-close {
+  background-color: #163E6C;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: normal;
+  border: none;
+  transition: 0.2s;
+}
+.filters .filter-container {
   position: relative;
-  padding: 0.3rem;
-  font-size: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
   width: 100%;
 }
-.clearable-input .custom-input:focus {
-  outline: none;
+@media (max-width: 770px) {
+  .filters .filter-container {
+    grid-template-columns: 1fr;
+  }
 }
-.clearable-input button.clear-button {
-  position: absolute;
-  z-index: 10;
-  right: 0.15rem;
-  top: 45%;
-  transform: translateY(-50%);
-  padding: 0.25rem 0.6rem;
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  cursor: pointer;
-  user-select: none;
-  color: #163E6C;
+.filters .filter-container .filter-field-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+.filters .filter-container .filter-field-container label {
+  margin-right: 0.5rem;
+  text-align: right;
+  width: 100%;
 }
 
 /*# sourceMappingURL=index.css.map */

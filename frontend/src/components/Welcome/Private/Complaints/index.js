@@ -7,6 +7,8 @@ import HeaderCell from "../../Table/HeaderCell";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
 import usePermissions from "../../../../hooks/usePermissions";
+import Filter from "../../Filter";
+import {EditField} from "../Fields";
 
 
 const Complaints = () => {
@@ -34,6 +36,8 @@ const Complaints = () => {
     usedParts: '',
   });
   const [filterInput, setFilterInput] = useState(filters);
+
+  const [showFilters, setShowFilters] = useState(false);
 
   const {
     shouldHideDateRecovery,
@@ -118,140 +122,231 @@ const Complaints = () => {
       })
   }
 
+  const handleOpenFilters = () => {
+    setShowFilters(true);
+  }
+  const handleCloseFilters = () => {
+    setShowFilters(false);
+  }
+
   return (
     <div className='main-container complaints'>
-      <span className='text'>Информация о рекламациях по Вашей технике</span>
-      <table>
-        <thead>
-        <tr>
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'dateFailure'}
-            searchInput={<CustomInput
+      {showFilters &&
+        <Filter
+          handleCloseFilters={handleCloseFilters}
+        >
+          <div className='filter-field-container'>
+            <label htmlFor='dateFailure'>Дата поломки:</label>
+            <CustomInput
               placeholder="Дата поломки"
               name="dateFailure"
               value={filterInput.dateFailure}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />}
-          >
-            Дата поломки
-          </HeaderCell>
+              type='date'
+            />
+          </div>
           {!vehicleId &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'vehicle'}
-              searchInput={<CustomInput
+            <div className='filter-field-container'>
+              <label htmlFor='vehicle'>Заводской номер:</label>
+              <CustomInput
                 placeholder="Заводской номер"
                 name="vehicle"
                 value={filterInput.vehicle}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
-              />}
-            >
-              Заводской номер
-            </HeaderCell>
+              />
+            </div>
           }
-          <HeaderCell
-            sortConfig={sortConfig}
-            setSortConfig={setSortConfig}
-            name={'nodeFailure'}
-            searchInput={<CustomInput
+          <div className='filter-field-container'>
+            <label htmlFor='nodeFailure'>Неисправный узел:</label>
+            <CustomInput
               placeholder="Неисправный узел"
               name="nodeFailure"
               value={filterInput.nodeFailure}
               filterInput={filterInput}
               setFilterInput={setFilterInput}
               setFilters={setFilters}
-            />}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='recoveryMethod'>Метод восстановления:</label>
+            <CustomInput
+              placeholder="Метод восстановления"
+              name="recoveryMethod"
+              value={filterInput.recoveryMethod}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='serviceCompany'>Сервисная компания:</label>
+            <CustomInput
+              placeholder="Сервисная компания"
+              name="serviceCompany"
+              value={filterInput.serviceCompany}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+        </Filter>
+      }
+      <span className='text'>Информация о рекламациях по Вашей технике</span>
+      {(!vehicleId && hasAddPermission) &&
+        <div className='head-buttons'>
+          <a
+            className='head-button-create'
+            onClick={handleNewRecord}
           >
-            Неисправный узел
-          </HeaderCell>
-          {!shouldHideComplaintOperatingTime &&
+            Добавить запись
+          </a>
+        </div>
+      }
+      <table>
+        <thead>
+          <tr>
             <HeaderCell
               sortConfig={sortConfig}
               setSortConfig={setSortConfig}
-              name={'operatingTime'}
+              name={'dateFailure'}
               searchInput={<CustomInput
-                placeholder="Наработка"
-                name="operatingTime"
-                value={filterInput.operatingTime}
+                placeholder="Дата поломки"
+                name="dateFailure"
+                value={filterInput.dateFailure}
                 filterInput={filterInput}
                 setFilterInput={setFilterInput}
                 setFilters={setFilters}
+                type='date'
               />}
             >
-              Наработка, м/час
+              Дата поломки
             </HeaderCell>
-          }
-          {!shouldHideUsedParts &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'usedParts'}
-              searchInput={<CustomInput
-                placeholder="Запчасти"
-                name="usedParts"
-                value={filterInput.usedParts}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Используемые запчасти
-            </HeaderCell>
-          }
-          {!shouldHideMethodRecovery &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'recoveryMethod'}
-              searchInput={<CustomInput
-                placeholder="Метод восстановления"
-                name="recoveryMethod"
-                value={filterInput.recoveryMethod}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Метод восстановления
-            </HeaderCell>
-          }
-          {!shouldHideDateRecovery &&
-            <HeaderCell
-              sortConfig={sortConfig}
-              setSortConfig={setSortConfig}
-              name={'dateRecovery'}
-              searchInput={<CustomInput
-                placeholder="Дата восстановления"
-                name="dateRecovery"
-                value={filterInput.dateRecovery}
-                filterInput={filterInput}
-                setFilterInput={setFilterInput}
-                setFilters={setFilters}
-              />}
-            >
-              Дата восстановления
-            </HeaderCell>
-          }
-          <td>
-            {(!vehicleId && hasAddPermission) &&
-              <div className='head-buttons'>
-                <a
-                  className='head-button-create'
-                  onClick={handleNewRecord}
-                >
-                  +
-                </a>
-              </div>
+            {!vehicleId &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'vehicle'}
+                searchInput={<CustomInput
+                  placeholder="Заводской номер"
+                  name="vehicle"
+                  value={filterInput.vehicle}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Заводской номер
+              </HeaderCell>
             }
-          </td>
-        </tr>
+            <HeaderCell
+              sortConfig={sortConfig}
+              setSortConfig={setSortConfig}
+              name={'nodeFailure'}
+              searchInput={<CustomInput
+                placeholder="Неисправный узел"
+                name="nodeFailure"
+                value={filterInput.nodeFailure}
+                filterInput={filterInput}
+                setFilterInput={setFilterInput}
+                setFilters={setFilters}
+              />}
+            >
+              Неисправный узел
+            </HeaderCell>
+            {!shouldHideComplaintOperatingTime &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'operatingTime'}
+                searchInput={<CustomInput
+                  placeholder="Наработка"
+                  name="operatingTime"
+                  value={filterInput.operatingTime}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Наработка, м/час
+              </HeaderCell>
+            }
+            {!shouldHideUsedParts &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'usedParts'}
+                searchInput={<CustomInput
+                  placeholder="Запчасти"
+                  name="usedParts"
+                  value={filterInput.usedParts}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Используемые запчасти
+              </HeaderCell>
+            }
+            {!shouldHideMethodRecovery &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'recoveryMethod'}
+                searchInput={<CustomInput
+                  placeholder="Метод восстановления"
+                  name="recoveryMethod"
+                  value={filterInput.recoveryMethod}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />}
+              >
+                Метод восстановления
+              </HeaderCell>
+            }
+            {!shouldHideDateRecovery &&
+              <HeaderCell
+                sortConfig={sortConfig}
+                setSortConfig={setSortConfig}
+                name={'dateRecovery'}
+                searchInput={<CustomInput
+                  placeholder="Дата восстановления"
+                  name="dateRecovery"
+                  value={filterInput.dateRecovery}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                  type='date'
+                />}
+              >
+                Дата восстановления
+              </HeaderCell>
+            }
+            <td>
+              {/*{(!vehicleId && hasAddPermission) &&*/}
+              {/*  <div className='head-buttons'>*/}
+              {/*    <a*/}
+              {/*      className='head-button-create'*/}
+              {/*      onClick={handleOpenFilters}*/}
+              {/*    >*/}
+              {/*      +*/}
+              {/*    </a>*/}
+              {/*  </div>*/}
+              {/*}*/}
+              <div className='head-buttons'>
+                <img
+                  className='img-button-open-row'
+                  src='/assets/img/filter_white.png'
+                  alt='Редактировать'
+                  onClick={handleOpenFilters}
+                />
+              </div>
+            </td>
+          </tr>
         </thead>
         <tbody>
         {complaints.map((i, index) => (
@@ -311,7 +406,7 @@ const Complaints = () => {
                 <img
                   className='img-button-open-row'
                   src='/assets/img/open_row.png'
-                  alt='Редактировать'
+                  alt='Открыть рекламацию'
                   data-key={i.id}
                   onClick={handleOpenRowClick}
                 />

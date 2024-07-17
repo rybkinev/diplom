@@ -1,0 +1,19 @@
+.edit-fields {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+.edit-fields label {
+  font-weight: bold;
+  text-align: right;
+  width: 100%;
+}
+.edit-fields input {
+  font-size: 1.1rem;
+  width: 100%;
+}
+
+/*# sourceMappingURL=index.css.map */

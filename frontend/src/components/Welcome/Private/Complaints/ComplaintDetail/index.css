@@ -65,22 +65,6 @@
 .detail-complaint-container h2 {
   text-align: center;
 }
-.detail-complaint-container .edit-mode .edit-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-}
-.detail-complaint-container .edit-mode .edit-fields label {
-  font-weight: bold;
-  text-align: right;
-  width: 100%;
-}
-.detail-complaint-container .edit-mode .edit-fields input {
-  font-size: 1.1rem;
-  width: 100%;
-}
 .detail-complaint-container .edit-mode .buttons {
   margin-top: 1rem;
   display: flex;

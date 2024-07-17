@@ -7,6 +7,7 @@ import Pagination from "../../Table/Pagination";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import useResponsive from "../../../../hooks/useResponsive";
 import usePermissions from "../../../../hooks/usePermissions";
+import Filter from "../../Filter";
 
 
 const Vehicles = () => {
@@ -29,8 +30,9 @@ const Vehicles = () => {
     driveAxleModel: '',
     steeringAxleModel: '',
   });
-
   const [filterInput, setFilterInput] = useState(filters);
+
+  const [showFilters, setShowFilters] = useState(false);
 
   const {
     shouldHideSteeringAxle,
@@ -109,12 +111,113 @@ const Vehicles = () => {
       })
   }
 
+  const handleOpenFilters = () => {
+    setShowFilters(true);
+  }
+  const handleCloseFilters = () => {
+    setShowFilters(false);
+  }
+
   return (
     <div className='main-container vehicle'>
+      {showFilters &&
+        <Filter
+          handleCloseFilters={handleCloseFilters}
+        >
+          <div className='filter-field-container'>
+            <label htmlFor='shippingDate'>Дата выпуска:</label>
+            <CustomInput
+              placeholder="Дата выпуска"
+              name="shippingDate"
+              value={filterInput.shippingDate}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+              type='date'
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='serialNumber'>Заводской номер:</label>
+            <CustomInput
+              placeholder="Заводской номер"
+              name="serialNumber"
+              value={filterInput.serialNumber}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='vehicleModel'>Модель:</label>
+            <CustomInput
+              placeholder="Модель"
+              name="vehicleModel"
+              value={filterInput.vehicleModel}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='engineModel'>Двигатель:</label>
+            <CustomInput
+                  placeholder="Двигатель"
+                  name="engineModel"
+                  value={filterInput.engineModel}
+                  filterInput={filterInput}
+                  setFilterInput={setFilterInput}
+                  setFilters={setFilters}
+                />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='transmissionModel'>Трансмиссия:</label>
+            <CustomInput
+              placeholder="Трансмиссия"
+              name="transmissionModel"
+              value={filterInput.transmissionModel}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='driveAxleModel'>Ведущий мост:</label>
+            <CustomInput
+              placeholder="Ведущий мост"
+              name="driveAxleModel"
+              value={filterInput.driveAxleModel}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+          <div className='filter-field-container'>
+            <label htmlFor='steeringAxleModel'>Управляемый мост:</label>
+            <CustomInput
+              placeholder="Управляемый мост"
+              name="steeringAxleModel"
+              value={filterInput.steeringAxleModel}
+              filterInput={filterInput}
+              setFilterInput={setFilterInput}
+              setFilters={setFilters}
+            />
+          </div>
+        </Filter>
+      }
       <span className='text'>Информация о комплектации и технических характеристиках Вашей техники</span>
+      {hasAddPermission &&
+        <div className='head-buttons'>
+          <a
+            className='head-button-create'
+            onClick={handleNewRecord}
+          >
+            Добавить запись
+          </a>
+        </div>
+      }
       <table>
         <thead>
-          <tr>
+        <tr>
             <HeaderCell
               sortConfig={sortConfig}
               setSortConfig={setSortConfig}
@@ -229,28 +332,36 @@ const Vehicles = () => {
               </HeaderCell>
             }
             <td>
-              {(hasAddPermission) &&
-                <div className='head-buttons'>
-                  <a
-                    className='head-button-create'
-                    onClick={handleNewRecord}
-                  >
-                    +
-                  </a>
-                </div>
-              }
+              {/*{(hasAddPermission) &&*/}
+              {/*  <div className='head-buttons'>*/}
+              {/*    <a*/}
+              {/*      className='head-button-create'*/}
+              {/*      onClick={handleNewRecord}*/}
+              {/*    >*/}
+              {/*      +*/}
+              {/*    </a>*/}
+              {/*  </div>*/}
+              {/*}*/}
+              <div className='head-buttons'>
+                <img
+                  className='img-button-open-row'
+                  src='/assets/img/filter_white.png'
+                  alt='Редактировать'
+                  onClick={handleOpenFilters}
+                />
+              </div>
             </td>
           </tr>
         </thead>
         <tbody>
-          {vehicles.map((i, index) => (
-            <tr key={index}>
-              <td>
-                <a onClick={handleSetFilterDate}>
-                  {i.shippingDate}
-                </a>
-              </td>
-              <td>
+        {vehicles.map((i, index) => (
+          <tr key={index}>
+            <td>
+              <a onClick={handleSetFilterDate}>
+                {i.shippingDate}
+              </a>
+            </td>
+            <td>
                 {/*{i.serialNumber}*/}
                 <Link
                   to={`/vehicles/${i.id}`}

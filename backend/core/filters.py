@@ -7,7 +7,7 @@ from django_filters import rest_framework as filters
 class CustomFilterSearch:
 
     def filter_by_name(self, queryset, name, value):
-        return self.filter_by_foreign_key(queryset, name, value, 'name')
+        return self.filter_by_foreign_key(queryset, name, value, 'name__icontains')
 
     def filter_by_serial_number(self, queryset, name, value):
         return self.filter_by_foreign_key(queryset, name, value, 'serial_number')

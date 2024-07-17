@@ -4,6 +4,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import api from "../../../../../api";
 import InputListSelect from "../../../../InputListSelect";
 import usePermissions from "../../../../../hooks/usePermissions";
+import {EditField} from '../../Fields';
 
 
 const ComplaintDetail = () => {
@@ -19,7 +20,7 @@ const ComplaintDetail = () => {
   const [editMode, setEditMode] = useState( true);
   const prodId = params?.id;
 
-  const createComplaint = prodId === 'add';
+  const [createComplaint, setCreateComplaint] = useState(prodId === 'add');
 
   let url = 'api/v1/complaint/'
   if (!createComplaint) {
@@ -110,6 +111,8 @@ const ComplaintDetail = () => {
       ).then((response) => {
         setData(response.data);
         setEditMode(false);
+        window.history.replaceState(null, '', `/private/complaints/${response.data.id}`);
+        setCreateComplaint(false);
       }).catch((error) => {
         console.debug('ComplaintDetail handleSaveClick api.put', error)
       });
@@ -209,12 +212,12 @@ const EditMode = ({
   </div>
 );
 
-const EditField = ({label, type, name, value, handleChange}) => (
-  <div className='edit-fields'>
-    <label htmlFor={name}>{label}</label>
-    <input type={type} id={name} name={name} value={value} onChange={handleChange} />
-  </div>
-);
+// const EditField = ({label, type, name, value, handleChange}) => (
+//   <div className='edit-fields'>
+//     <label htmlFor={name}>{label}</label>
+//     <input type={type} id={name} name={name} value={value} onChange={handleChange} />
+//   </div>
+// );
 
 const EditFieldSelect = ({ label, name, value, handleChange, url, valueName }) => (
   <div className='edit-fields'>

@@ -41,7 +41,7 @@ class PrivateVehicleFilter(filters.FilterSet):
     def filter_by_foreign_key(self, queryset, name, value):
         # Convert field name from camelCase to snake_case
         snake_case_field_name = convert_key_to_snake_case(name)
-        filter_field = f'{snake_case_field_name}__name'
+        filter_field = f'{snake_case_field_name}__name__icontains'
         return queryset.filter(Q(**{filter_field: value}))
 
 
